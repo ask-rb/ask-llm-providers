@@ -458,6 +458,8 @@ both gems. Parent gems have their own consumers — treat them with care.
 ## Development Workflow
 
 ### Git conventions
+- The default branch is **master**. All work should be based on master unless a specific branch is requested.
+
 - Follow the git-workflow skill.
 - Conventional commits: `feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `chore:`.
 - One logical change per commit.
