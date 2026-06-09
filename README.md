@@ -58,6 +58,60 @@ provider.embed(["text"], model: "claude-sonnet-4-5")
 # => Ask::CapabilityNotSupported: Anthropic (claude-sonnet-4-5) does not support embeddings.
 ```
 
+
+
+## Streaming
+
+```ruby
+stream = provider.chat(
+  [{ role: "user", content: "Tell me a story" }],
+  model: "gpt-4o",
+  stream: true
+) do |chunk|
+  print chunk.content
+end
+
+# After streaming completes, you can access the full response
+puts stream.accumulated_text
+puts stream.accumulated_usage
+```
+
+## Tool Calls
+
+```ruby
+tools = [{
+  name: "get_weather",
+  description: "Get weather for a location",
+  parameters: {
+    type: "object",
+    properties: { location: { type: "string" } },
+    required: ["location"]
+  }
+}]
+
+response = provider.chat(
+  [{ role: "user", content: "What's the weather in NYC?" }],
+  model: "gpt-4o",
+  tools: tools
+)
+# response.tool_call? => true
+# response.tool_calls => [{ id: "call_1", name: "get_weather", arguments: '{"location":"NYC"}' }]
+```
+
+## Error Handling
+
+Provider errors map to structured `Ask::Error` types:
+
+```ruby
+Ask::RateLimitError       # 429 — retry with backoff
+Ask::Unauthorized         # 401/403 — check your API key
+Ask::ServerError          # 500 — provider issue
+Ask::ServiceUnavailable   # 503 — temporary
+Ask::ContextLengthExceeded # context window exceeded
+Ask::ProviderError        # other provider errors
+Ask::CapabilityNotSupported # feature not available on this model
+```
+
 ## Development
 
 ```bash
