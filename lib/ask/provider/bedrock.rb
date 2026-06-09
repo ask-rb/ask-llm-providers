@@ -25,7 +25,7 @@ module Ask
       end
 
       def embed(_texts, model: nil)
-        raise Ask::UnsupportedFeature, "Bedrock does not support embeddings via Converse API"
+        raise Ask::CapabilityNotSupported, "Bedrock does not support embeddings via Converse API"
       end
 
       def list_models
