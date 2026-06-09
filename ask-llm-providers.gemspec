@@ -4,7 +4,7 @@ Gem::Specification.new do |spec|
   spec.name = "ask-llm-providers"
   spec.version = Ask::LLM::VERSION
   spec.authors = ["Kaka Ruto"]
-  spec.email = ["kaka@anywaye.com"]
+  spec.email = ["kaka@myrrlabs.com"]
 
   spec.summary = "All LLM providers for the ask-rb ecosystem"
   spec.description = "Supports OpenAI, Anthropic, Google Gemini + Vertex, Amazon Bedrock, " \
