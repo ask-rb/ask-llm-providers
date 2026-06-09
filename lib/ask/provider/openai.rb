@@ -51,13 +51,13 @@ module Ask
       end
 
       class << self
-def slug; "openai"; end
-                def capabilities
+        def slug; "openai"; end
+        def capabilities
           { chat: true, streaming: true, tool_calls: true, vision: true, thinking: true, structured_output: true, embed: true, transcribe: true, paint: true, moderate: true }
         end
         def configuration_options; %i[api_key base_url organization_id project_id]; end
         def configuration_requirements; %i[api_key]; end
-                def configured?(config)
+        def configured?(config)
           (config.respond_to?(:api_key) && !config.api_key.to_s.empty?) ||
             (config.respond_to?(:openai_api_key) && !config.openai_api_key.to_s.empty?)
         end

@@ -33,7 +33,7 @@ module Ask
       end
 
       def embed(_texts, model: nil)
-        raise Ask::UnsupportedFeature, "Anthropic does not support embeddings"
+        raise Ask::CapabilityNotSupported, "Anthropic does not support embeddings"
       end
 
       def list_models
