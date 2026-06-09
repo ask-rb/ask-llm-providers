@@ -63,6 +63,7 @@ module Ask
         end
         def configuration_options; %i[api_key access_token vertex_token project_id api_base]; end
         def configuration_requirements; %i[api_key]; end
+        def slug; "gemini"; end
       end
 
       private
@@ -70,7 +71,7 @@ module Ask
       def normalize_config(config)
         return config unless config.is_a?(Hash)
         key = config[:api_key] || config["api_key"] || config[:gemini_api_key]
-        OpenStruct.new(
+        Ask::LLM::Config.new(
           api_key: key,
           access_token: config[:access_token] || config["access_token"],
           vertex_token: config[:vertex_token] || config["vertex_token"],

@@ -51,12 +51,13 @@ module Ask
       end
 
       class << self
-        def capabilities
+def slug; "openai"; end
+                def capabilities
           { chat: true, streaming: true, tool_calls: true, vision: true, thinking: true, structured_output: true, embed: true, transcribe: true, paint: true, moderate: true }
         end
         def configuration_options; %i[api_key base_url organization_id project_id]; end
         def configuration_requirements; %i[api_key]; end
-        def configured?(config)
+                def configured?(config)
           (config.respond_to?(:api_key) && !config.api_key.to_s.empty?) ||
             (config.respond_to?(:openai_api_key) && !config.openai_api_key.to_s.empty?)
         end
@@ -66,7 +67,7 @@ module Ask
 
       def normalize_config(config)
         return config if !config.is_a?(Hash)
-        OpenStruct.new(
+        Ask::LLM::Config.new(
           api_key: config[:api_key] || config["api_key"] || config[:openai_api_key],
           base_url: config[:base_url] || config["base_url"],
           organization_id: config[:organization_id] || config["organization_id"],

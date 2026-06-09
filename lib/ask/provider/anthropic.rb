@@ -53,13 +53,14 @@ module Ask
         end
         def configuration_options; %i[api_key api_base]; end
         def configuration_requirements; %i[api_key]; end
+        def slug; "anthropic"; end
       end
 
       private
 
       def normalize_config(config)
         return config unless config.is_a?(Hash)
-        OpenStruct.new(
+        Ask::LLM::Config.new(
           api_key: config[:api_key] || config["api_key"] || config[:anthropic_api_key],
           api_base: config[:api_base] || config["api_base"]
         )

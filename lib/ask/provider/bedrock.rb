@@ -43,13 +43,14 @@ module Ask
         end
         def configuration_options; %i[region access_key_id secret_access_key session_token]; end
         def configuration_requirements; %i[]; end
+        def slug; "bedrock"; end
       end
 
       private
 
       def normalize_config(config)
         return config unless config.is_a?(Hash)
-        OpenStruct.new(
+        Ask::LLM::Config.new(
           region: config[:region] || config["region"] || ENV["AWS_REGION"] || "us-east-1",
           access_key_id: config[:access_key_id] || config["access_key_id"] || ENV["AWS_ACCESS_KEY_ID"],
           secret_access_key: config[:secret_access_key] || config["secret_access_key"] || ENV["AWS_SECRET_ACCESS_KEY"],
