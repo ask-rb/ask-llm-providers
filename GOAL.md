@@ -451,7 +451,7 @@ both gems. Parent gems have their own consumers — treat them with care.
 - [ ] CHANGELOG.md exists with v0.1.0 entry
 - [ ] All code committed and pushed to github.com/ask-rb/ask-llm-providers
 - [ ] Gem builds without errors: `gem build ask-llm-providers.gemspec`
-- [ ] Gem released as a private gem
+- [ ] Gem released on RubyGems
 - [ ] A consumer script can install, require, and use any provider with no errors
 - [ ] A model can be resolved and a chat completed on at least one real provider
 
