@@ -17,6 +17,150 @@ tested, and released. The agent stack depends on `ruby_llm` until this gem exist
 - **This gem MUST wait until `ask-core` is built, tested, and released.**
 
 ## External Services We Reuse (Do Not Rebuild)
+
+We are building a Ruby-agent framework, not a global model registry, not provider APIs,
+not OAuth infrastructure. These services already exist and are proven in production.
+We call them — we do not rebuild them.
+
+---
+
+### 1. Model Metadata: models.dev
+
+- **URL:** https://models.dev/api.json
+- **Used by:** RubyLLM (production, every request)
+- **What it provides:** Model names, provider mapping, capabilities (function_calling,
+  structured_output, reasoning, vision), modalities (text, image, audio, pdf, video),
+  pricing (input/output tokens, cache read/write), context window sizes, rate limits.
+- **Why we use it:** Without it we would need to maintain a static JSON file manually
+  and update it every time a new model is released. models.dev is updated by the
+  community and covers all major providers.
+- **How we use it:** Ask::Models.fetch_on_refresh() calls this API, caches the result,
+  merges with provider-registered models. See ruby_llm/lib/ruby_llm/models.rb:
+  fetch_models_dev_models() for the reference implementation.
+- **Fallback:** If models.dev is unreachable, we use the last cached response.
+  If no cache exists, we fall back to models registered by installed providers.
+
+---
+
+### 2. Provider Chat APIs (implemented by ask-llm-providers)
+
+These are the actual LLM endpoints. We implement HTTP clients for them, we do not
+rebuild them. Each is documented in its specific provider implementation.
+
+**OpenAI + Compatible Family** (Ask::Provider::OpenAI):
+| Provider | Base URL |
+|---|---|
+| OpenAI | https://api.openai.com/v1 |
+| OpenRouter | https://openrouter.ai/api/v1 |
+| DeepSeek | https://api.deepseek.com |
+| XAI / Grok | https://api.x.ai/v1 |
+| Perplexity | https://api.perplexity.ai |
+| Azure OpenAI | https://{resource}.openai.azure.com/openai/v1 |
+| Cerebras | https://api.cerebras.ai/v1 |
+| Fireworks | https://api.fireworks.ai/inference |
+| Groq | https://api.groq.com/openai/v1 |
+| Together | https://api.together.ai/v1 |
+| Moonshot | https://api.moonshot.ai/v1 |
+
+**Reference:** ruby_llm/lib/ruby_llm/providers/openai/ — Chat Completions + Responses API
+  llm-proxy/lib/llm_proxy/protocols/ — protocol normalization
+  pi/packages/ai/src/providers/openai-completions.ts — alternate implementations
+
+**Anthropic** (Ask::Provider::Anthropic):
+- Base URL: https://api.anthropic.com
+- Endpoint: /v1/messages
+- Reference: ruby_llm/lib/ruby_llm/providers/anthropic/
+
+**Google Gemini** (Ask::Provider::Google):
+- Base URL: https://generativelanguage.googleapis.com/v1beta
+- Reference: ruby_llm/lib/ruby_llm/providers/gemini/
+
+**Google Vertex AI** (Ask::Provider::VertexAI):
+- Base URL: https://{location}-aiplatform.googleapis.com/v1beta1
+- Reference: ruby_llm/lib/ruby_llm/providers/vertexai/
+  pi/packages/ai/src/providers/google-vertex.ts
+
+**AWS Bedrock** (Ask::Provider::Bedrock):
+- Base URL: https://bedrock-runtime.{region}.amazonaws.com
+- Reference: ruby_llm/lib/ruby_llm/providers/bedrock/
+  pi/packages/ai/src/providers/amazon-bedrock.ts
+
+**Mistral** (Ask::Provider::Mistral):
+- Base URL: https://api.mistral.ai/v1
+- Reference: ruby_llm/lib/ruby_llm/providers/mistral/
+
+**Cloudflare Workers AI + AI Gateway** (Ask::Provider::Cloudflare):
+- Workers AI: https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/ai/v1
+- AI Gateway (OpenAI compat): https://gateway.ai.cloudflare.com/v1/{ACCOUNT_ID}/{GATEWAY_ID}/openai
+- AI Gateway (Anthropic compat): https://gateway.ai.cloudflare.com/v1/{ACCOUNT_ID}/{GATEWAY_ID}/anthropic
+- Reference: pi/packages/ai/src/providers/cloudflare.ts (the canonical implementation)
+
+**Ollama** (Ask::Provider::Ollama):
+- Base URL: http://localhost:11434 (default, configurable)
+- Reference: ruby_llm/lib/ruby_llm/providers/ollama/
+
+### 3. OAuth Infrastructure
+
+Used for multi-user auth flows. The endpoints are standard OAuth 2.0.
+
+| Provider | Authorize URL | Token URL |
+|---|---|---|
+| OpenAI | https://auth.openai.com/oauth/authorize | https://auth.openai.com/oauth/token |
+| Anthropic | https://claude.ai/oauth/authorize | https://platform.claude.com/v1/oauth/token |
+| GitHub | https://github.com/login/oauth/authorize | https://github.com/login/oauth/access_token |
+| Google | https://accounts.google.com/o/oauth2/v2/auth | https://oauth2.googleapis.com/token |
+
+**How we use them:** Ask::Auth::OAuth reads these URLs from configuration, performs
+the PKCE flow, and stores the result in the configured storage provider (env var,
+file, or database). We do NOT implement OAuth infrastructure — we call the standard
+endpoints.
+
+**Reference:** pi/packages/ai/src/providers/simple-options.ts (OAuth config)
+  pi/packages/ai/src/providers/github-copilot-headers.ts (Copilot OAuth)
+
+### 4. GitHub Copilot API
+
+- **Endpoints:**
+  - Chat: https://api.individual.githubcopilot.com
+  - Enterprise: https://copilot-api.{enterprise-domain}
+  - Token: https://api.{domain}/copilot_internal/v2/token
+- **Reference:** pi/packages/ai/src/providers/github-copilot-headers.ts
+- **Not currently planned but documented for future.** GitHub Copilot uses a
+  custom OAuth flow with device code grant. This could be added to ask-llm-providers
+  as Ask::Provider::GitHubCopilot.
+
+### 5. Vercel AI Gateway
+
+- **URL:** https://ai-gateway.vercel.sh
+- **Purpose:** Standardized access to multiple providers through one endpoint.
+  Supports OpenAI, Anthropic, Google, and more with a unified API.
+- **Reference:** pi/packages/ai/src/providers/images (uses Vercel for image generation)
+- **How we use it:** Any OpenAI-compatible provider can use ask-openai with
+  base_url: https://ai-gateway.vercel.sh/v1. No separate implementation needed.
+
+### What We Do NOT Build (covered by existing services)
+
+| What | Covered by |
+|---|---|
+| Model catalog / pricing database | models.dev API |
+| Provider wire formats | Provider gems call these directly |
+| OAuth infrastructure | Standard endpoints, Ask::Auth::OAuth |
+| API routing / load balancing | OpenRouter, Vercel AI Gateway |
+| Model registry / discovery | models.dev + provider list endpoints |
+| Pricing calculation | models.dev provides per-model pricing |
+| Rate limiting | Provider APIs do this natively |
+
+### What We DO Build (unique to ask-rb)
+
+| What | Where |
+|---|---|
+| Agent loop with extension system | ask-agent |
+| Rails integration with AR persistence | ask-rails |
+| Service context system (ask-github, etc.) | ask-* service gems |
+| Credential resolution chain | ask-auth |
+| Tool framework + execution tools | ask-tools, ask-tools-shell |
+| Unified provider interface with capabilities | ask-core + ask-llm-providers |
+| Agent-friendly error messages | every gem |
 ## External Services We Reuse (Do Not Rebuild)
 
 ### models.dev API
