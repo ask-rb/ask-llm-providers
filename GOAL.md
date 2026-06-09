@@ -448,6 +448,22 @@ provider.transcribe("meeting.mp3", model: "claude-sonnet-4-5")
 - `llm-proxy/lib/llm_proxy/protocols/` — protocol conversion patterns
 - `pi/packages/ai/src/providers/` — lazy loading, registration patterns
 - `ruby_llm/spec/` — VCR cassette structure and integration testing
+### Reference Repositories (Local)
+All ask-rb gem repos are available locally at /Users/kaka/Code/ask-rb/ for reference.
+Do not clone from GitHub — use the local directories:
+- Source code: /Users/kaka/Code/ask-rb/GEMNAME/lib/
+- Tests: /Users/kaka/Code/ask-rb/GEMNAME/test/
+- Goal: /Users/kaka/Code/ask-rb/GEMNAME/GOAL.md
+- Gemspec: /Users/kaka/Code/ask-rb/GEMNAME/GEMNAME.gemspec
+
+Other reference projects in the same workspace:
+- /Users/kaka/Code/ask-rb/ruby_llm/ — RubyLLM gem (providers, models, streaming)
+- /Users/kaka/Code/ask-rb/ruby_llm-conductor/ — Original conductor (agent loop, tools)
+- /Users/kaka/Code/ask-rb/llm-proxy/ — Protocol normalization patterns
+- /Users/kaka/Code/ask-rb/pi/ — Pi agent (TypeScript, provider architecture)
+- /Users/kaka/Code/ask-rb/solid_agents/ — Original solid_agents (Rails engine)
+- /Users/kaka/Code/ask-rb/composio/ — Composio SDK (MCP tool execution examples)
+- /Users/kaka/Code/ask-rb/ask-docs/ — Documentation site (update after release)
 
 ### Testing
 - Minitest (not RSpec). VCR for external calls.
