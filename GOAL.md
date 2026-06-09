@@ -16,6 +16,43 @@ tested, and released. The agent stack depends on `ruby_llm` until this gem exist
 - **Build/test:** minitest, mocha, rake, vcr, webmock
 - **This gem MUST wait until `ask-core` is built, tested, and released.**
 
+## External Services We Reuse (Do Not Rebuild)
+## External Services We Reuse (Do Not Rebuild)
+
+### models.dev API
+
+- **URL:** https://models.dev/api.json
+- **Purpose:** Model metadata — names, capabilities, pricing, modalities
+- **Integration:** Models from ask-llm-providers register with Ask::Models, which
+  merges provider-registered models with models.dev data.
+- **No manual JSON catalog needed.** Models.dev is the source of truth for pricing
+  and capabilities. Our provider implementations just register which models they
+  support, and models.dev fills in the details.
+
+### Provider APIs
+
+Each provider subsection below documents its specific API endpoint, auth method,
+and streaming protocol. See the reference implementations in:
+- ruby_llm/lib/ruby_llm/providers/ (for all provider wire formats)
+- llm-proxy/lib/llm_proxy/protocols/ (for OpenAI/Anthropic protocol normalization)
+- pi/packages/ai/src/providers/ (for Cloudflare, lazy loading patterns)
+
+### What We Do NOT Build
+
+- A provider framework — ask-core provides the interface, we implement it.
+- Static model catalogs — models.dev handles that.
+- Auth abstraction — ask-auth handles that.
+- Streaming infrastructure — ask-core provides Ask::Stream.
+
+### What We DO Build
+
+- Wire format implementations — the raw HTTP calls, JSON serialization, SSE parsing.
+- Provider-specific features — thinking blocks (Anthropic), structured output (OpenAI),
+  file uploads (Google), model pulling (Ollama).
+- Error mapping — provider errors → Ask::Error types.
+- Model registration — register each provider's models with Ask::Models on load.
+
+
 ## Provided Providers
 
 | Provider | Class | Models served |
