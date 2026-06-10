@@ -173,3 +173,23 @@ module Ask
     end
   end
 end
+
+# When the OpenAI provider is subclassed (e.g. OpenCode), normalize_config
+# should also check for env vars matching the subclass slug.
+def normalize_config(config)
+  return config if !config.is_a?(Hash)
+
+  slug = self.class.slug
+  env_key = ENV["#{slug.upcase}_API_KEY"]
+  env_base = ENV["#{slug.upcase}_API_BASE"]
+
+  merged = {
+    api_key: config[:api_key] || config["api_key"] || config[:"#{slug}_api_key"] || config[:"#{slug}_api_key"] || config[:openai_api_key] || env_key,
+    base_url: config[:base_url] || config["base_url"] || env_base,
+    organization_id: config[:organization_id] || config["organization_id"],
+    project_id: config[:project_id] || config["project_id"]
+  }.merge(config.reject { |k, _| %i[api_key base_url organization_id project_id openai_api_key].include?(k.to_sym) })
+
+  # Also preserve original config for subclass-specific key access
+  Ask::LLM::Config.new(merged)
+end

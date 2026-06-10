@@ -20,6 +20,9 @@ require_relative "ask/provider/bedrock"
 require_relative "ask/provider/ollama"
 require_relative "ask/provider/mistral"
 require_relative "ask/provider/cloudflare"
+require_relative "ask/provider/opencode"
+require_relative "ask/provider/opencode_go"
+require_relative "ask/provider/mimo"
 
 # Register providers with the Ask::Provider registry
 Ask::Provider.register(:openai, Ask::Providers::OpenAI)
@@ -47,3 +50,6 @@ Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
     ))
   end
 end
+
+# configured via environment variables:
+
