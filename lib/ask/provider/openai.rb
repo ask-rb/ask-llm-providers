@@ -142,6 +142,13 @@ module Ask
         stream
       end
 
+      def extract_thinking(parsed, delta)
+        delta["reasoning_content"] || delta["thinking"] ||
+          parsed.dig("choices", 0, "delta", "reasoning_content") ||
+          parsed.dig("choices", 0, "delta", "thinking") ||
+          parsed.dig("choices", 0, "reasoning_content")
+      end
+
       def process_chunk(raw, stream, model)
         raw.each_line do |line|
           line = line.strip
