@@ -32,7 +32,9 @@ Ask::Provider.register(:bedrock, Ask::Providers::Bedrock)
 Ask::Provider.register(:ollama, Ask::Providers::Ollama)
 Ask::Provider.register(:mistral, Ask::Providers::Mistral)
 Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
-
+Ask::Provider.register(:opencode, Ask::Providers::OpenCode)
+Ask::Provider.register(:opencode_go, Ask::Providers::OpenCodeGo)
+Ask::Provider.register(:mimo, Ask::Providers::Mimo)
 
 # Register known models for each provider in the catalog
 [
@@ -50,6 +52,3 @@ Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
     ))
   end
 end
-
-# configured via environment variables:
-
