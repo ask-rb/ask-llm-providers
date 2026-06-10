@@ -7,6 +7,7 @@ module Ask
     # +base_url+ override.
     class OpenAI < Ask::Provider
       def initialize(config = {})
+        @provider_keys = extract_provider_keys(config)
         config = normalize_config(config)
         super(config)
         @http = build_http
@@ -57,22 +58,31 @@ module Ask
         end
         def configuration_options; %i[api_key base_url organization_id project_id]; end
         def configuration_requirements; %i[api_key]; end
-        def configured?(config)
-          (config.respond_to?(:api_key) && !config.api_key.to_s.empty?) ||
-            (config.respond_to?(:openai_api_key) && !config.openai_api_key.to_s.empty?)
-        end
+        def assume_models_exist?; false; end
       end
 
       private
 
+      # Extract and store any provider-specific config keys (e.g., opencode_api_key).
+      # These are not part of the standard OpenAI config but are used by subclasses.
+      def extract_provider_keys(config)
+        return {} unless config.is_a?(Hash)
+        known = %i[api_key base_url organization_id project_id openai_api_key]
+        config.reject { |k, _| known.include?(k.to_sym) }
+      end
+
+      # Restore provider-specific keys after normalize_config strips standard ones.
       def normalize_config(config)
         return config if !config.is_a?(Hash)
-        Ask::LLM::Config.new(
+
+        merged = {
           api_key: config[:api_key] || config["api_key"] || config[:openai_api_key],
           base_url: config[:base_url] || config["base_url"],
           organization_id: config[:organization_id] || config["organization_id"],
           project_id: config[:project_id] || config["project_id"]
-        )
+        }.merge(@provider_keys)
+
+        Ask::LLM::Config.new(merged)
       end
 
       def build_http
@@ -140,10 +150,20 @@ module Ask
           parsed = JSON.parse(data) rescue next
           choice = parsed.dig("choices", 0) or next
           delta = choice["delta"] || {}
-          chunk = Ask::Chunk.new(content: delta["content"], tool_calls: parse_stream_tool_calls(delta["tool_calls"]), finish_reason: choice["finish_reason"], usage: parsed["usage"])
+          thinking = extract_thinking(parsed, delta)
+          chunk = Ask::Chunk.new(content: delta["content"], tool_calls: parse_stream_tool_calls(delta["tool_calls"]), finish_reason: choice["finish_reason"], usage: parsed["usage"], thinking: thinking)
           stream.add(chunk)
           yield chunk if block_given?
         end
+      end
+
+      # Extract thinking/reasoning content from provider response.
+      # Some providers (Anthropic, DeepSeek) send thinking in a separate field.
+      def extract_thinking(parsed, delta)
+        delta["reasoning_content"] || delta["thinking"] ||
+          parsed.dig("choices", 0, "delta", "reasoning_content") ||
+          parsed.dig("choices", 0, "delta", "thinking") ||
+          parsed.dig("choices", 0, "reasoning_content")
       end
 
       def parse_stream_tool_calls(calls)
