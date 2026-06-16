@@ -4,7 +4,7 @@ require_relative "test_helper"
 
 class ProvidersTest < Minitest::Test
   def test_all_providers_are_registered
-    assert_equal 10, Ask::Provider.providers.size
+    assert_equal 11, Ask::Provider.providers.size
     assert Ask::Provider.providers.key?(:openai)
     assert Ask::Provider.providers.key?(:anthropic)
     assert Ask::Provider.providers.key?(:gemini)
@@ -74,3 +74,24 @@ class ProvidersTest < Minitest::Test
     refute Ask::Providers::OpenAI.local?
   end
 end
+
+  def test_deepseek_is_registered
+    assert Ask::Provider.providers.key?(:deepseek)
+    assert_equal Ask::Providers::DeepSeek, Ask::Provider.resolve(:deepseek)
+    assert_equal "deepseek", Ask::Providers::DeepSeek.slug
+  end
+
+  def test_deepseek_base_url
+    assert_equal "https://api.deepseek.com", Ask::Providers::DeepSeek.new(api_key: "t").api_base
+  end
+
+  def test_deepseek_requires_api_key
+    assert_includes Ask::Providers::DeepSeek.configuration_requirements, :api_key
+  end
+
+  def test_deepseek_inherits_openai_capabilities
+    caps = Ask::Providers::DeepSeek.capabilities
+    assert caps[:chat]
+    assert caps[:streaming]
+    assert caps[:tool_calls]
+  end

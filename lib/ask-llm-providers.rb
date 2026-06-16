@@ -23,6 +23,8 @@ require_relative "ask/provider/cloudflare"
 require_relative "ask/provider/opencode"
 require_relative "ask/provider/opencode_go"
 require_relative "ask/provider/mimo"
+require_relative "ask/provider/deepseek"
+require_relative "ask/provider/openrouter"
 
 # Register providers with the Ask::Provider registry
 Ask::Provider.register(:openai, Ask::Providers::OpenAI)
@@ -35,6 +37,8 @@ Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
 Ask::Provider.register(:opencode, Ask::Providers::OpenCode)
 Ask::Provider.register(:opencode_go, Ask::Providers::OpenCodeGo)
 Ask::Provider.register(:mimo, Ask::Providers::Mimo)
+Ask::Provider.register(:deepseek, Ask::Providers::DeepSeek)
+Ask::Provider.register(:openrouter, Ask::Providers::OpenRouter)
 
 # Register known models for each provider in the catalog
 [

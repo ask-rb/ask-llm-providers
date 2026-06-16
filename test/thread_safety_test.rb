@@ -31,6 +31,10 @@ class ThreadSafetyTest < Minitest::Test
   Ask::Provider.register(:ollama, Ask::Providers::Ollama)
   Ask::Provider.register(:mistral, Ask::Providers::Mistral)
   Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
+  Ask::Provider.register(:opencode, Ask::Providers::OpenCode)
+  Ask::Provider.register(:opencode_go, Ask::Providers::OpenCodeGo)
+  Ask::Provider.register(:mimo, Ask::Providers::Mimo)
+  Ask::Provider.register(:deepseek, Ask::Providers::DeepSeek)
 end
 
 
