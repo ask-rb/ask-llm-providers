@@ -43,6 +43,24 @@ Initial release of `ask-llm-providers`, all LLM providers for the ask-rb ecosyst
   both formats with `tc.is_a?(Hash) ? tc.values : tc`. Also handles `OpenStruct`
   tool call objects via `.respond_to?` checks instead of assuming Hash accessors.
 
+## [0.2.0] — 2026-06-19
+
+### Fixed
+
+- **SSE buffering across all streaming providers** — TCP fragmentation in
+  Faraday's `on_data` callback caused silent data loss when SSE events were
+  split across packets. Added persistent `@_sse_buffer` with complete-event
+  extraction via `Ask::LLM::SSEBuffer` module. Affected providers:
+  OpenAI, Anthropic, Cloudflare, Google, Ollama. All OpenAI-compatible
+  subclasses inherit the fix.
+
+### Added
+
+- **`Ask::LLM::SSEBuffer`** — Shared module providing `init_sse_buffer` and
+  `each_sse_event(raw)` for SSE buffering across streaming callbacks.
+- **SSE buffering tests** — 5 new tests covering fragmented data, event
+  boundaries, multiple events, and `[DONE]` sentinel.
+
 ## [0.1.10] — 2026-06-18
 
 ### Fixed
