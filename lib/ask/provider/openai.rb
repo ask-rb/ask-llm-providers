@@ -109,7 +109,13 @@ module Ask
           role = msg[:role] || msg["role"] || :user
           { role: role.to_s, content: msg[:content] || msg["content"] }.tap do |fm|
             if (tc = msg[:tool_calls] || msg["tool_calls"])
-              fm[:tool_calls] = tc.map { |t| { id: t[:id] || t["id"], type: "function", function: { name: t.dig(:function, :name) || t.dig("function", "name") || t[:name], arguments: t.dig(:function, :arguments) || t.dig("function", "arguments") || t[:arguments] } } }
+              calls = tc.is_a?(Hash) ? tc.values : tc
+              fm[:tool_calls] = calls.map { |t|
+                id = t.respond_to?(:id) ? t.id : (t[:id] || t["id"])
+                name = t.respond_to?(:name) ? t.name : (t.dig(:function, :name) || t.dig("function", "name") || t[:name])
+                args = t.respond_to?(:arguments) ? t.arguments : (t.dig(:function, :arguments) || t.dig("function", "arguments") || t[:arguments])
+                { id: id, type: "function", function: { name: name, arguments: args } }
+              }
             end
             fm[:tool_call_id] = msg[:tool_call_id] || msg["tool_call_id"] if msg[:tool_call_id] || msg["tool_call_id"]
           end.compact
