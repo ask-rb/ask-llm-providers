@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.deepseek.com/models
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - "<AUTH_TOKEN>"
+      User-Agent:
+      - Faraday v2.14.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '149'
+      Connection:
+      - keep-alive
+      Date:
+      - Thu, 18 Jun 2026 03:24:42 GMT
+      Server:
+      - elb
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Ds-Trace-Id:
+      - 41233045436595dbff20e2db20c27d40
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Cache:
+      - Error from cloudfront
+      Via:
+      - 1.1 510420840ab93b01fcb3b105058b1a52.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - NBO50-P1
+      X-Amz-Cf-Id:
+      - 1jRGHIfj371jy2XyALDR-WjRyDXPnmy5Ql0O5ncOikZeDTwvUBdTEw==
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Authentication Fails, Your api key: test is invalid","type":"authentication_error","param":null,"code":"invalid_request_error"}}'
+  recorded_at: Thu, 18 Jun 2026 03:24:42 GMT
+recorded_with: VCR 6.4.0

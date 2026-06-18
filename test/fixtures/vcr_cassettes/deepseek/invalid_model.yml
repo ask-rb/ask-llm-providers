@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.deepseek.com/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"nonexistent-model","messages":[{"role":"user","content":"hi"}],"stream":false}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - "<AUTH_TOKEN>"
+      User-Agent:
+      - Faraday v2.14.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '149'
+      Connection:
+      - keep-alive
+      Date:
+      - Thu, 18 Jun 2026 03:24:44 GMT
+      Server:
+      - elb
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Ds-Trace-Id:
+      - 1543341b3e702f14effe06f7ea3de7e6
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Cache:
+      - Error from cloudfront
+      Via:
+      - 1.1 badf41a0510822a37b7eca19f9c54056.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - NBO50-P2
+      X-Amz-Cf-Id:
+      - "-0EUjjdtwBM-4lErvXZQLfCJ9e031tpSwG-Oy8KBmB2Z3-aA0es8JQ=="
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Authentication Fails, Your api key: test is invalid","type":"authentication_error","param":null,"code":"invalid_request_error"}}'
+  recorded_at: Thu, 18 Jun 2026 03:24:43 GMT
+recorded_with: VCR 6.4.0

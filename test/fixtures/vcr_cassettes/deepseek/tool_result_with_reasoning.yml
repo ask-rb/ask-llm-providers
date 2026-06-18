@@ -1,0 +1,57 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.deepseek.com/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"deepseek-chat","messages":[{"role":"user","content":"hi"},{"role":"assistant","tool_calls":[{"id":"c1","type":"function","function":{"name":"t","arguments":"{\"c\":\"test\"}"}}],"reasoning_content":""},{"role":"tool","content":"done","tool_call_id":"c1"}],"stream":false,"tools":[{"type":"function","function":{"name":"t","description":"test","parameters":{"type":"object","properties":{"c":{"type":"string"}},"required":["c"]}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - "<AUTH_TOKEN>"
+      User-Agent:
+      - Faraday v2.14.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '149'
+      Connection:
+      - keep-alive
+      Date:
+      - Thu, 18 Jun 2026 03:26:52 GMT
+      Server:
+      - elb
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Ds-Trace-Id:
+      - 9301de641bc103269641dd035bfdadf3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Cache:
+      - Error from cloudfront
+      Via:
+      - 1.1 7198491d128b14c08581b9a4f7d2f63c.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - NBO50-P2
+      X-Amz-Cf-Id:
+      - AAYboeuIQeH7cS7FxTECcKNdx8uMISzTDTQ3u1zypWxeU_3ifj5nFQ==
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Authentication Fails, Your api key: test is invalid","type":"authentication_error","param":null,"code":"invalid_request_error"}}'
+  recorded_at: Thu, 18 Jun 2026 03:26:51 GMT
+recorded_with: VCR 6.4.0

@@ -1,0 +1,59 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.deepseek.com/chat/completions
+    body:
+      encoding: UTF-8
+      string: '{"model":"deepseek-chat","messages":[{"role":"user","content":"What
+        time in UTC?"}],"stream":false,"tools":[{"type":"function","function":{"name":"get_time","description":"Get
+        current time","parameters":{"type":"object","properties":{"tz":{"type":"string"}},"required":["tz"]}}}]}'
+    headers:
+      Content-Type:
+      - application/json
+      Authorization:
+      - "<AUTH_TOKEN>"
+      User-Agent:
+      - Faraday v2.14.2
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '149'
+      Connection:
+      - keep-alive
+      Date:
+      - Thu, 18 Jun 2026 03:24:42 GMT
+      Server:
+      - elb
+      Vary:
+      - origin, access-control-request-method, access-control-request-headers
+      Access-Control-Allow-Credentials:
+      - 'true'
+      X-Ds-Trace-Id:
+      - 8e4db5d991305b644e9357b017746a28
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      X-Cache:
+      - Error from cloudfront
+      Via:
+      - 1.1 9f751fac529da7fffcaeb654759e8208.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - NBO50-P1
+      X-Amz-Cf-Id:
+      - nxoUn6abbNUWHTRWFJv4nR4I6px4O-vKv91KAShUnyth2Ufz_fh59A==
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Authentication Fails, Your api key: test is invalid","type":"authentication_error","param":null,"code":"invalid_request_error"}}'
+  recorded_at: Thu, 18 Jun 2026 03:24:42 GMT
+recorded_with: VCR 6.4.0
