@@ -4,6 +4,7 @@ module Ask
   module Providers
     # Cloudflare Workers AI provider. Supports both direct Workers AI and AI Gateway.
     class Cloudflare < Ask::Provider
+      include Ask::LLM::SSEBuffer
       def initialize(config = {})
         config = normalize_config(config)
         super(config)
@@ -96,6 +97,7 @@ module Ask
 
       def chat_stream_gateway(endpoint, payload, model, &block)
         stream = Ask::Stream.new
+        init_sse_buffer
         response = @http.post(endpoint) do |req|
           req.body = payload.merge(stream: true)
           req.options.on_data = proc { |data, _bytes, _env| process_stream_chunk(data, stream, model, &block) }
@@ -106,11 +108,7 @@ module Ask
       end
 
       def process_stream_chunk(raw, stream, model)
-        raw.each_line do |line|
-          line = line.strip
-          next unless line.start_with?("data: ")
-          data = line[6..]
-          next if data == "[DONE]"
+        each_sse_event(raw) do |data|
           parsed = JSON.parse(data) rescue next
           delta = parsed.dig("choices", 0, "delta") || {}
           chunk = Ask::Chunk.new(content: delta["content"])

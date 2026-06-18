@@ -6,6 +6,7 @@ module Ask
     # (OpenRouter, DeepSeek, Azure, XAI, Perplexity, GPUStack, etc.) via
     # +base_url+ override.
     class OpenAI < Ask::Provider
+      include Ask::LLM::SSEBuffer
       def initialize(config = {})
         @provider_keys = extract_provider_keys(config)
         config = normalize_config(config)
@@ -148,6 +149,7 @@ module Ask
 
       def chat_stream(payload, model, &block)
         stream = Ask::Stream.new
+        init_sse_buffer
         @http.post("chat/completions") do |req|
           req.body = payload.merge(stream: true)
           req.options.on_data = proc { |data, _bytes, _env| process_chunk(data, stream, model, &block) }
@@ -167,12 +169,8 @@ module Ask
         stream
       end
 
-
       def process_chunk(raw, stream, model)
-        raw.each_line do |line|
-          line = line.strip
-          next if line.empty? || line.start_with?(":") || !line.start_with?("data: ")
-          data = line[6..]; next if data == "[DONE]"
+        each_sse_event(raw) do |data|
           parsed = JSON.parse(data) rescue next
           choice = parsed.dig("choices", 0) or next
           delta = choice["delta"] || {}

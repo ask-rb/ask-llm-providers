@@ -95,4 +95,52 @@ class OpenAIProviderTest < Minitest::Test
     provider = Ask::Providers::OpenAI.new(api_key: "sk-test", base_url: "https://openrouter.ai/api/v1")
     assert_equal "https://openrouter.ai/api/v1", provider.api_base
   end
+
+  def test_process_chunk_handles_complete_sse_event
+    stream = Ask::Stream.new
+    data = "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Hello\"}}]}\n\n"
+    @provider.send(:process_chunk, data, stream, "gpt-4o")
+    assert_equal 1, stream.length
+    assert_equal "Hello", stream.chunks.first.content
+  end
+
+  def test_process_chunk_handles_fragmented_sse_data
+    stream = Ask::Stream.new
+    frag1 = "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Hel"
+    frag2 = "lo\"}}]}\n\n"
+    @provider.send(:process_chunk, frag1, stream, "gpt-4o")
+    assert_equal 0, stream.length, "no chunk should be emitted for incomplete data"
+    @provider.send(:process_chunk, frag2, stream, "gpt-4o")
+    assert_equal 1, stream.length
+    assert_equal "Hello", stream.chunks.first.content
+  end
+
+  def test_process_chunk_handles_fragmented_across_event_boundary
+    stream = Ask::Stream.new
+    frag1 = "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"A\"}}]}\n\ndata: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"B\"}}"
+    frag2 = "]}\n\ndata: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"C\"}}]}\n\n"
+    @provider.send(:process_chunk, frag1, stream, "gpt-4o")
+    assert_equal 1, stream.length, "first complete event should produce a chunk"
+    assert_equal "A", stream.chunks[0].content
+    @provider.send(:process_chunk, frag2, stream, "gpt-4o")
+    assert_equal 3, stream.length
+    assert_equal "B", stream.chunks[1].content
+    assert_equal "C", stream.chunks[2].content
+  end
+
+  def test_process_chunk_handles_done_event
+    stream = Ask::Stream.new
+    data = "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Hi\"}}]}\n\ndata: [DONE]\n\n"
+    @provider.send(:process_chunk, data, stream, "gpt-4o")
+    assert_equal 1, stream.length
+    assert_equal "Hi", stream.chunks.first.content
+  end
+
+  def test_process_chunk_multiple_events_in_one_chunk
+    stream = Ask::Stream.new
+    data = "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"A\"}}]}\n\ndata: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"B\"}}]}\n\ndata: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"C\"}}]}\n\n"
+    @provider.send(:process_chunk, data, stream, "gpt-4o")
+    assert_equal 3, stream.length
+    assert_equal %w[A B C], stream.chunks.map(&:content)
+  end
 end

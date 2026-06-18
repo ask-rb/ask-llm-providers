@@ -4,6 +4,7 @@ module Ask
   module Providers
     # Google Gemini API provider. Also supports Vertex AI via GCP service account auth.
     class Google < Ask::Provider
+      include Ask::LLM::SSEBuffer
       def initialize(config = {})
         config = normalize_config(config)
         super(config)
@@ -187,6 +188,7 @@ module Ask
 
       def chat_stream(path, payload, model, &block)
         stream = Ask::Stream.new
+        init_sse_buffer
         response = @http.post(path) do |req|
           req.body = payload
           req.params["key"] = @config.api_key if @config.api_key
@@ -198,10 +200,7 @@ module Ask
       end
 
       def process_google_chunk(raw, stream, model)
-        raw.each_line do |line|
-          next unless line.start_with?("data: ")
-          data = line[6..]
-          next if data.strip == "[DONE]"
+        each_sse_event(raw) do |data|
           parsed = JSON.parse(data) rescue next
           candidate = parsed.dig("candidates", 0) or next
           part = candidate.dig("content", "parts", 0)

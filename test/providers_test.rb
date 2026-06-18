@@ -4,7 +4,7 @@ require_relative "test_helper"
 
 class ProvidersTest < Minitest::Test
   def test_all_providers_are_registered
-    assert_equal 11, Ask::Provider.providers.size
+    assert_equal 12, Ask::Provider.providers.size
     assert Ask::Provider.providers.key?(:openai)
     assert Ask::Provider.providers.key?(:anthropic)
     assert Ask::Provider.providers.key?(:gemini)

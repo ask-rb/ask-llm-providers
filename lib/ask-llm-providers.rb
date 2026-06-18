@@ -10,6 +10,7 @@ require "base64"
 # Common infrastructure
 require_relative "ask/llm/config"
 require_relative "ask/llm/http"
+require_relative "ask/llm/sse_buffer"
 require_relative "ask/llm/models/openai"
 
 # Load providers

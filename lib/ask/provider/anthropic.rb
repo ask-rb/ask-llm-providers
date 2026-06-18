@@ -4,6 +4,7 @@ module Ask
   module Providers
     # Anthropic Claude API provider.
     class Anthropic < Ask::Provider
+      include Ask::LLM::SSEBuffer
       def initialize(config = {})
         config = normalize_config(config)
         super(config)
@@ -179,6 +180,7 @@ module Ask
 
       def chat_stream(payload, model, &block)
         stream = Ask::Stream.new
+        init_sse_buffer
         response = @http.post("v1/messages") do |req|
           req.body = payload.merge(stream: true)
           req.options.on_data = proc { |data, _bytes, _env| process_anthropic_chunk(data, stream, model, &block) }
@@ -189,39 +191,24 @@ module Ask
       end
 
       def process_anthropic_chunk(raw, stream, model)
-        raw.each_line do |line|
-          line = line.strip
-          next if line.empty? || line.start_with?(":")
-          next unless line.start_with?("event:") || line.start_with?("data:")
+        each_sse_event(raw) do |data|
+          parsed = JSON.parse(data) rescue next
 
-          if line.start_with?("data: ")
-            data = line[6..]
-            begin
-              parsed = JSON.parse(data)
-            rescue JSON::ParserError
-              next
-            end
-
-            case parsed["type"]
-            when "content_block_delta"
-              delta = parsed.dig("delta")
-              next unless delta
-              chunk = Ask::Chunk.new(
-                content: delta["text"],
-                finish_reason: delta["type"] == "thinking_delta" ? nil : nil
-              )
+          case parsed["type"]
+          when "content_block_delta"
+            delta = parsed.dig("delta")
+            next unless delta
+            chunk = Ask::Chunk.new(content: delta["text"])
+            stream.add(chunk)
+            yield chunk if block_given?
+          when "message_stop"
+            usage = parsed["usage"] || parsed["message"]&.dig("usage")
+            if usage
+              chunk = Ask::Chunk.new(finish_reason: "stop", usage: usage)
               stream.add(chunk)
               yield chunk if block_given?
-            when "message_stop"
-              usage = parsed["usage"] || parsed["message"]&.dig("usage")
-              if usage
-                chunk = Ask::Chunk.new(finish_reason: "stop", usage: usage)
-                stream.add(chunk)
-                yield chunk if block_given?
-              end
-            when "message_start"
-              # Message started — no content yet
             end
+          when "message_start"
           end
         end
       end

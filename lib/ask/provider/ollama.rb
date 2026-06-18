@@ -79,6 +79,7 @@ module Ask
 
       def chat_stream(payload, model, &block)
         stream = Ask::Stream.new
+        @_sse_buffer = +""
         response = @http.post("api/chat") do |req|
           req.body = payload.merge(stream: true)
           req.options.on_data = proc { |data, _bytes, _env| process_ollama_chunk(data, stream, model, &block) }
@@ -89,7 +90,13 @@ module Ask
       end
 
       def process_ollama_chunk(raw, stream, model)
-        raw.each_line do |line|
+        @_sse_buffer ||= +""
+        @_sse_buffer << raw
+
+        while (line_end = @_sse_buffer.index("\n"))
+          line = @_sse_buffer.slice!(0, line_end + 1).strip
+          next if line.empty?
+
           parsed = JSON.parse(line) rescue next
           msg = parsed["message"] || {}
           chunk = Ask::Chunk.new(content: msg["content"])
