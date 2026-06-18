@@ -18,3 +18,36 @@ Initial release of `ask-llm-providers`, all LLM providers for the ask-rb ecosyst
 - **Capabilities introspection** — Each provider exposes supported capabilities
 - **Shared HTTP infrastructure** — `Ask::LLM::HTTP` with Faraday connection builder and SSE streaming
 - **Test suite** — 33 tests across all providers and error mapping
+
+## [0.1.8] — 2026-06-18
+
+### Added
+
+- **OpenRouter provider** — `Ask::Providers::OpenRouter`, reads `OPENROUTER_API_KEY`,
+  sets `HTTP-Referer` and `X-Title` headers.
+
+### Fixed
+
+- **`normalize_config` ENV resolution** — Removed broken monkey-patch that defined
+  `normalize_config` on `Object` instead of within the `OpenAI` class. Now resolves
+  `api_key` from: explicit config → subclass-specific key → `ENV` var →
+  `Ask::Auth.resolve` chain. All OpenAI-compatible subclasses (DeepSeek, OpenCode,
+  OpenCodeGo, Mimo, OpenRouter) inherit the fix.
+
+## [0.1.9] — 2026-06-18
+
+### Fixed
+
+- **`format_messages` with Hash tool_calls** — Tool calls can arrive as Hash (keyed
+  by call_id) from some chat implementations, or as Array. The method now detects
+  both formats with `tc.is_a?(Hash) ? tc.values : tc`. Also handles `OpenStruct`
+  tool call objects via `.respond_to?` checks instead of assuming Hash accessors.
+
+## [0.1.10] — 2026-06-18
+
+### Fixed
+
+- **`chat_stream` nil response body** — Streaming requests consume the response body
+  via `on_data` callback, leaving `resp.body` as `nil`. `JSON.parse(nil)` raised
+  `TypeError: no implicit conversion of nil into String`. Now checks
+  `resp.body` before parsing.
