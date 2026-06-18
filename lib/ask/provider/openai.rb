@@ -150,7 +150,7 @@ module Ask
         @http.post("chat/completions") do |req|
           req.body = payload.merge(stream: true)
           req.options.on_data = proc { |data, _bytes, _env| process_chunk(data, stream, model, &block) }
-        end.tap { |resp| raise LLM::HTTP.map_error(resp.status, JSON.parse(resp.body), provider: "OpenAI") unless resp.success? }
+        end.tap { |resp| raise LLM::HTTP.map_error(resp.status, resp.body ? JSON.parse(resp.body) : {}, provider: "OpenAI") unless resp.success? }
         stream.finish!
         stream
       end
