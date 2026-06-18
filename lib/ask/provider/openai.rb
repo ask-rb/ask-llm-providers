@@ -146,6 +146,7 @@ module Ask
         calls.map { |tc| { id: tc["id"], type: "function", name: tc.dig("function", "name"), arguments: tc.dig("function", "arguments") } }
       end
 
+        require "json"; $stderr.puts "=== PAYLOAD ===\n#{JSON.pretty_generate(payload)}\n"
       def chat_stream(payload, model, &block)
         stream = Ask::Stream.new
         @http.post("chat/completions") do |req|
