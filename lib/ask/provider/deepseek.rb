@@ -21,6 +21,17 @@ module Ask
         h
       end
 
+      # DeepSeek requires reasoning_content in every assistant message
+      # that includes tool_calls. Override format_messages to inject it.
+      def format_messages(messages)
+        super.map do |fm|
+          if fm[:role] == "assistant" && fm[:tool_calls]
+            fm[:reasoning_content] = fm[:reasoning_content] || ""
+          end
+          fm
+        end
+      end
+
       class << self
         def slug; "deepseek"; end
         def configuration_options; %i[api_key base_url]; end
