@@ -113,7 +113,8 @@ module Ask
               fm[:tool_calls] = calls.map { |t|
                 id = t.respond_to?(:id) ? t.id : (t[:id] || t["id"])
                 name = t.respond_to?(:name) ? t.name : (t.dig(:function, :name) || t.dig("function", "name") || t[:name])
-                args = t.respond_to?(:arguments) ? t.arguments : (t.dig(:function, :arguments) || t.dig("function", "arguments") || t[:arguments])
+                raw_args = t.respond_to?(:arguments) ? t.arguments : (t.dig(:function, :arguments) || t.dig("function", "arguments") || t[:arguments])
+                args = raw_args.is_a?(String) ? raw_args : JSON.generate(raw_args)
                 { id: id, type: "function", function: { name: name, arguments: args } }
               }
             end
@@ -150,7 +151,18 @@ module Ask
         @http.post("chat/completions") do |req|
           req.body = payload.merge(stream: true)
           req.options.on_data = proc { |data, _bytes, _env| process_chunk(data, stream, model, &block) }
-        end.tap { |resp| raise LLM::HTTP.map_error(resp.status, resp.body ? JSON.parse(resp.body) : {}, provider: "OpenAI") unless resp.success? }
+        end.tap { |resp|
+          unless resp.success?
+            err_body = case resp.body
+            when Hash then resp.body
+            when String then (JSON.parse(resp.body) rescue { "error" => { "message" => "HTTP #{resp.status}: #{resp.body[0..200]}" } })
+            else { "error" => { "message" => "HTTP #{resp.status}: empty response body" } }
+            end
+            err_body["error"] ||= {}
+            err_body["error"]["_status"] = resp.status
+            raise LLM::HTTP.map_error(resp.status, err_body, provider: "OpenAI")
+          end
+        }
         stream.finish!
         stream
       end
