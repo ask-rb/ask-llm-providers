@@ -15,10 +15,12 @@ module Ask
 
       # Map an HTTP exception or error response to the appropriate Ask::Error.
       def self.map_error(status, body, provider:)
+        body = JSON.parse(body) rescue body if body.is_a?(String)
         message = extract_error_message(body, status) || "HTTP #{status} from #{provider}"
 
         # Check for context length exceeded regardless of status code
-        if body&.dig("error", "code") == "context_length_exceeded"
+        err_code = body.respond_to?(:dig) ? body.dig("error", "code") : nil
+        if err_code == "context_length_exceeded"
           return Ask::ContextLengthExceeded.new("#{provider}: #{message}")
         end
 
@@ -36,11 +38,15 @@ module Ask
       def self.extract_error_message(body, status)
         return nil unless body
 
-        body.dig("error", "message") ||
-          body.dig("error", "msg") ||
-          body.dig("error", "error") ||
-          body["message"] ||
+        if body.respond_to?(:dig)
+          body.dig("error", "message") ||
+            body.dig("error", "msg") ||
+            body.dig("error", "error") ||
+            body["message"] ||
+            body.to_s
+        else
           body.to_s
+        end
       end
     end
   end
