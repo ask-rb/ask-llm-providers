@@ -77,13 +77,12 @@ module Ask
         return config if !config.is_a?(Hash)
 
         slug = self.class.slug
-        env_key = ENV["#{slug.upcase}_API_KEY"]
         auth_key = Ask::Auth.resolve(:"#{slug}_api_key") rescue nil
 
         merged = {
           api_key: config[:api_key] || config["api_key"] ||
                    config[:"#{slug}_api_key"] || config[:openai_api_key] ||
-                   env_key || auth_key,
+                   auth_key,
           base_url: config[:base_url] || config["base_url"] ||
                     ENV["#{slug.upcase}_API_BASE"],
           organization_id: config[:organization_id] || config["organization_id"],

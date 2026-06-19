@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*", "LICENSE", "README.md"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "ask-core", ">= 0.1.1"
+  spec.add_dependency "ask-core", ">= 0.2.0"
   spec.add_dependency "ask-auth", "~> 0.1"
 
   # OpenAI-compatible — uses Faraday (already in ask-core)
