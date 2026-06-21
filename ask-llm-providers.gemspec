@@ -15,16 +15,16 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = ">= 3.2"
 
-  spec.files = Dir["lib/**/*", "LICENSE", "README.md"]
+  spec.metadata["homepage_uri"] = spec.homepage
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/master/CHANGELOG.md"
+
+  spec.files = Dir["lib/**/*", "LICENSE", "README.md", "CHANGELOG.md"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "ask-core", ">= 0.2.0"
   spec.add_dependency "ask-auth", "~> 0.1"
 
-  # OpenAI-compatible — uses Faraday (already in ask-core)
-  # Anthropic — uses Faraday
-  # Google — uses Faraday + google-apis-generator (for Vertex)
-  # Bedrock — uses aws-sdk-bedrockruntime
   spec.add_dependency "faraday", ">= 2.0"
   spec.add_dependency "faraday-multipart", ">= 1.0"
   spec.add_dependency "json"
