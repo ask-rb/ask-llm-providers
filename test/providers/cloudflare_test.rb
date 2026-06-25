@@ -26,4 +26,44 @@ class CloudflareProviderTest < Minitest::Test
     assert caps[:chat]
     assert caps[:vision]
   end
+
+  def test_configuration_requirements
+    reqs = Ask::Providers::Cloudflare.configuration_requirements
+    assert_includes reqs, :api_key
+    assert_includes reqs, :account_id
+  end
+
+  def test_slug
+    assert_equal "cloudflare", Ask::Providers::Cloudflare.slug
+  end
+
+  def test_parse_openai_response
+    body = {
+      "id" => "cf-123",
+      "model" => "@cf/meta/llama-2",
+      "choices" => [{
+        "index" => 0,
+        "message" => { "role" => "assistant", "content" => "Hello from CF!" },
+        "finish_reason" => "stop"
+      }]
+    }
+    msg = @provider.__send__(:parse_openai_response, body, "@cf/meta/llama-2")
+    assert_equal :assistant, msg.role
+    assert_equal "Hello from CF!", msg.content
+  end
+
+  def test_process_stream_chunk
+    stream = Ask::Stream.new
+    data = "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Hello\"}}]}\n\n"
+    @provider.__send__(:process_stream_chunk, data, stream, "@cf/meta/llama-2")
+    assert_equal 1, stream.length
+    assert_equal "Hello", stream.chunks.first.content
+  end
+
+  def test_parse_error
+    error_response = Object.new
+    def error_response.body; { "errors" => [{ "message" => "Invalid request" }] }; end
+    error = @provider.parse_error(error_response)
+    assert_includes error, "Invalid"
+  end
 end

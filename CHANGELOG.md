@@ -1,3 +1,7 @@
+## [0.2.2] - 2026-06-25
+
+### Changed
+- Extended per-provider tests (Anthropic 18t, Google 14t, DeepSeek 16t, Mistral, Ollama, Cloudflare, Bedrock). Fixed providers_test.rb syntax error. RuboCop, overcommit, gemspec test, SimpleCov, CI.
 # Changelog
 
 ## [0.1.0] — 2026-06-09
