@@ -1,0 +1,85 @@
+[
+  {
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash",
+    "family": "deepseek_v4",
+    "context_window": 1000000,
+    "max_output_tokens": 384000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "deepseek"
+  },
+  {
+    "id": "deepseek-v4-pro",
+    "name": "DeepSeek V4 Pro",
+    "family": "deepseek_v4",
+    "context_window": 1000000,
+    "max_output_tokens": 384000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "deepseek"
+  },
+  {
+    "id": "deepseek-chat",
+    "name": "DeepSeek Chat",
+    "family": "deepseek_v3",
+    "context_window": 64000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "streaming"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "deepseek"
+  },
+  {
+    "id": "deepseek-reasoner",
+    "name": "DeepSeek Reasoner",
+    "family": "deepseek_r1",
+    "context_window": 64000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "deepseek"
+  }
+]

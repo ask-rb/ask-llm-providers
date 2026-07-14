@@ -11,7 +11,8 @@ require "base64"
 require_relative "ask/llm/config"
 require_relative "ask/llm/http"
 require_relative "ask/llm/sse_buffer"
-require_relative "ask/llm/models/openai"
+require_relative "ask/llm/catalog"
+require_relative "ask/llm/aliases"
 
 # Load providers
 require_relative "ask/provider/openai"
@@ -41,19 +42,5 @@ Ask::Provider.register(:mimo, Ask::Providers::Mimo)
 Ask::Provider.register(:deepseek, Ask::Providers::DeepSeek)
 Ask::Provider.register(:openrouter, Ask::Providers::OpenRouter)
 
-# Register known models for each provider in the catalog
-[
-  [Ask::Providers::OpenAI, Ask::LLM::Models::OPENAI_MODELS],
-  [Ask::Providers::Anthropic, Ask::LLM::Models::ANTHROPIC_MODELS],
-  [Ask::Providers::Google, Ask::LLM::Models::GOOGLE_MODELS],
-  [Ask::Providers::Mistral, Ask::LLM::Models::MISTRAL_MODELS],
-  [Ask::Providers::Ollama, Ask::LLM::Models::OLLAMA_MODELS]
-].each do |provider, models|
-  models.each do |m|
-    Ask::ModelCatalog.instance.register(Ask::ModelInfo.new(
-      id: m[:id], provider: provider.slug, family: m[:family],
-      capabilities: m[:capabilities],
-      context_window: m[:context], max_output_tokens: m[:output]
-    ))
-  end
-end
+# Load bundled model catalog into Ask::ModelCatalog
+Ask::LLM::Catalog.load!

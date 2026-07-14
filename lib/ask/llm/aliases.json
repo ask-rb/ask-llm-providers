@@ -1,0 +1,11 @@
+{
+  "claude-sonnet-4": "claude-sonnet-4-6",
+  "claude-sonnet-4-5": "claude-sonnet-4-6",
+  "claude-opus-4": "claude-opus-4-7",
+  "claude-opus-4-5": "claude-opus-4-7",
+  "claude-haiku-4": "claude-haiku-4-5",
+  "gemini-3": "gemini-3-flash",
+  "deepseek-v4": "deepseek-v4-flash",
+  "gpt-4o-latest": "gpt-4o",
+  "gpt-4.1-latest": "gpt-4.1"
+}

@@ -1,4 +1,21 @@
-## [0.2.2] - 2026-06-25
+## [0.3.0] — 2026-07-14
+
+### Added
+- **Model catalog system** — `Ask::LLM::Catalog` loads model definitions from per-provider JSON files (`lib/ask/llm/models/*.json`), user overrides (`~/.ask-llm-providers/models.json`), and provider API `list_models()` on explicit refresh.
+- **Per-provider model JSONs** — 12 JSON files (openai, anthropic, gemini, deepseek, opencode, opencode_go, mimo, openrouter, ollama, mistral, bedrock, cloudflare) with id, name, provider, capabilities, context window, modalities, and pricing.
+- **Model aliases** — `Ask::LLM::Aliases` resolves short names (e.g. `claude-sonnet-4` → `claude-sonnet-4-6`). Alias entries are automatically registered into `Ask::ModelCatalog` so `ModelCatalog.find` works with alias names.
+- **User config support** — `~/.ask-llm-providers/models.json` overrides bundled model fields or adds custom models.
+- **`opencode.json` includes `deepseek-v4-flash`** — matches the default model configuration.
+
+### Changed
+- Removed hardcoded `Ask::LLM::Models::OPENAI_MODELS` constants — replaced with catalog-driven model loading.
+- `Ask::LLM::Aliases.resolve` now aliases `deepseek-v4` → `deepseek-v4-flash`, `gpt-4o-latest` → `gpt-4o`, `gpt-4.1-latest` → `gpt-4.1`.
+
+### Fixed
+- Model entries now include `"provider"` field in JSON files (was missing from generated data).
+- User config merges properly override bundled values (was keeping old values on conflict).
+
+## [0.2.2] — 2026-06-25
 
 ### Changed
 - Extended per-provider tests (Anthropic 18t, Google 14t, DeepSeek 16t, Mistral, Ollama, Cloudflare, Bedrock). Fixed providers_test.rb syntax error. RuboCop, overcommit, gemspec test, SimpleCov, CI.

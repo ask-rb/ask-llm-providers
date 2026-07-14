@@ -1,0 +1,188 @@
+[
+  {
+    "id": "claude-sonnet-4-5",
+    "name": "Claude Sonnet 4.5",
+    "family": "claude_sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision",
+      "reasoning",
+      "prompt_caching",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "anthropic"
+  },
+  {
+    "id": "claude-sonnet-4",
+    "name": "Claude Sonnet 4",
+    "family": "claude_sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision",
+      "reasoning",
+      "prompt_caching",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "anthropic"
+  },
+  {
+    "id": "claude-4-opus",
+    "name": "Claude Opus 4",
+    "family": "claude_opus",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision",
+      "reasoning",
+      "prompt_caching",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "anthropic"
+  },
+  {
+    "id": "claude-haiku-4-5",
+    "name": "Claude Haiku 4.5",
+    "family": "claude_haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision",
+      "reasoning",
+      "prompt_caching",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "anthropic"
+  },
+  {
+    "id": "claude-opus-4-5",
+    "name": "Claude Opus 4.5",
+    "family": "claude_opus",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision",
+      "reasoning",
+      "prompt_caching",
+      "tool_choice",
+      "parallel_tool_calls"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "anthropic"
+  },
+  {
+    "id": "claude-3.5-sonnet",
+    "name": "Claude 3.5 Sonnet",
+    "family": "claude_sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "vision",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "anthropic"
+  },
+  {
+    "id": "claude-3.5-haiku",
+    "name": "Claude 3.5 Haiku",
+    "family": "claude_haiku",
+    "context_window": 200000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "vision",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "anthropic"
+  }
+]

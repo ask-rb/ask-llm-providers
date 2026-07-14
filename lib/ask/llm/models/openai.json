@@ -1,0 +1,294 @@
+[
+  {
+    "id": "gpt-4o",
+    "name": "GPT-4o",
+    "family": "gpt4o",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "gpt-4o-mini",
+    "name": "GPT-4o Mini",
+    "family": "gpt4o_mini",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "gpt-4.1",
+    "name": "GPT-4.1",
+    "family": "gpt41",
+    "context_window": 1047576,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "gpt-4.1-mini",
+    "name": "GPT-4.1 Mini",
+    "family": "gpt41_mini",
+    "context_window": 1047576,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "gpt-4.1-nano",
+    "name": "GPT-4.1 Nano",
+    "family": "gpt41_nano",
+    "context_window": 1047576,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "gpt-4.5-preview",
+    "name": "GPT-4.5 Preview",
+    "family": "gpt45",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "o1",
+    "name": "o1",
+    "family": "o1",
+    "context_window": 200000,
+    "max_output_tokens": 100000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "o3-mini",
+    "name": "o3-mini",
+    "family": "o3_mini",
+    "context_window": 200000,
+    "max_output_tokens": 100000,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "gpt-4o-audio-preview",
+    "name": "GPT-4o Audio Preview",
+    "family": "gpt4o_audio",
+    "context_window": 128000,
+    "capabilities": [
+      "streaming",
+      "audio"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "audio"
+      ],
+      "output": [
+        "text",
+        "audio"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "text-embedding-3-large",
+    "name": "Text Embedding 3 Large",
+    "family": "embedding3_large",
+    "context_window": 8191,
+    "capabilities": [
+      "embedding"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "embeddings"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "text-embedding-3-small",
+    "name": "Text Embedding 3 Small",
+    "family": "embedding3_small",
+    "context_window": 8191,
+    "capabilities": [
+      "embedding"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "embeddings"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "whisper-1",
+    "name": "Whisper",
+    "family": "whisper",
+    "capabilities": [
+      "audio"
+    ],
+    "modalities": {
+      "input": [
+        "audio"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "tts-1",
+    "name": "TTS-1",
+    "family": "tts1",
+    "capabilities": [
+      "audio"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "audio"
+      ]
+    },
+    "provider": "openai"
+  },
+  {
+    "id": "dall-e-3",
+    "name": "DALL-E 3",
+    "family": "dall_e",
+    "capabilities": [
+      "image"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "image"
+      ]
+    },
+    "provider": "openai"
+  }
+]

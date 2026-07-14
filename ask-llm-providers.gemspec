@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/master/CHANGELOG.md"
 
-  spec.files = Dir["lib/**/*", "LICENSE", "README.md", "CHANGELOG.md"]
+  spec.files = Dir["lib/**/*", "lib/**/*.json", "LICENSE", "README.md", "CHANGELOG.md"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "ask-core", ">= 0.2.0"

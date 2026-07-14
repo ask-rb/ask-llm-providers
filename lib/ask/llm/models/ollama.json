@@ -1,0 +1,136 @@
+[
+  {
+    "id": "llama3.2",
+    "name": "Llama 3.2",
+    "family": "llama",
+    "context_window": 8192,
+    "capabilities": [
+      "streaming",
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "ollama"
+  },
+  {
+    "id": "llama3.3",
+    "name": "Llama 3.3",
+    "family": "llama",
+    "context_window": 8192,
+    "capabilities": [
+      "streaming",
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "ollama"
+  },
+  {
+    "id": "mistral",
+    "name": "Mistral",
+    "family": "mistral",
+    "context_window": 8192,
+    "capabilities": [
+      "streaming",
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "ollama"
+  },
+  {
+    "id": "gemma3",
+    "name": "Gemma 3",
+    "family": "gemma",
+    "context_window": 8192,
+    "capabilities": [
+      "streaming",
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "ollama"
+  },
+  {
+    "id": "phi4",
+    "name": "Phi-4",
+    "family": "phi",
+    "context_window": 8192,
+    "capabilities": [
+      "streaming",
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "ollama"
+  },
+  {
+    "id": "qwen2.5",
+    "name": "Qwen 2.5",
+    "family": "qwen",
+    "context_window": 32768,
+    "capabilities": [
+      "streaming",
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "ollama"
+  },
+  {
+    "id": "deepseek-r1",
+    "name": "DeepSeek R1",
+    "family": "deepseek",
+    "context_window": 8192,
+    "capabilities": [
+      "streaming",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "ollama"
+  }
+]

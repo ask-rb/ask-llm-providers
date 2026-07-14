@@ -1,0 +1,151 @@
+[
+  {
+    "id": "gemini-2.5-pro",
+    "name": "Gemini 2.5 Pro",
+    "family": "gemini",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "gemini"
+  },
+  {
+    "id": "gemini-2.5-flash",
+    "name": "Gemini 2.5 Flash",
+    "family": "gemini",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "gemini"
+  },
+  {
+    "id": "gemini-2.0-flash",
+    "name": "Gemini 2.0 Flash",
+    "family": "gemini",
+    "context_window": 1048576,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "gemini"
+  },
+  {
+    "id": "gemini-1.5-pro",
+    "name": "Gemini 1.5 Pro",
+    "family": "gemini",
+    "context_window": 2097152,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "gemini"
+  },
+  {
+    "id": "gemini-1.5-flash",
+    "name": "Gemini 1.5 Flash",
+    "family": "gemini",
+    "context_window": 1048576,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "streaming",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "provider": "gemini"
+  },
+  {
+    "id": "text-embedding-004",
+    "name": "Text Embedding 004",
+    "family": "embedding",
+    "context_window": 2048,
+    "capabilities": [
+      "embedding"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "embeddings"
+      ]
+    },
+    "provider": "gemini"
+  }
+]
