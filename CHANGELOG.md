@@ -1,3 +1,8 @@
+## [0.3.1] — 2026-07-14
+
+### Removed
+- `Ask::ModelCatalog::PROVIDER_PREFERENCE` removed from ask-core. `find(model_id)` now returns all matching models — no more provider preference disambiguation at the catalog level.
+
 ## [0.3.0] — 2026-07-14
 
 ### Added
