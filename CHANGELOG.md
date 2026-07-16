@@ -1,3 +1,10 @@
+## [0.6.1] — 2026-07-17
+
+### Added
+
+- **`Ask::LLM::CostCalculator`** — calculate LLM API costs from model pricing data. Supports input, output, cache read/write, and reasoning tokens. Returns cost in USD or nil if no pricing data available. Works with any object responding to `#pricing` (Ask::ModelInfo, raw hash, etc.).
+- **`CostCalculator.breakdown`** — returns a component-by-component cost breakdown hash.
+
 ## [0.6.0] — 2026-07-17
 
 ### Added

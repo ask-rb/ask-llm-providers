@@ -17,6 +17,9 @@ require_relative "ask/llm/aliases"
 # Provider transformation contract
 require_relative "ask/llm/provider_config"
 
+# Cost calculator
+require_relative "ask/llm/cost_calculator"
+
 # OpenAI-compatible provider registry (data, not classes)
 require_relative "ask/llm/openai_compatible"
 
