@@ -23,19 +23,20 @@ class ThreadSafetyTest < Minitest::Test
     threads.each(&:join)
     assert_equal 5, Ask::Provider.providers.length
   ensure
-  Ask::Provider.clear_providers!
-  Ask::Provider.register(:openai, Ask::Providers::OpenAI)
-  Ask::Provider.register(:anthropic, Ask::Providers::Anthropic)
-  Ask::Provider.register(:gemini, Ask::Providers::Google)
-  Ask::Provider.register(:bedrock, Ask::Providers::Bedrock)
-  Ask::Provider.register(:ollama, Ask::Providers::Ollama)
-  Ask::Provider.register(:mistral, Ask::Providers::Mistral)
-  Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
-  Ask::Provider.register(:opencode, Ask::Providers::OpenCode)
-  Ask::Provider.register(:opencode_go, Ask::Providers::OpenCodeGo)
-  Ask::Provider.register(:mimo, Ask::Providers::Mimo)
-  Ask::Provider.register(:deepseek, Ask::Providers::DeepSeek)
-end
+    Ask::Provider.clear_providers!
+    Ask::Provider.register(:openai, Ask::Providers::OpenAI)
+    Ask::Provider.register(:anthropic, Ask::Providers::Anthropic)
+    Ask::Provider.register(:gemini, Ask::Providers::Google)
+    Ask::Provider.register(:bedrock, Ask::Providers::Bedrock)
+    Ask::Provider.register(:ollama, Ask::Providers::Ollama)
+    Ask::Provider.register(:mistral, Ask::Providers::Mistral)
+    Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
+    Ask::LLM::OPENAI_COMPATIBLE.each_key do |name|
+      klass = Class.new(Ask::Providers::OpenAICompatible)
+      klass.define_singleton_method(:compat_config) { Ask::LLM::OPENAI_COMPATIBLE[name].merge(slug: name.to_s) }
+      Ask::Provider.register(name, klass)
+    end
+  end
 
 
   def test_concurrent_model_reads

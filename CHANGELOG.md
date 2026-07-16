@@ -1,3 +1,16 @@
+## [0.5.0] — 2026-07-17
+
+### Added
+
+- **OpenAI-compatible provider registry** (`Ask::LLM::OPENAI_COMPATIBLE`) — 12 providers defined as data, not classes. Adding a new OpenAI-compatible API (Groq, Together, Fireworks, etc.) is one line in the registry. No new file, no subclass.
+- **`Ask::Providers::OpenAICompatible` class** — single class handling all registered providers by reading from the registry. Each provider gets an anonymous subclass with its slug, api_base, env var mapping, and quirks (reasoning_content, extra_headers) set from config.
+- **Unified test** — `OpenAICompatibleTest` dynamically tests every registered provider: identity, slug, capabilities, api_base, env var resolution, request building, response parsing, streaming, and tool formatting.
+
+### Removed
+
+- **5 subclass files** — `deepseek.rb`, `openrouter.rb`, `opencode.rb`, `opencode_go.rb`, `mimo.rb` deleted. Replaced by registry entries.
+- **DeepSeek-specific test file** — covered by the unified test.
+
 ## [0.4.0] — 2026-07-16
 
 ### Added

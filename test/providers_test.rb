@@ -74,24 +74,35 @@ class ProvidersTest < Minitest::Test
     refute Ask::Providers::OpenAI.local?
   end
 
-  def test_deepseek_is_registered
-    assert Ask::Provider.providers.key?(:deepseek)
-    assert_equal Ask::Providers::DeepSeek, Ask::Provider.resolve(:deepseek)
-    assert_equal "deepseek", Ask::Providers::DeepSeek.slug
+  def test_openai_compatible_providers_are_registered
+    Ask::LLM::OPENAI_COMPATIBLE.each_key do |name|
+      assert Ask::Provider.providers.key?(name), "#{name} should be registered"
+      klass = Ask::Provider.resolve(name)
+      assert klass < Ask::Providers::OpenAICompatible, "#{name} should be an OpenAICompatible subclass"
+      assert_equal name.to_s, klass.slug, "#{name} slug mismatch"
+    end
   end
 
-  def test_deepseek_base_url
-    assert_equal "https://api.deepseek.com", Ask::Providers::DeepSeek.new(api_key: "t").api_base
+  def test_openai_compatible_base_urls
+    Ask::LLM::OPENAI_COMPATIBLE.each do |name, cfg|
+      klass = Ask::Provider.resolve(name)
+      assert_equal cfg[:api_base], klass.new(api_key: "t").api_base, "#{name} api_base"
+    end
   end
 
-  def test_deepseek_requires_api_key
-    assert_includes Ask::Providers::DeepSeek.configuration_requirements, :api_key
+  def test_openai_compatible_requires_api_key
+    Ask::LLM::OPENAI_COMPATIBLE.each_key do |name|
+      klass = Ask::Provider.resolve(name)
+      assert_includes klass.configuration_requirements, :api_key, "#{name}"
+    end
   end
 
-  def test_deepseek_inherits_openai_capabilities
-    caps = Ask::Providers::DeepSeek.capabilities
-    assert caps[:chat]
-    assert caps[:streaming]
-    assert caps[:tool_calls]
+  def test_openai_compatible_has_capabilities
+    Ask::LLM::OPENAI_COMPATIBLE.each do |name, cfg|
+      klass = Ask::Provider.resolve(name)
+      caps = klass.capabilities
+      assert caps[:chat], "#{name} missing chat capability"
+      assert_equal cfg[:capabilities], caps, "#{name} capabilities mismatch"
+    end
   end
 end
