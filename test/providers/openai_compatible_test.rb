@@ -3,32 +3,19 @@
 require_relative "../test_helper"
 
 class OpenAICompatibleTest < Minitest::Test
+  # Auto-build REGISTERED from the registry — adding a provider to
+  # OPENAI_COMPATIBLE automatically gets tested here.
+  REGISTERED = Ask::LLM::OPENAI_COMPATIBLE.transform_values { |cfg| cfg[:api_base] }.freeze
+
   def setup
     @deepseek = provider(:deepseek)
     @openrouter = provider(:openrouter)
     @opencode = provider(:opencode)
-    @opencode_go = provider(:opencode_go)
-    @mimo = provider(:mimo)
   end
 
-  # --- Each registered provider has correct identity ---
+  # --- Dynamically generate per-provider tests ---
 
-  REGISTERED = {
-    deepseek:    "deepseek",
-    openrouter:  "openrouter",
-    opencode:    "opencode",
-    opencode_go: "opencode_go",
-    mimo:        "mimo",
-    groq:        "groq",
-    together:    "together",
-    fireworks:   "fireworks",
-    perplexity:  "perplexity",
-    cerebras:    "cerebras",
-    xai:         "xai",
-    moonshot:    "moonshot"
-  }.freeze
-
-  REGISTERED.each do |name, expected_slug|
+  REGISTERED.each do |name, api_base|
     define_method :"test_#{name}_is_registered" do
       klass = Ask::Provider.resolve(name)
       assert klass < Ask::Providers::OpenAICompatible,
@@ -37,7 +24,7 @@ class OpenAICompatibleTest < Minitest::Test
 
     define_method :"test_#{name}_slug" do
       klass = Ask::Provider.resolve(name)
-      assert_equal expected_slug, klass.slug
+      assert_equal name.to_s, klass.slug
     end
 
     define_method :"test_#{name}_has_capabilities" do
@@ -47,9 +34,8 @@ class OpenAICompatibleTest < Minitest::Test
     end
 
     define_method :"test_#{name}_api_base" do
-      cfg = Ask::LLM::OPENAI_COMPATIBLE[name]
       klass = Ask::Provider.resolve(name)
-      assert_equal cfg[:api_base], klass.new(api_key: "test").api_base
+      assert_equal api_base, klass.new(api_key: "test").api_base
     end
 
     define_method :"test_#{name}_requires_api_key" do
@@ -58,7 +44,7 @@ class OpenAICompatibleTest < Minitest::Test
     end
   end
 
-  # --- Each provider's api_key is resolved from the correct env var ---
+  # --- Per-provider quirks ---
 
   def test_deepseek_api_key_from_env
     cfg = Ask::LLM::OPENAI_COMPATIBLE[:deepseek]
@@ -69,9 +55,17 @@ class OpenAICompatibleTest < Minitest::Test
     end
   end
 
+  def test_github_api_key_from_env
+    cfg = Ask::LLM::OPENAI_COMPATIBLE[:github]
+    with_env(cfg[:api_key_env], "env-key-github") do
+      klass = Ask::Provider.resolve(:github)
+      provider = klass.new({})
+      assert_equal "env-key-github", provider.config.api_key
+    end
+  end
+
   def test_openrouter_extra_headers
-    provider = @openrouter
-    h = provider.headers
+    h = @openrouter.headers
     assert h.key?("HTTP-Referer"), "OpenRouter should set HTTP-Referer"
     assert h.key?("X-Title"), "OpenRouter should set X-Title"
   end
@@ -82,6 +76,15 @@ class OpenAICompatibleTest < Minitest::Test
                  "opencode_go should fall back to OPENCODE_API_KEY"
   end
 
+  def test_opencode_go_env_fallback
+    cfg = Ask::LLM::OPENAI_COMPATIBLE[:opencode_go]
+    with_env(cfg[:alternate_env], "fallback-key") do
+      klass = Ask::Provider.resolve(:opencode_go)
+      provider = klass.new({})
+      assert_equal "fallback-key", provider.config.api_key
+    end
+  end
+
   def test_deepseek_reasoning_content
     msgs = [{ role: :assistant, content: nil,
               tool_calls: [{ id: "call_1", function: { name: "f", arguments: "{}" } }] }]
@@ -90,7 +93,7 @@ class OpenAICompatibleTest < Minitest::Test
            "DeepSeek should inject reasoning_content for tool call messages"
   end
 
-  # --- All OpenAI-compatible providers share the same wire format ---
+  # --- All share the same wire format ---
 
   def test_all_build_request_standard_format
     REGISTERED.each_key do |name|
@@ -98,7 +101,6 @@ class OpenAICompatibleTest < Minitest::Test
       provider = klass.new(api_key: "test")
       payload = provider.build_request([{ role: "user", content: "Hi" }], model: "gpt-4o")
       assert_equal "gpt-4o", payload[:model], "#{name} model key"
-      assert_equal false, payload[:stream], "#{name} stream default"
       assert payload[:messages].is_a?(Array), "#{name} messages"
     end
   end

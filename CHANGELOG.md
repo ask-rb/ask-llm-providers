@@ -1,3 +1,10 @@
+## [0.6.0] — 2026-07-17
+
+### Added
+
+- **14 new OpenAI-compatible providers** — aiml, ai21, anyscale, deepinfra, featherless, friendli, github, hyperbolic, meta, nebius, novita, nscale, nvidia_nim, sambanova. Each is one line in the registry. Total OpenAI-compatible providers: 26. Total providers: 33.
+- **Auto-generated tests** — `OpenAICompatibleTest` now builds its test list from `OPENAI_COMPATIBLE` dynamically. Adding a provider automatically generates 5 identity tests (registered, slug, capabilities, api_base, requires_api_key).
+
 ## [0.5.0] — 2026-07-17
 
 ### Added

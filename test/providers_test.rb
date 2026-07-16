@@ -5,7 +5,7 @@ require_relative "test_helper"
 class ProvidersTest < Minitest::Test
   def test_all_providers_are_registered
     count = Ask::Provider.providers.size
-    assert_operator count, :>=, 11, "Expected at least 11 providers, got #{count}"
+    assert_operator count, :>=, 33, "Expected at least 33 providers, got #{count}"
     assert Ask::Provider.providers.key?(:openai)
     assert Ask::Provider.providers.key?(:anthropic)
     assert Ask::Provider.providers.key?(:gemini)
