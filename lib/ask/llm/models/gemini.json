@@ -1,16 +1,15 @@
 [
   {
-    "id": "gemini-2.5-pro",
-    "name": "Gemini 2.5 Pro",
-    "family": "gemini",
+    "id": "gemini-2.0-flash",
+    "name": "Gemini 2.0 Flash",
+    "provider": "gemini",
+    "family": "gemini-flash",
     "context_window": 1048576,
-    "max_output_tokens": 65536,
+    "max_output_tokens": 8192,
     "capabilities": [
       "function_calling",
-      "streaming",
       "structured_output",
-      "vision",
-      "reasoning"
+      "vision"
     ],
     "modalities": {
       "input": [
@@ -24,18 +23,64 @@
         "text"
       ]
     },
-    "provider": "gemini"
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.4,
+          "cache_read_input_per_million": 0.025
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-06",
+    "created_at": "2024-12-11"
+  },
+  {
+    "id": "gemini-2.0-flash-lite",
+    "name": "Gemini 2.0 Flash-Lite",
+    "provider": "gemini",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.075,
+          "output_per_million": 0.3
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-06",
+    "created_at": "2024-12-11"
   },
   {
     "id": "gemini-2.5-flash",
     "name": "Gemini 2.5 Flash",
-    "family": "gemini",
+    "provider": "gemini",
+    "family": "gemini-flash",
     "context_window": 1048576,
     "max_output_tokens": 65536,
     "capabilities": [
       "function_calling",
-      "streaming",
       "structured_output",
+      "reasoning",
       "vision"
     ],
     "modalities": {
@@ -50,18 +95,61 @@
         "text"
       ]
     },
-    "provider": "gemini"
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 2.5,
+          "cache_read_input_per_million": 0.03
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 1
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-06-17"
   },
   {
-    "id": "gemini-2.0-flash",
-    "name": "Gemini 2.0 Flash",
-    "family": "gemini",
+    "id": "gemini-2.5-flash-preview-tts",
+    "name": "Gemini 2.5 Flash Preview TTS",
+    "provider": "gemini",
+    "family": "gemini-flash",
+    "context_window": 8192,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "audio"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 10
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-05-01"
+  },
+  {
+    "id": "gemini-2.5-flash-lite",
+    "name": "Gemini 2.5 Flash-Lite",
+    "provider": "gemini",
+    "family": "gemini-flash-lite",
     "context_window": 1048576,
-    "max_output_tokens": 8192,
+    "max_output_tokens": 65536,
     "capabilities": [
       "function_calling",
-      "streaming",
       "structured_output",
+      "reasoning",
       "vision"
     ],
     "modalities": {
@@ -76,44 +164,34 @@
         "text"
       ]
     },
-    "provider": "gemini"
-  },
-  {
-    "id": "gemini-1.5-pro",
-    "name": "Gemini 1.5 Pro",
-    "family": "gemini",
-    "context_window": 2097152,
-    "max_output_tokens": 8192,
-    "capabilities": [
-      "function_calling",
-      "streaming",
-      "structured_output",
-      "vision"
-    ],
-    "modalities": {
-      "input": [
-        "text",
-        "image",
-        "audio",
-        "video",
-        "pdf"
-      ],
-      "output": [
-        "text"
-      ]
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.4,
+          "cache_read_input_per_million": 0.01
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.3
+        }
+      }
     },
-    "provider": "gemini"
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-06-17"
   },
   {
-    "id": "gemini-1.5-flash",
-    "name": "Gemini 1.5 Flash",
-    "family": "gemini",
+    "id": "gemini-2.5-pro",
+    "name": "Gemini 2.5 Pro",
+    "provider": "gemini",
+    "family": "gemini-pro",
     "context_window": 1048576,
-    "max_output_tokens": 8192,
+    "max_output_tokens": 65536,
     "capabilities": [
       "function_calling",
-      "streaming",
       "structured_output",
+      "reasoning",
       "vision"
     ],
     "modalities": {
@@ -128,24 +206,612 @@
         "text"
       ]
     },
-    "provider": "gemini"
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.25,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.125
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-06-17"
   },
   {
-    "id": "text-embedding-004",
-    "name": "Text Embedding 004",
-    "family": "embedding",
+    "id": "gemini-2.5-pro-preview-tts",
+    "name": "Gemini 2.5 Pro Preview TTS",
+    "provider": "gemini",
+    "family": "gemini-flash",
+    "context_window": 8192,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "audio"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 20
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-05-01"
+  },
+  {
+    "id": "gemini-3-flash-preview",
+    "name": "Gemini 3 Flash Preview",
+    "provider": "gemini",
+    "family": "gemini-flash",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 3,
+          "cache_read_input_per_million": 0.05
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 1
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-12-17"
+  },
+  {
+    "id": "gemini-3-pro-preview",
+    "name": "Gemini 3 Pro Preview",
+    "provider": "gemini",
+    "family": "gemini-pro",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 12,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-11-18"
+  },
+  {
+    "id": "gemini-3.1-flash-lite",
+    "name": "Gemini 3.1 Flash Lite",
+    "provider": "gemini",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.25,
+          "output_per_million": 1.5,
+          "cache_read_input_per_million": 0.025
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-07"
+  },
+  {
+    "id": "gemini-3.1-flash-lite-preview",
+    "name": "Gemini 3.1 Flash Lite Preview",
+    "provider": "gemini",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.25,
+          "output_per_million": 1.5,
+          "cache_read_input_per_million": 0.025
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-03-03"
+  },
+  {
+    "id": "gemini-3.1-pro-preview",
+    "name": "Gemini 3.1 Pro Preview",
+    "provider": "gemini",
+    "family": "gemini-pro",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 12,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-02-19"
+  },
+  {
+    "id": "gemini-3.1-pro-preview-customtools",
+    "name": "Gemini 3.1 Pro Preview Custom Tools",
+    "provider": "gemini",
+    "family": "gemini-pro",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 12,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-02-19"
+  },
+  {
+    "id": "gemini-3.5-flash",
+    "name": "Gemini 3.5 Flash",
+    "provider": "gemini",
+    "family": "gemini-flash",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.5,
+          "output_per_million": 9,
+          "cache_read_input_per_million": 0.15
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 1.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-19"
+  },
+  {
+    "id": "gemini-embedding-001",
+    "name": "Gemini Embedding 001",
+    "provider": "gemini",
+    "family": "gemini",
     "context_window": 2048,
-    "capabilities": [
-      "embedding"
-    ],
+    "max_output_tokens": 1,
+    "capabilities": [],
     "modalities": {
       "input": [
         "text"
       ],
       "output": [
-        "embeddings"
+        "text"
       ]
     },
-    "provider": "gemini"
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05",
+    "created_at": "2025-05-20"
+  },
+  {
+    "id": "gemini-flash-latest",
+    "name": "Gemini Flash Latest",
+    "provider": "gemini",
+    "family": "gemini-flash",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.5,
+          "output_per_million": 9,
+          "cache_read_input_per_million": 0.15
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 1.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-19"
+  },
+  {
+    "id": "gemini-flash-lite-latest",
+    "name": "Gemini Flash-Lite Latest",
+    "provider": "gemini",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.25,
+          "output_per_million": 1.5,
+          "cache_read_input_per_million": 0.025
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-07"
+  },
+  {
+    "id": "gemini-omni-flash-preview",
+    "name": "Gemini Omni Flash Preview",
+    "provider": "gemini",
+    "family": "gemini",
+    "context_window": 131072,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output": [
+        "video"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.5,
+          "output_per_million": 17.5
+        }
+      }
+    },
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "gemma-4-26b-a4b-it",
+    "name": "Gemma 4 26B A4B IT",
+    "provider": "gemini",
+    "family": "gemma",
+    "context_window": 262144,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {},
+    "created_at": "2026-04-02"
+  },
+  {
+    "id": "gemma-4-31b-it",
+    "name": "Gemma 4 31B IT",
+    "provider": "gemini",
+    "family": "gemma",
+    "context_window": 262144,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {},
+    "created_at": "2026-04-02"
+  },
+  {
+    "id": "gemini-2.5-flash-image",
+    "name": "Nano Banana",
+    "provider": "gemini",
+    "family": "gemini-flash",
+    "context_window": 32768,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text",
+        "image"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 30,
+          "cache_read_input_per_million": 0.075
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-06",
+    "created_at": "2025-08-26"
+  },
+  {
+    "id": "gemini-3.1-flash-image-preview",
+    "name": "Nano Banana 2",
+    "provider": "gemini",
+    "family": "gemini-flash",
+    "context_window": 65536,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text",
+        "image"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 60
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-02-26"
+  },
+  {
+    "id": "gemini-3-pro-image-preview",
+    "name": "Nano Banana Pro",
+    "provider": "gemini",
+    "family": "gemini-pro",
+    "context_window": 131072,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text",
+        "image"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 120
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-11-20"
   }
 ]

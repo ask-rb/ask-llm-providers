@@ -1,0 +1,1347 @@
+[
+  {
+    "id": "claude-3-5-haiku@20241022",
+    "name": "Claude Haiku 3.5",
+    "provider": "vertex_ai",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.8,
+          "output_per_million": 4,
+          "cache_read_input_per_million": 0.08,
+          "cache_write_input_per_million": 1
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-07-31",
+    "created_at": "2024-10-22"
+  },
+  {
+    "id": "claude-haiku-4-5@20251001",
+    "name": "Claude Haiku 4.5",
+    "provider": "vertex_ai",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-02-28",
+    "created_at": "2025-10-15"
+  },
+  {
+    "id": "claude-opus-4@20250514",
+    "name": "Claude Opus 4",
+    "provider": "vertex_ai",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 32000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 15,
+          "output_per_million": 75,
+          "cache_read_input_per_million": 1.5,
+          "cache_write_input_per_million": 18.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-05-22"
+  },
+  {
+    "id": "claude-opus-4-1@20250805",
+    "name": "Claude Opus 4.1",
+    "provider": "vertex_ai",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 32000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 15,
+          "output_per_million": 75,
+          "cache_read_input_per_million": 1.5,
+          "cache_write_input_per_million": 18.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "claude-opus-4-5@20251101",
+    "name": "Claude Opus 4.5",
+    "provider": "vertex_ai",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05",
+    "created_at": "2025-11-01"
+  },
+  {
+    "id": "claude-opus-4-6@default",
+    "name": "Claude Opus 4.6",
+    "provider": "vertex_ai",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05-31",
+    "created_at": "2026-02-05"
+  },
+  {
+    "id": "claude-opus-4-7@default",
+    "name": "Claude Opus 4.7",
+    "provider": "vertex_ai",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-04-16"
+  },
+  {
+    "id": "claude-opus-4-8@default",
+    "name": "Claude Opus 4.8",
+    "provider": "vertex_ai",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "claude-sonnet-4@20250514",
+    "name": "Claude Sonnet 4",
+    "provider": "vertex_ai",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-05-22"
+  },
+  {
+    "id": "claude-sonnet-4-5@20250929",
+    "name": "Claude Sonnet 4.5",
+    "provider": "vertex_ai",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07-31",
+    "created_at": "2025-09-29"
+  },
+  {
+    "id": "claude-sonnet-4-6@default",
+    "name": "Claude Sonnet 4.6",
+    "provider": "vertex_ai",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08-31",
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "claude-sonnet-5@default",
+    "name": "Claude Sonnet 5",
+    "provider": "vertex_ai",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "deepseek-ai/deepseek-v3.1-maas",
+    "name": "DeepSeek V3.1",
+    "provider": "vertex_ai",
+    "family": "deepseek",
+    "context_window": 163840,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 1.7
+        }
+      }
+    },
+    "created_at": "2025-08-28"
+  },
+  {
+    "id": "deepseek-ai/deepseek-v3.2-maas",
+    "name": "DeepSeek V3.2",
+    "provider": "vertex_ai",
+    "family": "deepseek",
+    "context_window": 163840,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.56,
+          "output_per_million": 1.68,
+          "cache_read_input_per_million": 0.056
+        }
+      }
+    },
+    "created_at": "2025-12-17"
+  },
+  {
+    "id": "zai-org/glm-4.7-maas",
+    "name": "GLM-4.7",
+    "provider": "vertex_ai",
+    "family": "glm",
+    "context_window": 200000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 2.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-04",
+    "created_at": "2026-01-06"
+  },
+  {
+    "id": "zai-org/glm-5-maas",
+    "name": "GLM-5",
+    "provider": "vertex_ai",
+    "family": "glm",
+    "context_window": 202752,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 3.2,
+          "cache_read_input_per_million": 0.1
+        }
+      }
+    },
+    "created_at": "2026-02-11"
+  },
+  {
+    "id": "openai/gpt-oss-120b-maas",
+    "name": "GPT OSS 120B",
+    "provider": "vertex_ai",
+    "family": "gpt-oss",
+    "context_window": 131072,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.09,
+          "output_per_million": 0.36
+        }
+      }
+    },
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "openai/gpt-oss-20b-maas",
+    "name": "GPT OSS 20B",
+    "provider": "vertex_ai",
+    "family": "gpt-oss",
+    "context_window": 131072,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.07,
+          "output_per_million": 0.25
+        }
+      }
+    },
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "gemini-2.5-flash",
+    "name": "Gemini 2.5 Flash",
+    "provider": "vertex_ai",
+    "family": "gemini-flash",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 2.5,
+          "cache_read_input_per_million": 0.075,
+          "cache_write_input_per_million": 0.383
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-06-17"
+  },
+  {
+    "id": "gemini-2.5-flash-tts",
+    "name": "Gemini 2.5 Flash TTS",
+    "provider": "vertex_ai",
+    "family": "gemini-flash",
+    "context_window": 32768,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "audio"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 10
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-09-30"
+  },
+  {
+    "id": "gemini-2.5-flash-lite",
+    "name": "Gemini 2.5 Flash-Lite",
+    "provider": "vertex_ai",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.4,
+          "cache_read_input_per_million": 0.01
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.3
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-06-17"
+  },
+  {
+    "id": "gemini-2.5-pro",
+    "name": "Gemini 2.5 Pro",
+    "provider": "vertex_ai",
+    "family": "gemini-pro",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "audio",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.25,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.125
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-06-17"
+  },
+  {
+    "id": "gemini-2.5-pro-tts",
+    "name": "Gemini 2.5 Pro TTS",
+    "provider": "vertex_ai",
+    "family": "gemini-pro",
+    "context_window": 32768,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "audio"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 20
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-09-30"
+  },
+  {
+    "id": "gemini-3-flash-preview",
+    "name": "Gemini 3 Flash Preview",
+    "provider": "vertex_ai",
+    "family": "gemini-flash",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 3,
+          "cache_read_input_per_million": 0.05
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 1
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-12-17"
+  },
+  {
+    "id": "gemini-3.1-flash-lite",
+    "name": "Gemini 3.1 Flash Lite",
+    "provider": "vertex_ai",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.25,
+          "output_per_million": 1.5,
+          "cache_read_input_per_million": 0.025
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-07"
+  },
+  {
+    "id": "gemini-3.1-flash-lite-preview",
+    "name": "Gemini 3.1 Flash Lite Preview",
+    "provider": "vertex_ai",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.25,
+          "output_per_million": 1.5,
+          "cache_read_input_per_million": 0.025
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-03-03"
+  },
+  {
+    "id": "gemini-3.1-pro-preview",
+    "name": "Gemini 3.1 Pro Preview",
+    "provider": "vertex_ai",
+    "family": "gemini-pro",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 12,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-02-19"
+  },
+  {
+    "id": "gemini-3.1-pro-preview-customtools",
+    "name": "Gemini 3.1 Pro Preview Custom Tools",
+    "provider": "vertex_ai",
+    "family": "gemini-pro",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 12,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-02-19"
+  },
+  {
+    "id": "gemini-3.5-flash",
+    "name": "Gemini 3.5 Flash",
+    "provider": "vertex_ai",
+    "family": "gemini-flash",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.5,
+          "output_per_million": 9,
+          "cache_read_input_per_million": 0.15
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 1.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-19"
+  },
+  {
+    "id": "gemini-embedding-001",
+    "name": "Gemini Embedding 001",
+    "provider": "vertex_ai",
+    "family": "gemini",
+    "context_window": 2048,
+    "max_output_tokens": 1,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05",
+    "created_at": "2025-05-20"
+  },
+  {
+    "id": "gemini-flash-latest",
+    "name": "Gemini Flash Latest",
+    "provider": "vertex_ai",
+    "family": "gemini-flash",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.5,
+          "output_per_million": 9,
+          "cache_read_input_per_million": 0.15
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 1.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-19"
+  },
+  {
+    "id": "gemini-flash-lite-latest",
+    "name": "Gemini Flash-Lite Latest",
+    "provider": "vertex_ai",
+    "family": "gemini-flash-lite",
+    "context_window": 1048576,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.25,
+          "output_per_million": 1.5,
+          "cache_read_input_per_million": 0.025
+        }
+      },
+      "audio_tokens": {
+        "standard": {
+          "input_per_million": 0.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-07"
+  },
+  {
+    "id": "moonshotai/kimi-k2-thinking-maas",
+    "name": "Kimi K2 Thinking",
+    "provider": "vertex_ai",
+    "family": "kimi-thinking",
+    "context_window": 262144,
+    "max_output_tokens": 262144,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 2.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-08",
+    "created_at": "2025-11-13"
+  },
+  {
+    "id": "meta/llama-3.3-70b-instruct-maas",
+    "name": "Llama 3.3 70B Instruct",
+    "provider": "vertex_ai",
+    "family": "llama",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.72,
+          "output_per_million": 0.72
+        }
+      }
+    },
+    "knowledge_cutoff": "2023-12",
+    "created_at": "2025-04-29"
+  },
+  {
+    "id": "meta/llama-4-maverick-17b-128e-instruct-maas",
+    "name": "Llama 4 Maverick 17B 128E Instruct",
+    "provider": "vertex_ai",
+    "family": "llama",
+    "context_window": 524288,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.35,
+          "output_per_million": 1.15
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-08",
+    "created_at": "2025-04-29"
+  },
+  {
+    "id": "gemini-2.5-flash-image",
+    "name": "Nano Banana",
+    "provider": "vertex_ai",
+    "family": "gemini-flash",
+    "context_window": 32768,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text",
+        "image"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 30
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-06",
+    "created_at": "2025-08-26"
+  },
+  {
+    "id": "gemini-3.1-flash-image",
+    "name": "Nano Banana 2",
+    "provider": "vertex_ai",
+    "family": "gemini-flash",
+    "context_window": 131072,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video",
+        "pdf"
+      ],
+      "output": [
+        "text",
+        "image"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 60
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "gemini-3-pro-image",
+    "name": "Nano Banana Pro",
+    "provider": "vertex_ai",
+    "family": "gemini-pro",
+    "context_window": 65536,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text",
+        "image"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 120
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "qwen/qwen3-235b-a22b-instruct-2507-maas",
+    "name": "Qwen3 235B A22B Instruct",
+    "provider": "vertex_ai",
+    "family": "qwen",
+    "context_window": 262144,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.22,
+          "output_per_million": 0.88
+        }
+      }
+    },
+    "created_at": "2025-08-13"
+  }
+]

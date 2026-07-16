@@ -1,1 +1,3629 @@
-[]
+[
+  {
+    "id": "au.anthropic.claude-opus-4-6-v1",
+    "name": "AU Anthropic Claude Opus 4.6",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 16.5,
+          "output_per_million": 82.5,
+          "cache_read_input_per_million": 1.65,
+          "cache_write_input_per_million": 20.625
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05",
+    "created_at": "2026-02-05"
+  },
+  {
+    "id": "au.anthropic.claude-sonnet-4-6",
+    "name": "AU Anthropic Claude Sonnet 4.6",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.3,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.33,
+          "cache_write_input_per_million": 4.125
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08",
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "anthropic.claude-fable-5",
+    "name": "Claude Fable 5",
+    "provider": "bedrock",
+    "family": "claude-fable",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 10,
+          "output_per_million": 50,
+          "cache_read_input_per_million": 1,
+          "cache_write_input_per_million": 12.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-09"
+  },
+  {
+    "id": "eu.anthropic.claude-fable-5",
+    "name": "Claude Fable 5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-fable",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 11,
+          "output_per_million": 55,
+          "cache_read_input_per_million": 1.1,
+          "cache_write_input_per_million": 13.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-09"
+  },
+  {
+    "id": "global.anthropic.claude-fable-5",
+    "name": "Claude Fable 5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-fable",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 10,
+          "output_per_million": 50,
+          "cache_read_input_per_million": 1,
+          "cache_write_input_per_million": 12.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-09"
+  },
+  {
+    "id": "us.anthropic.claude-fable-5",
+    "name": "Claude Fable 5 (US)",
+    "provider": "bedrock",
+    "family": "claude-fable",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 10,
+          "output_per_million": 50,
+          "cache_read_input_per_million": 1,
+          "cache_write_input_per_million": 12.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-09"
+  },
+  {
+    "id": "anthropic.claude-haiku-4-5-20251001-v1:0",
+    "name": "Claude Haiku 4.5",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-02-28",
+    "created_at": "2025-10-15"
+  },
+  {
+    "id": "au.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "name": "Claude Haiku 4.5 (AU)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-02-28",
+    "created_at": "2025-10-15"
+  },
+  {
+    "id": "eu.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "name": "Claude Haiku 4.5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.1,
+          "output_per_million": 5.5,
+          "cache_read_input_per_million": 0.11,
+          "cache_write_input_per_million": 1.375
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-02-28",
+    "created_at": "2025-10-15"
+  },
+  {
+    "id": "global.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "name": "Claude Haiku 4.5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-02-28",
+    "created_at": "2025-10-15"
+  },
+  {
+    "id": "jp.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "name": "Claude Haiku 4.5 (JP)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-02-28",
+    "created_at": "2025-10-15"
+  },
+  {
+    "id": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "name": "Claude Haiku 4.5 (US)",
+    "provider": "bedrock",
+    "family": "claude-haiku",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 5,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-02-28",
+    "created_at": "2025-10-15"
+  },
+  {
+    "id": "anthropic.claude-opus-4-1-20250805-v1:0",
+    "name": "Claude Opus 4.1",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 32000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 15,
+          "output_per_million": 75,
+          "cache_read_input_per_million": 1.5,
+          "cache_write_input_per_million": 18.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "us.anthropic.claude-opus-4-1-20250805-v1:0",
+    "name": "Claude Opus 4.1 (US)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 32000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 15,
+          "output_per_million": 75,
+          "cache_read_input_per_million": 1.5,
+          "cache_write_input_per_million": 18.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "anthropic.claude-opus-4-5-20251101-v1:0",
+    "name": "Claude Opus 4.5",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-11-24"
+  },
+  {
+    "id": "eu.anthropic.claude-opus-4-5-20251101-v1:0",
+    "name": "Claude Opus 4.5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.5,
+          "output_per_million": 27.5,
+          "cache_read_input_per_million": 0.55,
+          "cache_write_input_per_million": 6.875
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-11-24"
+  },
+  {
+    "id": "global.anthropic.claude-opus-4-5-20251101-v1:0",
+    "name": "Claude Opus 4.5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-11-24"
+  },
+  {
+    "id": "us.anthropic.claude-opus-4-5-20251101-v1:0",
+    "name": "Claude Opus 4.5 (US)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-03-31",
+    "created_at": "2025-11-24"
+  },
+  {
+    "id": "anthropic.claude-opus-4-6-v1",
+    "name": "Claude Opus 4.6",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05-31",
+    "created_at": "2026-02-05"
+  },
+  {
+    "id": "eu.anthropic.claude-opus-4-6-v1",
+    "name": "Claude Opus 4.6 (EU)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.5,
+          "output_per_million": 27.5,
+          "cache_read_input_per_million": 0.55,
+          "cache_write_input_per_million": 6.875
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05-31",
+    "created_at": "2026-02-05"
+  },
+  {
+    "id": "global.anthropic.claude-opus-4-6-v1",
+    "name": "Claude Opus 4.6 (Global)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05-31",
+    "created_at": "2026-02-05"
+  },
+  {
+    "id": "us.anthropic.claude-opus-4-6-v1",
+    "name": "Claude Opus 4.6 (US)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-05-31",
+    "created_at": "2026-02-05"
+  },
+  {
+    "id": "anthropic.claude-opus-4-7",
+    "name": "Claude Opus 4.7",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-04-16"
+  },
+  {
+    "id": "eu.anthropic.claude-opus-4-7",
+    "name": "Claude Opus 4.7 (EU)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.5,
+          "output_per_million": 27.5,
+          "cache_read_input_per_million": 0.55,
+          "cache_write_input_per_million": 6.875
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-04-16"
+  },
+  {
+    "id": "global.anthropic.claude-opus-4-7",
+    "name": "Claude Opus 4.7 (Global)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-04-16"
+  },
+  {
+    "id": "jp.anthropic.claude-opus-4-7",
+    "name": "Claude Opus 4.7 (JP)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-04-16"
+  },
+  {
+    "id": "us.anthropic.claude-opus-4-7",
+    "name": "Claude Opus 4.7 (US)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-04-16"
+  },
+  {
+    "id": "anthropic.claude-opus-4-8",
+    "name": "Claude Opus 4.8",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "au.anthropic.claude-opus-4-8",
+    "name": "Claude Opus 4.8 (AU)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "eu.anthropic.claude-opus-4-8",
+    "name": "Claude Opus 4.8 (EU)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.5,
+          "output_per_million": 27.5,
+          "cache_read_input_per_million": 0.55,
+          "cache_write_input_per_million": 6.875
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "global.anthropic.claude-opus-4-8",
+    "name": "Claude Opus 4.8 (Global)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "jp.anthropic.claude-opus-4-8",
+    "name": "Claude Opus 4.8 (JP)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "us.anthropic.claude-opus-4-8",
+    "name": "Claude Opus 4.8 (US)",
+    "provider": "bedrock",
+    "family": "claude-opus",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 25,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01",
+    "created_at": "2026-05-28"
+  },
+  {
+    "id": "anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "name": "Claude Sonnet 4.5",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07-31",
+    "created_at": "2025-09-29"
+  },
+  {
+    "id": "au.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "name": "Claude Sonnet 4.5 (AU)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07-31",
+    "created_at": "2025-09-29"
+  },
+  {
+    "id": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "name": "Claude Sonnet 4.5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.3,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.33,
+          "cache_write_input_per_million": 4.125
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07-31",
+    "created_at": "2025-09-29"
+  },
+  {
+    "id": "global.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "name": "Claude Sonnet 4.5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07-31",
+    "created_at": "2025-09-29"
+  },
+  {
+    "id": "jp.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "name": "Claude Sonnet 4.5 (JP)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07-31",
+    "created_at": "2025-09-29"
+  },
+  {
+    "id": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "name": "Claude Sonnet 4.5 (US)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07-31",
+    "created_at": "2025-09-29"
+  },
+  {
+    "id": "anthropic.claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08-31",
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "eu.anthropic.claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6 (EU)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.3,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.33,
+          "cache_write_input_per_million": 4.125
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08-31",
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "global.anthropic.claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6 (Global)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08-31",
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "jp.anthropic.claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6 (JP)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08-31",
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "us.anthropic.claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6 (US)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 64000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08-31",
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "anthropic.claude-sonnet-5",
+    "name": "Claude Sonnet 5",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "au.anthropic.claude-sonnet-5",
+    "name": "Claude Sonnet 5 (AU)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "eu.anthropic.claude-sonnet-5",
+    "name": "Claude Sonnet 5 (EU)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.2,
+          "output_per_million": 11,
+          "cache_read_input_per_million": 0.22,
+          "cache_write_input_per_million": 2.75
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "global.anthropic.claude-sonnet-5",
+    "name": "Claude Sonnet 5 (Global)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "jp.anthropic.claude-sonnet-5",
+    "name": "Claude Sonnet 5 (JP)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "us.anthropic.claude-sonnet-5",
+    "name": "Claude Sonnet 5 (US)",
+    "provider": "bedrock",
+    "family": "claude-sonnet",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 10,
+          "cache_read_input_per_million": 0.2,
+          "cache_write_input_per_million": 2.5
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-01-31",
+    "created_at": "2026-06-30"
+  },
+  {
+    "id": "deepseek.r1-v1:0",
+    "name": "DeepSeek-R1",
+    "provider": "bedrock",
+    "family": "deepseek-thinking",
+    "context_window": 128000,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.35,
+          "output_per_million": 5.4
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-07",
+    "created_at": "2025-01-20"
+  },
+  {
+    "id": "us.deepseek.r1-v1:0",
+    "name": "DeepSeek-R1 (US)",
+    "provider": "bedrock",
+    "family": "deepseek-thinking",
+    "context_window": 128000,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.35,
+          "output_per_million": 5.4
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-07",
+    "created_at": "2025-01-20"
+  },
+  {
+    "id": "deepseek.v3-v1:0",
+    "name": "DeepSeek-V3.1",
+    "provider": "bedrock",
+    "family": "deepseek",
+    "context_window": 163840,
+    "max_output_tokens": 81920,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.58,
+          "output_per_million": 1.68
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-07",
+    "created_at": "2025-09-18"
+  },
+  {
+    "id": "deepseek.v3.2",
+    "name": "DeepSeek-V3.2",
+    "provider": "bedrock",
+    "family": "deepseek",
+    "context_window": 163840,
+    "max_output_tokens": 81920,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.62,
+          "output_per_million": 1.85
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-07",
+    "created_at": "2026-02-06"
+  },
+  {
+    "id": "mistral.devstral-2-123b",
+    "name": "Devstral 2 123B",
+    "provider": "bedrock",
+    "family": "devstral",
+    "context_window": 256000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.4,
+          "output_per_million": 2
+        }
+      }
+    },
+    "created_at": "2026-02-17"
+  },
+  {
+    "id": "zai.glm-4.7",
+    "name": "GLM-4.7",
+    "provider": "bedrock",
+    "family": "glm",
+    "context_window": 204800,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 2.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-04",
+    "created_at": "2025-12-22"
+  },
+  {
+    "id": "zai.glm-4.7-flash",
+    "name": "GLM-4.7-Flash",
+    "provider": "bedrock",
+    "family": "glm-flash",
+    "context_window": 200000,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.07,
+          "output_per_million": 0.4
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-04",
+    "created_at": "2026-01-19"
+  },
+  {
+    "id": "zai.glm-5",
+    "name": "GLM-5",
+    "provider": "bedrock",
+    "family": "glm",
+    "context_window": 202752,
+    "max_output_tokens": 101376,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 3.2
+        }
+      }
+    },
+    "created_at": "2026-03-18"
+  },
+  {
+    "id": "openai.gpt-oss-safeguard-120b",
+    "name": "GPT OSS Safeguard 120B",
+    "provider": "bedrock",
+    "family": "gpt-oss",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.6
+        }
+      }
+    },
+    "created_at": "2025-10-29"
+  },
+  {
+    "id": "openai.gpt-oss-safeguard-20b",
+    "name": "GPT OSS Safeguard 20B",
+    "provider": "bedrock",
+    "family": "gpt-oss",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.07,
+          "output_per_million": 0.2
+        }
+      }
+    },
+    "created_at": "2025-10-29"
+  },
+  {
+    "id": "openai.gpt-5.4",
+    "name": "GPT-5.4",
+    "provider": "bedrock",
+    "family": "gpt",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.75,
+          "output_per_million": 16.5,
+          "cache_read_input_per_million": 0.275
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-08-31",
+    "created_at": "2026-03-05"
+  },
+  {
+    "id": "openai.gpt-5.5",
+    "name": "GPT-5.5",
+    "provider": "bedrock",
+    "family": "gpt",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.5,
+          "output_per_million": 33,
+          "cache_read_input_per_million": 0.55
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-12-01",
+    "created_at": "2026-04-23"
+  },
+  {
+    "id": "openai.gpt-5.6-luna",
+    "name": "GPT-5.6 Luna",
+    "provider": "bedrock",
+    "family": "gpt-luna",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 6,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-02-16",
+    "created_at": "2026-07-09"
+  },
+  {
+    "id": "openai.gpt-5.6-sol",
+    "name": "GPT-5.6 Sol",
+    "provider": "bedrock",
+    "family": "gpt-sol",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5,
+          "output_per_million": 30,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-02-16",
+    "created_at": "2026-07-09"
+  },
+  {
+    "id": "openai.gpt-5.6-terra",
+    "name": "GPT-5.6 Terra",
+    "provider": "bedrock",
+    "family": "gpt-terra",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "pdf"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.5,
+          "output_per_million": 15,
+          "cache_read_input_per_million": 0.25,
+          "cache_write_input_per_million": 3.125
+        }
+      }
+    },
+    "knowledge_cutoff": "2026-02-16",
+    "created_at": "2026-07-09"
+  },
+  {
+    "id": "google.gemma-3-4b-it",
+    "name": "Gemma 3 4B IT",
+    "provider": "bedrock",
+    "family": "gemma",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.04,
+          "output_per_million": 0.08
+        }
+      }
+    },
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "google.gemma-3-12b-it",
+    "name": "Google Gemma 3 12B",
+    "provider": "bedrock",
+    "family": "gemma",
+    "context_window": 131072,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.049999999999999996,
+          "output_per_million": 0.09999999999999999
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-12",
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "google.gemma-3-27b-it",
+    "name": "Google Gemma 3 27B Instruct",
+    "provider": "bedrock",
+    "family": "gemma",
+    "context_window": 202752,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.12,
+          "output_per_million": 0.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-07",
+    "created_at": "2025-07-27"
+  },
+  {
+    "id": "xai.grok-4.3",
+    "name": "Grok 4.3",
+    "provider": "bedrock",
+    "family": "grok",
+    "context_window": 1000000,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.25,
+          "output_per_million": 2.5,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "created_at": "2026-04-17"
+  },
+  {
+    "id": "moonshot.kimi-k2-thinking",
+    "name": "Kimi K2 Thinking",
+    "provider": "bedrock",
+    "family": "kimi-thinking",
+    "context_window": 262143,
+    "max_output_tokens": 16000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 2.5
+        }
+      }
+    },
+    "created_at": "2025-12-02"
+  },
+  {
+    "id": "moonshotai.kimi-k2.5",
+    "name": "Kimi K2.5",
+    "provider": "bedrock",
+    "family": "kimi",
+    "context_window": 262143,
+    "max_output_tokens": 16000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 3
+        }
+      }
+    },
+    "created_at": "2026-02-06"
+  },
+  {
+    "id": "meta.llama3-1-70b-instruct-v1:0",
+    "name": "Llama 3.1 70B Instruct",
+    "provider": "bedrock",
+    "family": "llama",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.72,
+          "output_per_million": 0.72
+        }
+      }
+    },
+    "knowledge_cutoff": "2023-12",
+    "created_at": "2024-07-23"
+  },
+  {
+    "id": "meta.llama3-1-8b-instruct-v1:0",
+    "name": "Llama 3.1 8B Instruct",
+    "provider": "bedrock",
+    "family": "llama",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.22,
+          "output_per_million": 0.22
+        }
+      }
+    },
+    "knowledge_cutoff": "2023-12",
+    "created_at": "2024-07-23"
+  },
+  {
+    "id": "meta.llama3-3-70b-instruct-v1:0",
+    "name": "Llama 3.3 70B Instruct",
+    "provider": "bedrock",
+    "family": "llama",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.72,
+          "output_per_million": 0.72
+        }
+      }
+    },
+    "knowledge_cutoff": "2023-12",
+    "created_at": "2024-12-06"
+  },
+  {
+    "id": "meta.llama4-maverick-17b-instruct-v1:0",
+    "name": "Llama 4 Maverick 17B Instruct",
+    "provider": "bedrock",
+    "family": "llama",
+    "context_window": 1000000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.24,
+          "output_per_million": 0.97
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-08",
+    "created_at": "2025-04-05"
+  },
+  {
+    "id": "us.meta.llama4-maverick-17b-instruct-v1:0",
+    "name": "Llama 4 Maverick 17B Instruct (US)",
+    "provider": "bedrock",
+    "family": "llama",
+    "context_window": 1000000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.24,
+          "output_per_million": 0.97
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-08",
+    "created_at": "2025-04-05"
+  },
+  {
+    "id": "meta.llama4-scout-17b-instruct-v1:0",
+    "name": "Llama 4 Scout 17B Instruct",
+    "provider": "bedrock",
+    "family": "llama",
+    "context_window": 3500000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.17,
+          "output_per_million": 0.66
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-08",
+    "created_at": "2025-04-05"
+  },
+  {
+    "id": "us.meta.llama4-scout-17b-instruct-v1:0",
+    "name": "Llama 4 Scout 17B Instruct (US)",
+    "provider": "bedrock",
+    "family": "llama",
+    "context_window": 3500000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.17,
+          "output_per_million": 0.66
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-08",
+    "created_at": "2025-04-05"
+  },
+  {
+    "id": "mistral.magistral-small-2509",
+    "name": "Magistral Small 1.2",
+    "provider": "bedrock",
+    "family": "magistral",
+    "context_window": 128000,
+    "max_output_tokens": 40000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 1.5
+        }
+      }
+    },
+    "created_at": "2025-12-02"
+  },
+  {
+    "id": "minimax.minimax-m2",
+    "name": "MiniMax M2",
+    "provider": "bedrock",
+    "family": "minimax",
+    "context_window": 204608,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 1.2
+        }
+      }
+    },
+    "created_at": "2025-10-27"
+  },
+  {
+    "id": "minimax.minimax-m2.1",
+    "name": "MiniMax M2.1",
+    "provider": "bedrock",
+    "family": "minimax",
+    "context_window": 204800,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 1.2
+        }
+      }
+    },
+    "created_at": "2025-12-23"
+  },
+  {
+    "id": "minimax.minimax-m2.5",
+    "name": "MiniMax M2.5",
+    "provider": "bedrock",
+    "family": "minimax",
+    "context_window": 196608,
+    "max_output_tokens": 98304,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 1.2
+        }
+      }
+    },
+    "created_at": "2026-03-18"
+  },
+  {
+    "id": "mistral.ministral-3-14b-instruct",
+    "name": "Ministral 14B 3.0",
+    "provider": "bedrock",
+    "family": "ministral",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.2,
+          "output_per_million": 0.2
+        }
+      }
+    },
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "mistral.ministral-3-3b-instruct",
+    "name": "Ministral 3 3B",
+    "provider": "bedrock",
+    "family": "ministral",
+    "context_window": 256000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.1
+        }
+      }
+    },
+    "created_at": "2025-12-02"
+  },
+  {
+    "id": "mistral.ministral-3-8b-instruct",
+    "name": "Ministral 3 8B",
+    "provider": "bedrock",
+    "family": "ministral",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.15
+        }
+      }
+    },
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "mistral.mistral-large-3-675b-instruct",
+    "name": "Mistral Large 3",
+    "provider": "bedrock",
+    "family": "mistral",
+    "context_window": 256000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.5,
+          "output_per_million": 1.5
+        }
+      }
+    },
+    "created_at": "2025-12-02"
+  },
+  {
+    "id": "nvidia.nemotron-super-3-120b",
+    "name": "NVIDIA Nemotron 3 Super 120B A12B",
+    "provider": "bedrock",
+    "family": "nemotron",
+    "context_window": 262144,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.65
+        }
+      }
+    },
+    "created_at": "2026-03-11"
+  },
+  {
+    "id": "nvidia.nemotron-nano-12b-v2",
+    "name": "NVIDIA Nemotron Nano 12B v2 VL BF16",
+    "provider": "bedrock",
+    "family": "nemotron",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.2,
+          "output_per_million": 0.6
+        }
+      }
+    },
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "nvidia.nemotron-nano-3-30b",
+    "name": "NVIDIA Nemotron Nano 3 30B",
+    "provider": "bedrock",
+    "family": "nemotron",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.06,
+          "output_per_million": 0.24
+        }
+      }
+    },
+    "created_at": "2025-12-23"
+  },
+  {
+    "id": "nvidia.nemotron-nano-9b-v2",
+    "name": "NVIDIA Nemotron Nano 9B v2",
+    "provider": "bedrock",
+    "family": "nemotron",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.06,
+          "output_per_million": 0.23
+        }
+      }
+    },
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "amazon.nova-2-lite-v1:0",
+    "name": "Nova 2 Lite",
+    "provider": "bedrock",
+    "family": "nova",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.33,
+          "output_per_million": 2.75
+        }
+      }
+    },
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "amazon.nova-lite-v1:0",
+    "name": "Nova Lite",
+    "provider": "bedrock",
+    "family": "nova-lite",
+    "context_window": 300000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.06,
+          "output_per_million": 0.24,
+          "cache_read_input_per_million": 0.015
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-10",
+    "created_at": "2024-12-03"
+  },
+  {
+    "id": "amazon.nova-micro-v1:0",
+    "name": "Nova Micro",
+    "provider": "bedrock",
+    "family": "nova-micro",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.035,
+          "output_per_million": 0.14,
+          "cache_read_input_per_million": 0.00875
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-10",
+    "created_at": "2024-12-03"
+  },
+  {
+    "id": "amazon.nova-pro-v1:0",
+    "name": "Nova Pro",
+    "provider": "bedrock",
+    "family": "nova-pro",
+    "context_window": 300000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.8,
+          "output_per_million": 3.2,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-10",
+    "created_at": "2024-12-03"
+  },
+  {
+    "id": "writer.palmyra-x4-v1:0",
+    "name": "Palmyra X4",
+    "provider": "bedrock",
+    "family": "palmyra",
+    "context_window": 122880,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.5,
+          "output_per_million": 10
+        }
+      }
+    },
+    "created_at": "2025-04-28"
+  },
+  {
+    "id": "writer.palmyra-x5-v1:0",
+    "name": "Palmyra X5",
+    "provider": "bedrock",
+    "family": "palmyra",
+    "context_window": 1040000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 6
+        }
+      }
+    },
+    "created_at": "2025-04-28"
+  },
+  {
+    "id": "mistral.pixtral-large-2502-v1:0",
+    "name": "Pixtral Large (25.02)",
+    "provider": "bedrock",
+    "family": "mistral",
+    "context_window": 128000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 6
+        }
+      }
+    },
+    "created_at": "2025-04-08"
+  },
+  {
+    "id": "qwen.qwen3-next-80b-a3b",
+    "name": "Qwen/Qwen3-Next-80B-A3B-Instruct",
+    "provider": "bedrock",
+    "family": "qwen",
+    "context_window": 262000,
+    "max_output_tokens": 262000,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.14,
+          "output_per_million": 1.4
+        }
+      }
+    },
+    "created_at": "2025-09-18"
+  },
+  {
+    "id": "qwen.qwen3-vl-235b-a22b",
+    "name": "Qwen/Qwen3-VL-235B-A22B-Instruct",
+    "provider": "bedrock",
+    "family": "qwen",
+    "context_window": 262000,
+    "max_output_tokens": 262000,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 1.5
+        }
+      }
+    },
+    "created_at": "2025-10-04"
+  },
+  {
+    "id": "qwen.qwen3-235b-a22b-2507-v1:0",
+    "name": "Qwen3 235B A22B 2507",
+    "provider": "bedrock",
+    "family": "qwen",
+    "context_window": 262144,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.22,
+          "output_per_million": 0.88
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-04",
+    "created_at": "2025-09-18"
+  },
+  {
+    "id": "qwen.qwen3-32b-v1:0",
+    "name": "Qwen3 32B (dense)",
+    "provider": "bedrock",
+    "family": "qwen",
+    "context_window": 16384,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.6
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-04",
+    "created_at": "2025-09-18"
+  },
+  {
+    "id": "qwen.qwen3-coder-30b-a3b-v1:0",
+    "name": "Qwen3 Coder 30B A3B Instruct",
+    "provider": "bedrock",
+    "family": "qwen",
+    "context_window": 262144,
+    "max_output_tokens": 131072,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.6
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-04",
+    "created_at": "2025-09-18"
+  },
+  {
+    "id": "qwen.qwen3-coder-480b-a35b-v1:0",
+    "name": "Qwen3 Coder 480B A35B Instruct",
+    "provider": "bedrock",
+    "family": "qwen",
+    "context_window": 131072,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.22,
+          "output_per_million": 1.8
+        }
+      }
+    },
+    "knowledge_cutoff": "2024-04",
+    "created_at": "2025-09-18"
+  },
+  {
+    "id": "qwen.qwen3-coder-next",
+    "name": "Qwen3 Coder Next",
+    "provider": "bedrock",
+    "family": "qwen",
+    "context_window": 131072,
+    "max_output_tokens": 65536,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.22,
+          "output_per_million": 1.8
+        }
+      }
+    },
+    "created_at": "2026-02-06"
+  },
+  {
+    "id": "mistral.voxtral-mini-3b-2507",
+    "name": "Voxtral Mini 3B 2507",
+    "provider": "bedrock",
+    "family": "mistral",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "audio",
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.04,
+          "output_per_million": 0.04
+        }
+      }
+    },
+    "created_at": "2024-12-01"
+  },
+  {
+    "id": "mistral.voxtral-small-24b-2507",
+    "name": "Voxtral Small 24B 2507",
+    "provider": "bedrock",
+    "family": "mistral",
+    "context_window": 32000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "function_calling",
+      "structured_output"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "audio"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.35
+        }
+      }
+    },
+    "created_at": "2025-07-01"
+  },
+  {
+    "id": "openai.gpt-oss-120b",
+    "name": "gpt-oss-120b",
+    "provider": "bedrock",
+    "family": "gpt-oss",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.6
+        }
+      }
+    },
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "openai.gpt-oss-120b-1:0",
+    "name": "gpt-oss-120b",
+    "provider": "bedrock",
+    "family": "gpt-oss",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.6
+        }
+      }
+    },
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "openai.gpt-oss-20b",
+    "name": "gpt-oss-20b",
+    "provider": "bedrock",
+    "family": "gpt-oss",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.07,
+          "output_per_million": 0.3
+        }
+      }
+    },
+    "created_at": "2025-08-05"
+  },
+  {
+    "id": "openai.gpt-oss-20b-1:0",
+    "name": "gpt-oss-20b",
+    "provider": "bedrock",
+    "family": "gpt-oss",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [
+      "function_calling",
+      "structured_output",
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.07,
+          "output_per_million": 0.3
+        }
+      }
+    },
+    "created_at": "2025-08-05"
+  }
+]

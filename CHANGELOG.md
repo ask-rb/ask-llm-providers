@@ -1,3 +1,21 @@
+## [0.7.0] — 2026-07-17
+
+### Added
+
+- **`Ask::LLM::Sources::ModelsDev`** — fetches model data from `models.dev` API and writes enriched per-provider JSON files with pricing, capabilities, and modalities. Run `rake models:update` before each release to keep bundled model data current.
+- **`Ask::LLM::CostCalculator`** — calculates LLM API costs from model pricing data. Supports input, output, cache read/write, and reasoning tokens.
+
+### Changed
+
+- **Model coverage expanded** — from 62 to 289 models across 10 providers, with 284 (98%) having full pricing data. Generated from models.dev API instead of hand-written.
+- **`build_model_info` now deep-symbolizes pricing keys** — pricing hashes loaded from JSON now use symbol keys (`:text_tokens`, `:standard`, `:input_per_million`) matching the format produced by `ModelsDevParser` in ask-core.
+- **`build_model_info` handles date parsing safely** — `Date.parse` failures no longer silently destroy the entire model entry via a broad `rescue Date::Error`. Invalid dates are gracefully set to `nil` via `safe_parse_date`.
+
+### Fixed
+
+- **Pricing data loss bug** — `rescue Date::Error` in `build_model_info` was catching exceptions from the entire method body, including date parsing and pricing construction. When any model had an unparseable date, its ModelInfo was created with only `id` and `provider`, silently discarding pricing, capabilities, modalities, and all other fields.
+- **Pricing key inconsistency** — pricing loaded from JSON had string keys while pricing from `ModelsDevParser` (ask-core) had symbol keys. Both formats now consistently use symbol keys.
+
 ## [0.6.1] — 2026-07-17
 
 ### Added

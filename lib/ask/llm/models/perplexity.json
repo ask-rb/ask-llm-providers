@@ -1,0 +1,119 @@
+[
+  {
+    "id": "sonar-deep-research",
+    "name": "Perplexity Sonar Deep Research",
+    "provider": "perplexity",
+    "context_window": 128000,
+    "max_output_tokens": 32768,
+    "capabilities": [
+      "reasoning"
+    ],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 8,
+          "reasoning_output_per_million": 3
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-01",
+    "created_at": "2025-02-01"
+  },
+  {
+    "id": "sonar",
+    "name": "Sonar",
+    "provider": "perplexity",
+    "family": "sonar",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1,
+          "output_per_million": 1
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-09-01",
+    "created_at": "2024-01-01"
+  },
+  {
+    "id": "sonar-pro",
+    "name": "Sonar Pro",
+    "provider": "perplexity",
+    "family": "sonar-pro",
+    "context_window": 200000,
+    "max_output_tokens": 8192,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3,
+          "output_per_million": 15
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-09-01",
+    "created_at": "2024-01-01"
+  },
+  {
+    "id": "sonar-reasoning-pro",
+    "name": "Sonar Reasoning Pro",
+    "provider": "perplexity",
+    "family": "sonar-reasoning",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "reasoning",
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2,
+          "output_per_million": 8
+        }
+      }
+    },
+    "knowledge_cutoff": "2025-09-01",
+    "created_at": "2024-01-01"
+  }
+]

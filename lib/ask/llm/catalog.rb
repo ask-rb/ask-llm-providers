@@ -35,6 +35,8 @@ module Ask
           true
         end
 
+
+
         # Like load! but also fetches model lists from configured providers'
         # list_models() APIs. Unknown models are added with minimal metadata.
         def refresh!
@@ -112,9 +114,12 @@ module Ask
       # Register all accumulated entries into Ask::ModelCatalog.
       # Also registers alias entries so models can be found by alias name.
       def register_all
+        catalog = Ask::ModelCatalog.instance
+        catalog.instance_variable_set(:@models, [])
+
         @entries.each do |entry|
           info = build_model_info(entry)
-          Ask::ModelCatalog.instance.register(info)
+          catalog.register(info)
         end
 
         register_alias_entries
@@ -140,6 +145,13 @@ module Ask
 
       def symbolize_keys(hash)
         hash.transform_keys { |k| k.respond_to?(:to_sym) ? k.to_sym : k }
+      end
+
+      def deep_symbolize_keys(hash)
+        hash.each_with_object({}) { |(k, v), h|
+          hk = k.respond_to?(:to_sym) ? k.to_sym : k
+          h[hk] = v.is_a?(Hash) ? deep_symbolize_keys(v) : v
+        }
       end
 
       def add_entry(entry)
@@ -170,8 +182,16 @@ module Ask
 
       def build_model_info(entry)
         e = entry.transform_keys(&:to_sym)
-        modalities = e[:modalities]
-        modalities = symbolize_keys(modalities) if modalities
+
+        modalities = symbolize_keys(e[:modalities]) if e[:modalities]
+
+        pricing = {}
+        if e[:pricing] && e[:pricing].any?
+          deep_symbolize_keys(e[:pricing]).each { |k, v| pricing[k] = v }
+        end
+
+        knowledge_cutoff = safe_parse_date(e[:knowledge_cutoff])
+        created_at = safe_parse_date(e[:created_at])
 
         Ask::ModelInfo.new(
           id: e[:id],
@@ -182,13 +202,19 @@ module Ask
           context_window: e[:context_window],
           max_output_tokens: e[:max_output_tokens],
           modalities: modalities || { input: %w[text], output: %w[text] },
-          pricing: e[:pricing] || {},
-          knowledge_cutoff: e[:knowledge_cutoff] ? Date.parse(e[:knowledge_cutoff].to_s) : nil,
-          created_at: e[:created_at] ? Date.parse(e[:created_at].to_s) : nil,
+          pricing: pricing,
+          knowledge_cutoff: knowledge_cutoff,
+          created_at: created_at,
           metadata: (e[:metadata] || {}).merge(source: e[:metadata]&.dig("source") || "bundled")
         )
-      rescue Date::Error
-        Ask::ModelInfo.new(id: e[:id], provider: e[:provider])
+      end
+
+      def safe_parse_date(value)
+        return nil if value.nil?
+        return value if value.is_a?(Date)
+        Date.parse(value.to_s)
+      rescue ArgumentError
+        nil
       end
     end
   end
