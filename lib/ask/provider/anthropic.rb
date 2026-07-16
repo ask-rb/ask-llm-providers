@@ -5,6 +5,8 @@ module Ask
     # Anthropic Claude API provider.
     class Anthropic < Ask::Provider
       include Ask::LLM::SSEBuffer
+      include Ask::LLM::ProviderConfig
+
       def initialize(config = {})
         config = normalize_config(config)
         super(config)
@@ -25,7 +27,7 @@ module Ask
 
       def chat(messages, model:, tools: nil, temperature: nil, stream: nil, schema: nil, **params, &block)
         msgs = messages.is_a?(Ask::Conversation) ? messages.to_a : messages
-        payload = build_chat_payload(msgs, model, tools, temperature, stream, schema, **params)
+        payload = build_request(msgs, model:, tools:, temperature:, stream:, schema:, **params)
         if stream
           chat_stream(payload, model, &block)
         else
@@ -40,6 +42,7 @@ module Ask
       def list_models
         response = @http.get("v1/models")
         return [] unless response.success?
+
         response.body["data"].map { |m| Ask::ModelInfo.new(id: m["id"], provider: slug) }
       end
 
@@ -49,109 +52,37 @@ module Ask
       end
 
       class << self
+        def slug; "anthropic"; end
+
         def capabilities
-          { chat: true, streaming: true, tool_calls: true, vision: true, thinking: true, prompt_caching: true, structured_output: true }
+          {
+            chat: true, streaming: true, tool_calls: true, vision: true,
+            thinking: true, prompt_caching: true, structured_output: true
+          }
         end
+
         def configuration_options; %i[api_key api_base]; end
         def configuration_requirements; %i[api_key]; end
-        def slug; "anthropic"; end
       end
 
-      private
+      # --- Config transformation contract ---
 
-      def normalize_config(config)
-        return config unless config.is_a?(Hash)
-        Ask::LLM::Config.new(
-          api_key: config[:api_key] || config["api_key"] || config[:anthropic_api_key],
-          api_base: config[:api_base] || config["api_base"]
-        )
-      end
-
-      def build_http
-        LLM::HTTP.connection(api_base, headers: headers, request: { open_timeout: 30, timeout: 120 })
-      end
-
-      def build_chat_payload(messages, model, tools, temperature, stream, schema, **params)
+      def build_request(messages, model:, tools: nil, temperature: nil, stream: nil, schema: nil, **params)
         system_msgs, chat_msgs = messages.partition { |m| (m[:role] || m["role"]).to_s == "system" }
         system_content = format_system_content(system_msgs)
-        tools_array = format_tools(tools) if tools&.any?
 
         payload = {
-          model: model,
+          model:,
           messages: chat_msgs.map { |m| format_message(m) },
           max_tokens: params.delete(:max_tokens) || 4096,
           stream: stream || false
         }
 
         payload[:system] = system_content if system_content
-        payload[:tools] = tools_array if tools_array
+        tool_defs = format_tools(tools) if tools&.any?
+        payload[:tools] = tool_defs if tool_defs
         payload[:temperature] = temperature if temperature
         payload.merge(params)
-      end
-
-      def format_system_content(messages)
-        return nil if messages.empty?
-        texts = messages.map { |m| m[:content] || m["content"] }.compact
-        return nil if texts.empty?
-        texts.join("\n")
-      end
-
-      def format_message(msg)
-        role = (msg[:role] || msg["role"]).to_s
-        content = msg[:content] || msg["content"]
-
-        # Handle tool calls
-        if msg[:tool_calls] || msg["tool_calls"]
-          tc = msg[:tool_calls] || msg["tool_calls"]
-          return {
-            role: role,
-            content: content,
-            tool_calls: tc.map { |t|
-              {
-                type: "tool_use",
-                id: t[:id] || t["id"],
-                name: t.dig(:function, :name) || t.dig("function", "name") || t[:name],
-                input: parse_json(t.dig(:function, :arguments) || t.dig("function", "arguments") || t[:arguments] || "{}")
-              }
-            }.compact
-          }.compact
-        end
-
-        # Handle tool results
-        if msg[:tool_call_id] || msg["tool_call_id"]
-          return {
-            role: "user",
-            content: [{
-              type: "tool_result",
-              tool_use_id: msg[:tool_call_id] || msg["tool_call_id"],
-              content: content || ""
-            }]
-          }
-        end
-
-        { role: role, content: content }.compact
-      end
-
-      def parse_json(str)
-        JSON.parse(str)
-      rescue JSON::ParserError
-        {}
-      end
-
-      def format_tools(tools)
-        tools.map do |t|
-          {
-            name: t.respond_to?(:name) ? t.name : t[:name],
-            description: t.respond_to?(:description) ? t.description : t[:description],
-            input_schema: t.respond_to?(:parameters) ? t.parameters : (t[:parameters] || { type: "object", properties: {} })
-          }
-        end
-      end
-
-      def chat_nonstream(payload, model)
-        response = @http.post("v1/messages") { |r| r.body = payload }
-        raise LLM::HTTP.map_error(response.status, response.body, provider: "Anthropic") unless response.success?
-        parse_response(response.body, model)
       end
 
       def parse_response(body, model)
@@ -175,22 +106,11 @@ module Ask
           raw: body
         }.compact
 
-        Ask::Message.new(role: :assistant, content: text_content.empty? ? nil : text_content, tool_calls: tool_calls.empty? ? nil : tool_calls, metadata: metadata)
+        text = text_content.empty? ? nil : text_content
+        Ask::Message.new(role: :assistant, content: text, tool_calls: tool_calls.empty? ? nil : tool_calls, metadata:)
       end
 
-      def chat_stream(payload, model, &block)
-        stream = Ask::Stream.new
-        init_sse_buffer
-        response = @http.post("v1/messages") do |req|
-          req.body = payload.merge(stream: true)
-          req.options.on_data = proc { |data, _bytes, _env| process_anthropic_chunk(data, stream, model, &block) }
-        end
-        raise LLM::HTTP.map_error(response.status, JSON.parse(response.body), provider: "Anthropic") unless response.success?
-        stream.finish!
-        stream
-      end
-
-      def process_anthropic_chunk(raw, stream, model)
+      def parse_stream(raw, stream, model, &block)
         each_sse_event(raw) do |data|
           parsed = JSON.parse(data) rescue next
 
@@ -198,19 +118,115 @@ module Ask
           when "content_block_delta"
             delta = parsed.dig("delta")
             next unless delta
+
             chunk = Ask::Chunk.new(content: delta["text"])
             stream.add(chunk)
             yield chunk if block_given?
           when "message_stop"
             usage = parsed["usage"] || parsed["message"]&.dig("usage")
             if usage
-              chunk = Ask::Chunk.new(finish_reason: "stop", usage: usage)
+              chunk = Ask::Chunk.new(finish_reason: "stop", usage:)
               stream.add(chunk)
               yield chunk if block_given?
             end
           when "message_start"
+            # Handled by content_block_start instead
           end
         end
+      end
+
+      def format_tools(tools)
+        tools.map do |t|
+          {
+            name: t.respond_to?(:name) ? t.name : t[:name],
+            description: t.respond_to?(:description) ? t.description : t[:description],
+            input_schema: t.respond_to?(:parameters) ? t.parameters : (t[:parameters] || { type: "object", properties: {} })
+          }
+        end
+      end
+
+      def format_message(msg)
+        role = (msg[:role] || msg["role"]).to_s
+        content = msg[:content] || msg["content"]
+
+        if msg[:tool_calls] || msg["tool_calls"]
+          tc = msg[:tool_calls] || msg["tool_calls"]
+          return {
+            role:,
+            content:,
+            tool_calls: tc.map { |t|
+              {
+                type: "tool_use",
+                id: t[:id] || t["id"],
+                name: t.dig(:function, :name) || t.dig("function", "name") || t[:name],
+                input: parse_json(t.dig(:function, :arguments) || t.dig("function", "arguments") || t[:arguments] || "{}")
+              }
+            }.compact
+          }.compact
+        end
+
+        if msg[:tool_call_id] || msg["tool_call_id"]
+          return {
+            role: "user",
+            content: [{
+              type: "tool_result",
+              tool_use_id: msg[:tool_call_id] || msg["tool_call_id"],
+              content: content || ""
+            }]
+          }
+        end
+
+        { role:, content: }.compact
+      end
+
+      private
+
+      def normalize_config(config)
+        return config unless config.is_a?(Hash)
+
+        Ask::LLM::Config.new(
+          api_key: config[:api_key] || config["api_key"] || config[:anthropic_api_key],
+          api_base: config[:api_base] || config["api_base"]
+        )
+      end
+
+      def build_http
+        LLM::HTTP.connection(api_base, headers:, request: { open_timeout: 30, timeout: 120 })
+      end
+
+      def format_system_content(messages)
+        return nil if messages.empty?
+
+        texts = messages.map { |m| m[:content] || m["content"] }.compact
+        return nil if texts.empty?
+
+        texts.join("\n")
+      end
+
+      def parse_json(str)
+        JSON.parse(str)
+      rescue JSON::ParserError
+        {}
+      end
+
+      def chat_nonstream(payload, model)
+        response = @http.post("v1/messages") { |r| r.body = payload }
+        raise LLM::HTTP.map_error(response.status, response.body, provider: "Anthropic") unless response.success?
+
+        parse_response(response.body, model)
+      end
+
+      def chat_stream(payload, model, &block)
+        stream = Ask::Stream.new
+        init_sse_buffer
+        response = @http.post("v1/messages") do |req|
+          req.body = payload.merge(stream: true)
+          req.options.on_data = proc { |data, _bytes, _env| parse_stream(data, stream, model, &block) }
+        end
+        raise LLM::HTTP.map_error(response.status, JSON.parse(response.body), provider: "Anthropic") unless response.success?
+
+        stream.finish!
+        stream
       end
     end
   end

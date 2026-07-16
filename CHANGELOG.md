@@ -1,3 +1,20 @@
+## [0.4.0] — 2026-07-16
+
+### Added
+
+- **`Ask::LLM::ProviderConfig` transformation contract** — Shared module that every provider includes, defining the wire-format interface: `build_request`, `parse_response`, `parse_stream`, `format_tools`, `format_message`. Adding a new provider is now mechanical — implement five methods and the provider works. (Inspired by LiteLLM's `BaseConfig` pattern.)
+- **`BaseProviderTests` shared test module** — Every provider test includes this module, which enforces 22 contract tests (interface methods, slug, capabilities, config, request building, error mapping) inherited from LiteLLM's `BaseLLMChatTest` approach. Adding a new provider gives you 22 tests for free.
+- **Comprehensive per-provider tests** — Each provider now has dedicated tests for `build_request`, `parse_response`, `parse_stream`, `format_message`, `format_tools`, `parse_error`, and streaming — covering happy paths, edge cases, and error conditions. Total test count: 341 (up from ~33 in v0.1.0).
+
+### Changed
+
+- **Provider refactoring** — OpenAI, Anthropic, Google, Bedrock, Ollama, Cloudflare, and Mistral providers now include `Ask::LLM::ProviderConfig` and implement its transformation contract. The `chat` method in each is a clean orchestrator: build request → HTTP → parse response. Internal methods (`build_chat_payload`, `process_chunk`, etc.) are renamed to the contract standard.
+- **Subclass compatibility** — DeepSeek, OpenRouter, OpenCode, OpenCodeGo, and Mimo (all OpenAI subclasses) inherit the transformation contract unchanged. Their `format_messages` overrides continue to work through `build_request`.
+
+### Removed
+
+- **Dead files** — Removed `lib/ask/provider/config.rb` (moved to `lib/ask/llm/provider_config.rb` to avoid namespace collision with `Ask::Provider` class).
+
 ## [0.3.1] — 2026-07-14
 
 ### Removed

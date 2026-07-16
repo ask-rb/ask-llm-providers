@@ -13,3 +13,6 @@ require "mocha/minitest"
 require "json"
 
 require "ask-llm-providers"
+
+# Provider test contract
+require_relative "support/base_provider_test_support"

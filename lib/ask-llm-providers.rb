@@ -14,6 +14,9 @@ require_relative "ask/llm/sse_buffer"
 require_relative "ask/llm/catalog"
 require_relative "ask/llm/aliases"
 
+# Provider transformation contract
+require_relative "ask/llm/provider_config"
+
 # Load providers
 require_relative "ask/provider/openai"
 require_relative "ask/provider/anthropic"

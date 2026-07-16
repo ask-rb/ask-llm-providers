@@ -3,9 +3,20 @@
 require_relative "../test_helper"
 
 class GoogleProviderTest < Minitest::Test
-  def setup
-    @provider = Ask::Providers::Google.new(api_key: "google-test-key")
+  include BaseProviderTests
+  def provider_class
+    Ask::Providers::Google
   end
+
+  def provider_config
+    { api_key: "google-test-key" }
+  end
+
+  def test_model
+    "gemini-2.0-flash"
+  end
+
+  # --- Headers ---
 
   def test_headers
     h = @provider.headers
@@ -16,44 +27,110 @@ class GoogleProviderTest < Minitest::Test
     assert_equal "https://generativelanguage.googleapis.com/v1beta", @provider.api_base
   end
 
-  def test_capabilities
-    caps = Ask::Providers::Google.capabilities
-    assert caps[:chat]; assert caps[:streaming]; assert caps[:tool_calls]; assert caps[:vision]
-  end
-
-  def test_slug
-    assert_equal "gemini", Ask::Providers::Google.slug
-  end
-
-  def test_configuration_options
-    opts = Ask::Providers::Google.configuration_options
-    assert_includes opts, :api_key
-  end
-
-  def test_chat_payload_builds
-    messages = [{ role: "user", content: "Hello" }]
-    payload = @provider.send(:build_chat_payload, messages, "gemini-2.0-flash", nil, nil, false, nil)
-    assert payload[:contents]
-  end
-
-  def test_chat_path
-    path = @provider.send(:chat_path, "gemini-2.0-flash")
-    assert_includes path, "gemini-2.0-flash"
-  end
+  # --- Response parsing ---
 
   def test_parse_response
-    body = { "candidates" => [{ "content" => { "parts" => [{ "text" => "Hello from Gemini" }] }, "finishReason" => "STOP" }],
-             "usageMetadata" => { "promptTokenCount" => 10, "candidatesTokenCount" => 20 } }
-    msg = @provider.send(:parse_response, body, "gemini-2.0-flash")
+    body = { "candidates" => [{
+      "content" => { "parts" => [{ "text" => "Hello from Gemini" }] },
+      "finishReason" => "STOP"
+    }], "usageMetadata" => { "promptTokenCount" => 10, "candidatesTokenCount" => 20 } }
+    msg = @provider.parse_response(body, test_model)
     assert_equal :assistant, msg.role
     assert_equal "Hello from Gemini", msg.content
   end
 
-  def test_format_content
-    formatted = @provider.send(:format_content, { role: :user, content: "Hello" })
+  def test_parse_response_with_tool_calls
+    body = { "candidates" => [{
+      "content" => {
+        "parts" => [
+          { "text" => "Let me check" },
+          { "functionCall" => { "name" => "get_weather", "args" => { "location" => "NYC" } } }
+        ]
+      },
+      "finishReason" => "STOP"
+    }] }
+    msg = @provider.parse_response(body, test_model)
+    assert msg.tool_call?
+    assert_equal 1, msg.tool_calls.length
+    assert_equal "get_weather", msg.tool_calls.first[:name]
+  end
+
+  def test_parse_response_nil
+    body = {}
+    msg = @provider.parse_response(body, test_model)
+    assert_equal :assistant, msg.role
+    assert_nil msg.content
+  end
+
+  # --- Request building ---
+
+  def test_build_request_contents
+    payload = @provider.build_request([{ role: "user", content: "Hello" }], model: test_model)
+    assert payload[:contents]
+    assert_equal 1, payload[:contents].length
+  end
+
+  def test_build_request_system_instruction
+    payload = @provider.build_request(
+      [{ role: "system", content: "Be helpful." }, { role: "user", content: "Hi" }],
+      model: test_model
+    )
+    assert payload[:systemInstruction]
+    assert payload[:systemInstruction][:parts]
+  end
+
+  # --- Streaming ---
+
+  def test_parse_stream
+    stream = Ask::Stream.new
+    data = "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"Hello\"}],\"role\":\"model\"}}]}\n\n"
+    @provider.parse_stream(data, stream, test_model)
+    assert_equal 1, stream.length
+    assert_equal "Hello", stream.chunks.first.content
+  end
+
+  def test_parse_stream_invalid_json
+    stream = Ask::Stream.new
+    @provider.parse_stream("not json\n", stream, test_model)
+    assert_equal 0, stream.length
+  end
+
+  # --- Capabilities ---
+
+  def test_capabilities
+    caps = provider_class.capabilities
+    assert caps[:chat]; assert caps[:streaming]
+    assert caps[:tool_calls]; assert caps[:vision]
+    assert caps[:embed]
+  end
+
+  def test_slug
+    assert_equal "gemini", provider_class.slug
+  end
+
+  # --- Message formatting ---
+
+  def test_format_message_user
+    formatted = @provider.format_message({ role: :user, content: "Hello" })
+    assert_equal "user", formatted[:role]
     assert formatted[:parts]
     assert formatted[:parts][0][:text]
   end
+
+  def test_format_message_assistant
+    formatted = @provider.format_message({ role: :assistant, content: "Hi" })
+    assert_equal "model", formatted[:role]
+  end
+
+  def test_format_message_with_tool_calls
+    msg = { role: :assistant, content: nil,
+            tool_calls: [{ id: "call_1", function: { name: "get_weather", arguments: '{"loc":"NYC"}' } }] }
+    formatted = @provider.format_message(msg)
+    assert_equal "model", formatted[:role]
+    assert formatted[:parts].any? { |p| p[:functionCall] }
+  end
+
+  # --- Parse error ---
 
   def test_parse_error
     response = Object.new
@@ -62,16 +139,23 @@ class GoogleProviderTest < Minitest::Test
     assert_includes error, "API key"
   end
 
-  def test_responds_to_chat
-    assert_respond_to @provider, :chat
+  # --- Override base tests ---
+
+  def test_build_request_includes_model
+    # Google uses model in the URL path, not the payload
+    result = @provider.build_request([{ role: "user", content: "Hello" }], model: test_model)
+    assert result[:contents]
   end
 
-  def test_responds_to_embed
-    assert_respond_to @provider, :embed
+  def test_build_request_includes_stream_flag
+    # Google doesn't use a stream flag in payload
+    result = @provider.build_request([{ role: "user", content: "Hello" }], model: test_model, stream: true)
+    refute result.key?(:stream)
   end
 
-  def test_configuration_requirements
-    reqs = Ask::Providers::Google.configuration_requirements
-    assert_includes reqs, :api_key
+  def test_build_request_includes_temperature_when_given
+    result = @provider.build_request([{ role: "user", content: "Hello" }],
+                                     model: test_model, temperature: 0.7)
+    assert_equal 0.7, result.dig(:generationConfig, :temperature)
   end
 end

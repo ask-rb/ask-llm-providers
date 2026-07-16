@@ -5,6 +5,8 @@ module Ask
     # Google Gemini API provider. Also supports Vertex AI via GCP service account auth.
     class Google < Ask::Provider
       include Ask::LLM::SSEBuffer
+      include Ask::LLM::ProviderConfig
+
       def initialize(config = {})
         config = normalize_config(config)
         super(config)
@@ -30,7 +32,7 @@ module Ask
 
       def chat(messages, model:, tools: nil, temperature: nil, stream: nil, schema: nil, **params, &block)
         msgs = messages.is_a?(Ask::Conversation) ? messages.to_a : messages
-        payload = build_chat_payload(msgs, model, tools, temperature, stream, schema, **params)
+        payload = build_request(msgs, model:, tools:, temperature:, stream:, schema:, **params)
         path = chat_path(model)
         if stream
           chat_stream(path, payload, model, &block)
@@ -41,8 +43,11 @@ module Ask
 
       def embed(texts, model:)
         texts = Array(texts)
-        response = @http.post("models/#{model}:batchEmbedContents") { |r| r.body = { requests: texts.map { |t| { model: "models/#{model}", content: { parts: [{ text: t }] } } } } }
+        response = @http.post("models/#{model}:batchEmbedContents") { |r|
+          r.body = { requests: texts.map { |t| { model: "models/#{model}", content: { parts: [{ text: t }] } } } }
+        }
         raise LLM::HTTP.map_error(response.status, response.body, provider: "Google") unless response.success?
+
         embeddings = response.body.dig("embeddings") || []
         Ask::Result.success(embeddings.map { |e| e["values"] })
       end
@@ -50,7 +55,10 @@ module Ask
       def list_models
         response = @http.get("models") { |r| r.params["key"] = @config.api_key if @config.api_key }
         return [] unless response.success?
-        (response.body["models"] || []).map { |m| Ask::ModelInfo.new(id: m["name"].sub("models/", ""), provider: slug) }
+
+        (response.body["models"] || []).map { |m|
+          Ask::ModelInfo.new(id: m["name"].sub("models/", ""), provider: slug)
+        }
       end
 
       def parse_error(response)
@@ -59,40 +67,23 @@ module Ask
       end
 
       class << self
+        def slug; "gemini"; end
+
         def capabilities
-          { chat: true, streaming: true, tool_calls: true, vision: true, structured_output: true, embed: true, file_upload: true }
+          {
+            chat: true, streaming: true, tool_calls: true, vision: true,
+            structured_output: true, embed: true, file_upload: true
+          }
         end
+
         def configuration_options; %i[api_key access_token vertex_token project_id api_base]; end
         def configuration_requirements; %i[api_key]; end
-        def slug; "gemini"; end
       end
 
-      private
+      # --- Config transformation contract ---
 
-      def normalize_config(config)
-        return config unless config.is_a?(Hash)
-        key = config[:api_key] || config["api_key"] || config[:gemini_api_key]
-        Ask::LLM::Config.new(
-          api_key: key,
-          access_token: config[:access_token] || config["access_token"],
-          vertex_token: config[:vertex_token] || config["vertex_token"],
-          project_id: config[:project_id] || config["project_id"],
-          api_base: config[:api_base] || config["api_base"]
-        )
-      end
-
-      def build_http
-        LLM::HTTP.connection(api_base, headers: headers, request: { open_timeout: 30, timeout: 120 })
-      end
-
-      def chat_path(model)
-        model_id = model.respond_to?(:id) ? model.id : model.to_s
-        "models/#{model_id}:generateContent"
-      end
-
-      def build_chat_payload(messages, model, tools, temperature, stream, schema, **params)
-        contents = format_contents(messages)
-        payload = { contents: contents, systemInstruction: format_system(messages) }
+      def build_request(messages, model:, tools: nil, temperature: nil, stream: nil, schema: nil, **params)
+        payload = { contents: format_contents(messages), systemInstruction: format_system(messages) }
 
         if tools&.any?
           payload[:tools] = [{ functionDeclarations: tools.map { |t| format_tool(t) } }]
@@ -107,19 +98,46 @@ module Ask
         payload.merge(params)
       end
 
-      def format_contents(messages)
-        messages.reject { |m| (m[:role] || m["role"]).to_s == "system" }.map { |m| format_content(m) }
+      def parse_response(body, model)
+        candidate = body.dig("candidates", 0)
+        return Ask::Message.new(role: :assistant, content: nil) unless candidate
+
+        content = candidate.dig("content", "parts")&.map { |p| p["text"] }&.compact&.join
+        fc = candidate.dig("content", "parts")&.select { |p| p["functionCall"] } || []
+        tool_calls = fc.map do |p|
+          f = p["functionCall"]
+          { id: SecureRandom.hex(8), type: "function", name: f["name"], arguments: JSON.generate(f["args"] || {}) }
+        end
+
+        usage = body["usageMetadata"] || {}
+        Ask::Message.new(
+          role: :assistant,
+          content:,
+          tool_calls: tool_calls.empty? ? nil : tool_calls,
+          metadata: {
+            model:,
+            finish_reason: candidate["finishReason"],
+            input_tokens: usage["promptTokenCount"],
+            output_tokens: usage["candidatesTokenCount"],
+            raw: body
+          }
+        )
       end
 
-      def format_system(messages)
-        sys = messages.select { |m| (m[:role] || m["role"]).to_s == "system" }
-        return nil if sys.empty?
-        texts = sys.map { |m| m[:content] || m["content"] }.compact
-        return nil if texts.empty?
-        { parts: texts.map { |t| { text: t } } }
+      def parse_stream(raw, stream, model, &block)
+        each_sse_event(raw) do |data|
+          parsed = JSON.parse(data) rescue next
+          candidate = parsed.dig("candidates", 0) or next
+          part = candidate.dig("content", "parts", 0)
+          next unless part
+
+          chunk = Ask::Chunk.new(content: part["text"])
+          stream.add(chunk)
+          yield chunk if block_given?
+        end
       end
 
-      def format_content(msg)
+      def format_message(msg)
         role = (msg[:role] || msg["role"]).to_s
         content = msg[:content] || msg["content"]
         google_role = role == "assistant" ? "model" : role
@@ -127,7 +145,6 @@ module Ask
         parts = []
         parts << { text: content } if content
 
-        # Handle tool calls
         if msg[:tool_calls] || msg["tool_calls"]
           (msg[:tool_calls] || msg["tool_calls"]).each do |tc|
             parts << {
@@ -139,7 +156,6 @@ module Ask
           end
         end
 
-        # Handle tool results
         if msg[:tool_call_id] || msg["tool_call_id"]
           parts << {
             functionResponse: {
@@ -149,11 +165,59 @@ module Ask
           }
         end
 
-        { role: google_role, parts: parts }
+        { role: google_role, parts: }
+      end
+
+      def format_tools(tools)
+        tools.map { |t|
+          {
+            name: t.respond_to?(:name) ? t.name : t[:name],
+            description: t.respond_to?(:description) ? t.description : t[:description],
+            parameters: t.respond_to?(:parameters) ? t.parameters : (t[:parameters] || {})
+          }
+        }
+      end
+
+      private
+
+      def normalize_config(config)
+        return config unless config.is_a?(Hash)
+
+        key = config[:api_key] || config["api_key"] || config[:gemini_api_key]
+        Ask::LLM::Config.new(
+          api_key: key,
+          access_token: config[:access_token] || config["access_token"],
+          vertex_token: config[:vertex_token] || config["vertex_token"],
+          project_id: config[:project_id] || config["project_id"],
+          api_base: config[:api_base] || config["api_base"]
+        )
+      end
+
+      def build_http
+        LLM::HTTP.connection(api_base, headers:, request: { open_timeout: 30, timeout: 120 })
+      end
+
+      def chat_path(model)
+        model_id = model.respond_to?(:id) ? model.id : model.to_s
+        "models/#{model_id}:generateContent"
+      end
+
+      def format_contents(messages)
+        messages.reject { |m| (m[:role] || m["role"]).to_s == "system" }.map { |m| format_message(m) }
+      end
+
+      def format_system(messages)
+        sys = messages.select { |m| (m[:role] || m["role"]).to_s == "system" }
+        return nil if sys.empty?
+
+        texts = sys.map { |m| m[:content] || m["content"] }.compact
+        return nil if texts.empty?
+
+        { parts: texts.map { |t| { text: t } } }
       end
 
       def format_tool(t)
-        { name: t.respond_to?(:name) ? t.name : t[:name], description: t.respond_to?(:description) ? t.description : t[:description], parameters: t.respond_to?(:parameters) ? t.parameters : (t[:parameters] || {}) }
+        format_tools([t]).first
       end
 
       def parse_json(str)
@@ -168,22 +232,8 @@ module Ask
           req.params["key"] = @config.api_key if @config.api_key
         end
         raise LLM::HTTP.map_error(response.status, response.body, provider: "Google") unless response.success?
+
         parse_response(response.body, model)
-      end
-
-      def parse_response(body, model)
-        candidate = body.dig("candidates", 0)
-        return Ask::Message.new(role: :assistant, content: nil) unless candidate
-
-        content = candidate.dig("content", "parts")&.map { |p| p["text"] }&.compact&.join
-        fc = candidate.dig("content", "parts")&.select { |p| p["functionCall"] } || []
-        tool_calls = fc.map do |p|
-          f = p["functionCall"]
-          { id: SecureRandom.hex(8), type: "function", name: f["name"], arguments: JSON.generate(f["args"] || {}) }
-        end
-
-        usage = body["usageMetadata"] || {}
-        Ask::Message.new(role: :assistant, content: content, tool_calls: tool_calls.empty? ? nil : tool_calls, metadata: { model: model, finish_reason: candidate["finishReason"], input_tokens: usage["promptTokenCount"], output_tokens: usage["candidatesTokenCount"], raw: body })
       end
 
       def chat_stream(path, payload, model, &block)
@@ -192,23 +242,12 @@ module Ask
         response = @http.post(path) do |req|
           req.body = payload
           req.params["key"] = @config.api_key if @config.api_key
-          req.options.on_data = proc { |data, _bytes, _env| process_google_chunk(data, stream, model, &block) }
+          req.options.on_data = proc { |data, _bytes, _env| parse_stream(data, stream, model, &block) }
         end
         raise LLM::HTTP.map_error(response.status, JSON.parse(response.body), provider: "Google") unless response.success?
+
         stream.finish!
         stream
-      end
-
-      def process_google_chunk(raw, stream, model)
-        each_sse_event(raw) do |data|
-          parsed = JSON.parse(data) rescue next
-          candidate = parsed.dig("candidates", 0) or next
-          part = candidate.dig("content", "parts", 0)
-          next unless part
-          chunk = Ask::Chunk.new(content: part["text"])
-          stream.add(chunk)
-          yield chunk if block_given?
-        end
       end
     end
   end
