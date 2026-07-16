@@ -37,9 +37,7 @@ module Ask
           key.to_s.length > 0
         end
 
-        def assume_models_exist?
-          false
-        end
+
       end
 
       def initialize(config = {})

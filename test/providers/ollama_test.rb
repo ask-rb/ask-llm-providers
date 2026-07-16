@@ -69,7 +69,6 @@ class OllamaProviderTest < Minitest::Test
 
   def test_local_flag
     assert provider_class.local?
-    assert provider_class.assume_models_exist?
   end
 
   # --- Capabilities ---

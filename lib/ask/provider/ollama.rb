@@ -56,7 +56,6 @@ module Ask
         def configuration_options; %i[api_base]; end
         def configuration_requirements; %i[]; end
         def local?; true; end
-        def assume_models_exist?; true; end
       end
 
       # --- Config transformation contract ---

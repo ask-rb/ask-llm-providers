@@ -71,7 +71,6 @@ module Ask
 
         def configuration_options; %i[api_key base_url organization_id project_id]; end
         def configuration_requirements; %i[api_key]; end
-        def assume_models_exist?; false; end
       end
 
       # --- Config transformation contract ---

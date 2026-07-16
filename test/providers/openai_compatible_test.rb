@@ -70,18 +70,16 @@ class OpenAICompatibleTest < Minitest::Test
     assert h.key?("X-Title"), "OpenRouter should set X-Title"
   end
 
-  def test_opencode_go_falls_back_to_opencode_api_key
+  def test_opencode_go_uses_opencode_api_key
     cfg = Ask::LLM::OPENAI_COMPATIBLE[:opencode_go]
-    assert_equal "OPENCODE_API_KEY", cfg[:alternate_env],
-                 "opencode_go should fall back to OPENCODE_API_KEY"
+    assert_equal "OPENCODE_API_KEY", cfg[:api_key_env]
   end
 
-  def test_opencode_go_env_fallback
-    cfg = Ask::LLM::OPENAI_COMPATIBLE[:opencode_go]
-    with_env(cfg[:alternate_env], "fallback-key") do
+  def test_opencode_go_api_key_from_env
+    with_env("OPENCODE_API_KEY", "env-key") do
       klass = Ask::Provider.resolve(:opencode_go)
       provider = klass.new({})
-      assert_equal "fallback-key", provider.config.api_key
+      assert_equal "env-key", provider.config.api_key
     end
   end
 
