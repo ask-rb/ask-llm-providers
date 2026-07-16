@@ -1,5 +1,372 @@
 [
   {
+    "id": "claude-3-haiku",
+    "name": "Anthropic: Claude 3 Haiku",
+    "provider": "anthropic",
+    "context_window": 200000,
+    "max_output_tokens": 4096,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.25,
+          "output_per_million": 1.25,
+          "cache_read_input_per_million": 0.03,
+          "cache_write_input_per_million": 0.3
+        }
+      }
+    },
+    "architecture": "text+image->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-haiku-4.5",
+    "name": "Anthropic: Claude Haiku 4.5",
+    "provider": "anthropic",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.0,
+          "output_per_million": 5.0,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4",
+    "name": "Anthropic: Claude Opus 4",
+    "provider": "anthropic",
+    "context_window": 200000,
+    "max_output_tokens": 32000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 15.0,
+          "output_per_million": 75.0,
+          "cache_read_input_per_million": 1.5,
+          "cache_write_input_per_million": 18.75
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4.1",
+    "name": "Anthropic: Claude Opus 4.1",
+    "provider": "anthropic",
+    "context_window": 200000,
+    "max_output_tokens": 32000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 15.0,
+          "output_per_million": 75.0,
+          "cache_read_input_per_million": 1.5,
+          "cache_write_input_per_million": 18.75
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4.5",
+    "name": "Anthropic: Claude Opus 4.5",
+    "provider": "anthropic",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.0,
+          "output_per_million": 25.0,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4.6",
+    "name": "Anthropic: Claude Opus 4.6",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.0,
+          "output_per_million": 25.0,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4.7",
+    "name": "Anthropic: Claude Opus 4.7",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.0,
+          "output_per_million": 25.0,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4.7-fast",
+    "name": "Anthropic: Claude Opus 4.7 (Fast)",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 30.0,
+          "output_per_million": 150.0,
+          "cache_read_input_per_million": 3.0,
+          "cache_write_input_per_million": 37.5
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4.8",
+    "name": "Anthropic: Claude Opus 4.8",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.0,
+          "output_per_million": 25.0,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-opus-4.8-fast",
+    "name": "Anthropic: Claude Opus 4.8 (Fast)",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 10.0,
+          "output_per_million": 50.0,
+          "cache_read_input_per_million": 1.0,
+          "cache_write_input_per_million": 12.5
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-sonnet-4",
+    "name": "Anthropic: Claude Sonnet 4",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 64000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.0,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-sonnet-4.5",
+    "name": "Anthropic: Claude Sonnet 4.5",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 64000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.0,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "claude-sonnet-4.6",
+    "name": "Anthropic: Claude Sonnet 4.6",
+    "provider": "anthropic",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.0,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 0.3,
+          "cache_write_input_per_million": 3.75
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
     "id": "claude-fable-5",
     "name": "Claude Fable 5",
     "provider": "anthropic",

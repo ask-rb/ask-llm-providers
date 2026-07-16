@@ -9,8 +9,15 @@ end
 
 task default: :test
 
-desc "Fetch models.dev data and update bundled model JSONs"
+desc "Fetch models.dev + OpenRouter data and update bundled model JSONs"
 task :"models:update" do
-  require_relative "lib/ask/llm/sources/models_dev"
+  require "ask-llm-providers"
+  require File.expand_path("lib/ask/llm/sources/models_dev", __dir__)
+  require File.expand_path("lib/ask/llm/sources/openrouter", __dir__)
+
+  puts "=== models.dev ==="
   Ask::LLM::Sources::ModelsDev.update!
+
+  puts "\n=== OpenRouter ==="
+  Ask::LLM::Sources::OpenRouter.update!
 end

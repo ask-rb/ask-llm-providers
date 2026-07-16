@@ -407,6 +407,32 @@
     "created_at": "2023-12-11"
   },
   {
+    "id": "mistral-large",
+    "name": "Mistral Large",
+    "provider": "mistral",
+    "context_window": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.0,
+          "output_per_million": 6.0,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "architecture": "text+file->text",
+    "source": "openrouter"
+  },
+  {
     "id": "mistral-large-latest",
     "name": "Mistral Large (latest)",
     "provider": "mistral",
@@ -465,6 +491,32 @@
     },
     "knowledge_cutoff": "2024-11",
     "created_at": "2024-11-18"
+  },
+  {
+    "id": "mistral-large-2407",
+    "name": "Mistral Large 2407",
+    "provider": "mistral",
+    "context_window": 131072,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.0,
+          "output_per_million": 6.0,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "architecture": "text+file->text",
+    "source": "openrouter"
   },
   {
     "id": "mistral-large-2512",
@@ -746,6 +798,358 @@
     },
     "knowledge_cutoff": "2025-06",
     "created_at": "2026-03-16"
+  },
+  {
+    "id": "codestral-2508",
+    "name": "Mistral: Codestral 2508",
+    "provider": "mistral",
+    "context_window": 256000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.3,
+          "output_per_million": 0.9,
+          "cache_read_input_per_million": 0.03
+        }
+      }
+    },
+    "architecture": "text+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "ministral-14b-2512",
+    "name": "Mistral: Ministral 3 14B 2512",
+    "provider": "mistral",
+    "context_window": 262144,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.2,
+          "output_per_million": 0.2,
+          "cache_read_input_per_million": 0.02
+        }
+      }
+    },
+    "architecture": "text+image->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "ministral-3b-2512",
+    "name": "Mistral: Ministral 3 3B 2512",
+    "provider": "mistral",
+    "context_window": 131072,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.1,
+          "cache_read_input_per_million": 0.01
+        }
+      }
+    },
+    "architecture": "text+image->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "ministral-8b-2512",
+    "name": "Mistral: Ministral 3 8B 2512",
+    "provider": "mistral",
+    "context_window": 262144,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.15,
+          "cache_read_input_per_million": 0.015
+        }
+      }
+    },
+    "architecture": "text+image->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mistral-medium-3",
+    "name": "Mistral: Mistral Medium 3",
+    "provider": "mistral",
+    "context_window": 131072,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.4,
+          "output_per_million": 2.0,
+          "cache_read_input_per_million": 0.04
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mistral-medium-3.1",
+    "name": "Mistral: Mistral Medium 3.1",
+    "provider": "mistral",
+    "context_window": 131072,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.4,
+          "output_per_million": 2.0,
+          "cache_read_input_per_million": 0.04
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mistral-medium-3-5",
+    "name": "Mistral: Mistral Medium 3.5",
+    "provider": "mistral",
+    "context_window": 262144,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.5,
+          "output_per_million": 7.5
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mistral-small-24b-instruct-2501",
+    "name": "Mistral: Mistral Small 3",
+    "provider": "mistral",
+    "context_window": 32768,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.08
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mistral-small-3.1-24b-instruct",
+    "name": "Mistral: Mistral Small 3.1 24B",
+    "provider": "mistral",
+    "context_window": 128000,
+    "max_output_tokens": 128000,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.351,
+          "output_per_million": 0.555
+        }
+      }
+    },
+    "architecture": "text+image->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mistral-small-3.2-24b-instruct",
+    "name": "Mistral: Mistral Small 3.2 24B",
+    "provider": "mistral",
+    "context_window": 131072,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.3,
+          "cache_read_input_per_million": 0.01
+        }
+      }
+    },
+    "architecture": "text+image->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mixtral-8x22b-instruct",
+    "name": "Mistral: Mixtral 8x22B Instruct",
+    "provider": "mistral",
+    "context_window": 65536,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.0,
+          "output_per_million": 6.0,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "architecture": "text+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "mistral-saba",
+    "name": "Mistral: Saba",
+    "provider": "mistral",
+    "context_window": 32768,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.2,
+          "output_per_million": 0.6,
+          "cache_read_input_per_million": 0.02
+        }
+      }
+    },
+    "architecture": "text+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "voxtral-small-24b-2507",
+    "name": "Mistral: Voxtral Small 24B 2507",
+    "provider": "mistral",
+    "context_window": 32000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.1,
+          "output_per_million": 0.3,
+          "cache_read_input_per_million": 0.01
+        }
+      }
+    },
+    "architecture": "text+file+audio->text",
+    "source": "openrouter"
   },
   {
     "id": "open-mixtral-8x22b",

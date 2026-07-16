@@ -1354,6 +1354,701 @@
     "created_at": "2026-07-06"
   },
   {
+    "id": "gpt-audio",
+    "name": "OpenAI: GPT Audio",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.5,
+          "output_per_million": 10.0
+        }
+      }
+    },
+    "architecture": "text+audio->text+audio",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-audio-mini",
+    "name": "OpenAI: GPT Audio Mini",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.6,
+          "output_per_million": 2.4
+        }
+      }
+    },
+    "architecture": "text+audio->text+audio",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-chat-latest",
+    "name": "OpenAI: GPT Chat Latest",
+    "provider": "openai",
+    "context_window": 400000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.0,
+          "output_per_million": 30.0,
+          "cache_read_input_per_million": 0.5
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-3.5-turbo-0613",
+    "name": "OpenAI: GPT-3.5 Turbo (older v0613)",
+    "provider": "openai",
+    "context_window": 4095,
+    "max_output_tokens": 4096,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.0,
+          "output_per_million": 2.0
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-3.5-turbo-16k",
+    "name": "OpenAI: GPT-3.5 Turbo 16k",
+    "provider": "openai",
+    "context_window": 16385,
+    "max_output_tokens": 4096,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.0,
+          "output_per_million": 4.0
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-3.5-turbo-instruct",
+    "name": "OpenAI: GPT-3.5 Turbo Instruct",
+    "provider": "openai",
+    "context_window": 4095,
+    "max_output_tokens": 4096,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.5,
+          "output_per_million": 2.0
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-4-turbo-preview",
+    "name": "OpenAI: GPT-4 Turbo Preview",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 4096,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 10.0,
+          "output_per_million": 30.0
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-4o-search-preview",
+    "name": "OpenAI: GPT-4o Search Preview",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.5,
+          "output_per_million": 10.0
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-4o-mini-2024-07-18",
+    "name": "OpenAI: GPT-4o-mini (2024-07-18)",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.6,
+          "cache_read_input_per_million": 0.075
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-4o-mini-search-preview",
+    "name": "OpenAI: GPT-4o-mini Search Preview",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.15,
+          "output_per_million": 0.6
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5-chat",
+    "name": "OpenAI: GPT-5 Chat",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.25,
+          "output_per_million": 10.0,
+          "cache_read_input_per_million": 0.125
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5-image",
+    "name": "OpenAI: GPT-5 Image",
+    "provider": "openai",
+    "context_window": 400000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 10.0,
+          "output_per_million": 10.0,
+          "cache_read_input_per_million": 1.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text+image",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5-image-mini",
+    "name": "OpenAI: GPT-5 Image Mini",
+    "provider": "openai",
+    "context_window": 400000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.5,
+          "output_per_million": 2.0,
+          "cache_read_input_per_million": 0.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text+image",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5.1-chat",
+    "name": "OpenAI: GPT-5.1 Chat",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.25,
+          "output_per_million": 10.0,
+          "cache_read_input_per_million": 0.125
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5.2-chat",
+    "name": "OpenAI: GPT-5.2 Chat",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.75,
+          "output_per_million": 14.0,
+          "cache_read_input_per_million": 0.175
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5.3-chat",
+    "name": "OpenAI: GPT-5.3 Chat",
+    "provider": "openai",
+    "context_window": 128000,
+    "max_output_tokens": 16384,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.75,
+          "output_per_million": 14.0,
+          "cache_read_input_per_million": 0.175
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5.4-image-2",
+    "name": "OpenAI: GPT-5.4 Image 2",
+    "provider": "openai",
+    "context_window": 272000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 8.0,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 2.0
+        }
+      }
+    },
+    "architecture": "text+image+file->text+image",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5.6-luna-pro",
+    "name": "OpenAI: GPT-5.6 Luna Pro",
+    "provider": "openai",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.0,
+          "output_per_million": 6.0,
+          "cache_read_input_per_million": 0.1,
+          "cache_write_input_per_million": 1.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5.6-sol-pro",
+    "name": "OpenAI: GPT-5.6 Sol Pro",
+    "provider": "openai",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 5.0,
+          "output_per_million": 30.0,
+          "cache_read_input_per_million": 0.5,
+          "cache_write_input_per_million": 6.25
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-5.6-terra-pro",
+    "name": "OpenAI: GPT-5.6 Terra Pro",
+    "provider": "openai",
+    "context_window": 1050000,
+    "max_output_tokens": 128000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 2.5,
+          "output_per_million": 15.0,
+          "cache_read_input_per_million": 0.25,
+          "cache_write_input_per_million": 3.125
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-oss-120b",
+    "name": "OpenAI: gpt-oss-120b",
+    "provider": "openai",
+    "context_window": 131072,
+    "max_output_tokens": 131072,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.037,
+          "output_per_million": 0.17
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-oss-20b",
+    "name": "OpenAI: gpt-oss-20b",
+    "provider": "openai",
+    "context_window": 131072,
+    "max_output_tokens": 131072,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.03,
+          "output_per_million": 0.13,
+          "cache_read_input_per_million": 0.03
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-oss-20b:free",
+    "name": "OpenAI: gpt-oss-20b (free)",
+    "provider": "openai",
+    "context_window": 131072,
+    "max_output_tokens": 32768,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.0,
+          "output_per_million": 0.0
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "gpt-oss-safeguard-20b",
+    "name": "OpenAI: gpt-oss-safeguard-20b",
+    "provider": "openai",
+    "context_window": 131072,
+    "max_output_tokens": 65536,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 0.075,
+          "output_per_million": 0.3,
+          "cache_read_input_per_million": 0.0375
+        }
+      }
+    },
+    "architecture": "text->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "o3-mini-high",
+    "name": "OpenAI: o3 Mini High",
+    "provider": "openai",
+    "context_window": 200000,
+    "max_output_tokens": 100000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.1,
+          "output_per_million": 4.4,
+          "cache_read_input_per_million": 0.55
+        }
+      }
+    },
+    "architecture": "text+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "o4-mini-high",
+    "name": "OpenAI: o4 Mini High",
+    "provider": "openai",
+    "context_window": 200000,
+    "max_output_tokens": 100000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.1,
+          "output_per_million": 4.4,
+          "cache_read_input_per_million": 0.275
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
     "id": "chatgpt-image-latest",
     "name": "chatgpt-image-latest",
     "provider": "openai",

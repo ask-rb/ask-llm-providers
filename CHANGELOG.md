@@ -1,3 +1,19 @@
+## [0.8.0] — 2026-07-17
+
+### Added
+
+- **OpenRouter model source** (`Ask::LLM::Sources::OpenRouter`) — fetches model data from OpenRouter API and fills gaps that models.dev doesn't cover. Adds models for providers like Groq, Together, Fireworks, Cerebras, Meta, Moonshot, Nvidia NIM that aren't in models.dev. Merges with existing models.dev data — models.dev takes priority for overlapping models.
+- **`CostCalculator.per_million`** — returns per-million token rates for quick display: `{ input: 2.5, output: 10.0, cache_read: 1.25 }`.
+- **Audio token costing** — `calculate` and `breakdown` now accept `audio_input_tokens` and `audio_output_tokens` parameters. Costs are computed from `audio_tokens` pricing data.
+- **Tiered pricing** — both `calculate` and `breakdown` accept a `tier:` parameter (`:standard` or `:batch`) that selects the appropriate rate tier.
+- **`rake models:update`** — now fetches both models.dev and OpenRouter in sequence.
+
+### Changed
+
+- **Model coverage: 62 → 406 models** across 12 providers, with 397 (98%) having full pricing data.
+- **OpenRouter source added** — providers without models.dev coverage (meta, moonshot, nvidia_nim) now have bundled models.
+- **`build_model_info`** — pricing hashes are deep-symbolized. `Date.parse` failures handled gracefully via `safe_parse_date`.
+
 ## [0.7.0] — 2026-07-17
 
 ### Added

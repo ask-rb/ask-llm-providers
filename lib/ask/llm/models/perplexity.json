@@ -29,6 +29,35 @@
     "created_at": "2025-02-01"
   },
   {
+    "id": "sonar-pro-search",
+    "name": "Perplexity: Sonar Pro Search",
+    "provider": "perplexity",
+    "context_window": 200000,
+    "max_output_tokens": 8000,
+    "capabilities": [
+      "vision"
+    ],
+    "modalities": {
+      "input": [
+        "text",
+        "image"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 3.0,
+          "output_per_million": 15.0
+        }
+      }
+    },
+    "architecture": "text+image->text",
+    "source": "openrouter"
+  },
+  {
     "id": "sonar",
     "name": "Sonar",
     "provider": "perplexity",

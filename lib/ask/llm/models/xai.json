@@ -270,5 +270,57 @@
     },
     "pricing": {},
     "created_at": "2026-01-28"
+  },
+  {
+    "id": "grok-4.20",
+    "name": "xAI: Grok 4.20",
+    "provider": "xai",
+    "context_window": 2000000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.25,
+          "output_per_million": 2.5,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
+  },
+  {
+    "id": "grok-4.20-multi-agent",
+    "name": "xAI: Grok 4.20 Multi-Agent",
+    "provider": "xai",
+    "context_window": 2000000,
+    "capabilities": [],
+    "modalities": {
+      "input": [
+        "text"
+      ],
+      "output": [
+        "text"
+      ]
+    },
+    "pricing": {
+      "text_tokens": {
+        "standard": {
+          "input_per_million": 1.25,
+          "output_per_million": 2.5,
+          "cache_read_input_per_million": 0.2
+        }
+      }
+    },
+    "architecture": "text+image+file->text",
+    "source": "openrouter"
   }
 ]
