@@ -14,7 +14,13 @@ module Ask
       end
 
       # Map an HTTP exception or error response to the appropriate Ask::Error.
-      def self.map_error(status, body, provider:)
+      #
+      # @param status [Integer] HTTP status code
+      # @param body [Hash, String, nil] response body
+      # @param provider [String] provider name for error messages
+      # @param headers [Hash, nil] response headers (for retry-after etc.)
+      # @return [Ask::Error]
+      def self.map_error(status, body, provider:, headers: nil)
         body = JSON.parse(body) rescue body if body.is_a?(String)
         message = extract_error_message(body, status) || "HTTP #{status} from #{provider}"
 
@@ -25,12 +31,25 @@ module Ask
         end
 
         case status
-        when 400 then Ask::ProviderError.new(message, status_code: status, response_body: body&.to_json)
-        when 401, 403 then Ask::Unauthorized.new("#{provider}: #{message}")
-        when 429 then Ask::RateLimitError.new("#{provider}: #{message}")
-        when 500 then Ask::ServerError.new("#{provider}: #{message}")
-        when 503 then Ask::ServiceUnavailable.new("#{provider}: #{message}")
-        else Ask::ProviderError.new("#{provider}: #{message}", status_code: status, response_body: body&.to_json)
+        when 400
+          Ask::ProviderError.new(message, status_code: status, response_body: body&.to_json)
+        when 401, 403
+          Ask::Unauthorized.new("#{provider}: #{message}")
+        when 429
+          retry_after = extract_retry_after(headers)
+          rate_limit_type = detect_rate_limit_type(body)
+          Ask::RateLimitError.new(
+            "#{provider}: #{message}",
+            category: Ask::RateLimitCategory::VENDOR,
+            rate_limit_type: rate_limit_type,
+            retry_after: retry_after
+          )
+        when 500
+          Ask::ServerError.new("#{provider}: #{message}")
+        when 503
+          Ask::ServiceUnavailable.new("#{provider}: #{message}")
+        else
+          Ask::ProviderError.new("#{provider}: #{message}", status_code: status, response_body: body&.to_json)
         end
       end
 
@@ -47,6 +66,37 @@ module Ask
         else
           body.to_s
         end
+      end
+
+      # Extract retry_after from response headers.
+      # Providers send Retry-After as seconds (integer) or HTTP-date.
+      # @param headers [Hash, nil]
+      # @return [Integer, nil]
+      def self.extract_retry_after(headers)
+        return nil unless headers.is_a?(Hash)
+
+        raw = headers["retry-after"] || headers["Retry-After"] || headers["retry_after"]
+        return nil unless raw
+
+        int = Integer(raw) rescue nil
+        return int if int
+
+        Time.parse(raw) - Time.now rescue nil
+      end
+
+      # Detect rate limit type from error body.
+      # @param body [Hash, nil]
+      # @return [Symbol, nil]
+      def self.detect_rate_limit_type(body)
+        return nil unless body.respond_to?(:dig)
+
+        msg = body.dig("error", "message") || body.dig("error", "code") || ""
+        msg_lower = msg.to_s.downcase
+
+        return Ask::RateLimitType::BUDGET if msg_lower.include?("budget") || msg_lower.include?("quota")
+        return Ask::RateLimitType::TOKENS if msg_lower.include?("token") || msg_lower.include?("tpm")
+        return Ask::RateLimitType::CONCURRENT if msg_lower.include?("concurrent") || msg_lower.include?("parallel")
+        Ask::RateLimitType::REQUESTS
       end
     end
   end

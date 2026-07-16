@@ -9,6 +9,46 @@ class ErrorMappingTest < Minitest::Test
     assert_match(/Too fast/, error.message)
   end
 
+  def test_rate_limit_category_is_vendor
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Rate limited" } }, provider: "OpenAI")
+    assert_equal Ask::RateLimitCategory::VENDOR, error.category
+  end
+
+  def test_rate_limit_type_requests_by_default
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Too many requests" } }, provider: "OpenAI")
+    assert_equal Ask::RateLimitType::REQUESTS, error.rate_limit_type
+  end
+
+  def test_rate_limit_type_tokens
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Token limit exceeded" } }, provider: "OpenAI")
+    assert_equal Ask::RateLimitType::TOKENS, error.rate_limit_type
+  end
+
+  def test_rate_limit_type_budget
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Budget exceeded" } }, provider: "OpenAI")
+    assert_equal Ask::RateLimitType::BUDGET, error.rate_limit_type
+  end
+
+  def test_rate_limit_type_concurrent
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Too many concurrent requests" } }, provider: "OpenAI")
+    assert_equal Ask::RateLimitType::CONCURRENT, error.rate_limit_type
+  end
+
+  def test_retry_after_from_headers
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Too fast" } }, provider: "OpenAI", headers: { "retry-after" => "30" })
+    assert_equal 30, error.retry_after
+  end
+
+  def test_retry_after_nil_when_no_headers
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Too fast" } }, provider: "OpenAI")
+    assert_nil error.retry_after
+  end
+
+  def test_rate_limit_type_from_quota_message
+    error = Ask::LLM::HTTP.map_error(429, { "error" => { "message" => "Quota exceeded for API requests" } }, provider: "OpenAI")
+    assert_equal Ask::RateLimitType::BUDGET, error.rate_limit_type
+  end
+
   def test_auth_error
     error = Ask::LLM::HTTP.map_error(401, { "error" => { "message" => "Invalid key" } }, provider: "OpenAI")
     assert error.is_a?(Ask::Unauthorized)

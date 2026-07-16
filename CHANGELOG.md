@@ -1,3 +1,9 @@
+## [0.8.1] — 2026-07-17
+
+### Added
+
+- **Rich error categories in HTTP mapper** — `Ask::LLM::HTTP.map_error` now sets `category`, `rate_limit_type`, and `retry_after` on `RateLimitError` instances. Rate limit type is detected from error message keywords (token, budget, concurrent, requests). `retry_after` is extracted from response headers.
+
 ## [0.8.0] — 2026-07-17
 
 ### Added
