@@ -204,6 +204,21 @@ class OpenAIProviderTest < Minitest::Test
     assert_equal "call_1", formatted[:tool_call_id]
   end
 
+  # --- Config normalization ---
+
+  def test_accepts_ask_llm_config_object
+    config = Ask::LLM::Config.new({ api_key: "sk-config-object" })
+    provider = provider_class.new(config)
+    assert_equal "sk-config-object", provider.config.api_key
+  end
+
+  def test_accepts_ask_llm_config_object_with_base_url
+    config = Ask::LLM::Config.new({ api_key: "sk-test", base_url: "https://custom.api.com/v1" })
+    provider = provider_class.new(config)
+    assert_equal "https://custom.api.com/v1", provider.api_base
+    assert_equal "sk-test", provider.config.api_key
+  end
+
   # --- Parse error ---
 
   def test_parse_error

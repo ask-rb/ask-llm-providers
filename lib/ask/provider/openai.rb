@@ -142,7 +142,7 @@ module Ask
       def format_message(msg)
         role = msg[:role] || msg["role"] || :user
         { role: role.to_s, content: msg[:content] || msg["content"] }.tap do |fm|
-          if (tc = msg[:tool_calls] || msg["tool_calls"])
+          if (tc = msg[:tool_calls] || msg["tool_calls"]) && tc.respond_to?(:any?) && tc.any?
             calls = tc.is_a?(Hash) ? tc.values : tc
             fm[:tool_calls] = calls.map { |t|
               id = t.respond_to?(:id) ? t.id : (t[:id] || t["id"])
@@ -166,6 +166,7 @@ module Ask
       end
 
       def normalize_config(config)
+        config = config.to_h if config.respond_to?(:to_h)
         return config if !config.is_a?(Hash)
 
         slug = self.class.slug

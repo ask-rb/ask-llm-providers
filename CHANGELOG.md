@@ -1,3 +1,27 @@
+## [0.8.7] — 2026-07-18
+
+### Fixed
+
+- **`OpenAI#format_message` no longer sends empty `tool_calls: []` on assistant messages** — When a model response has no tool calls, the formatted message previously included `tool_calls: []` in the output. Some providers (notably opencode_go) reject messages with an empty `tool_calls` array. Now the field is only added when there are actual tool calls to report. Fixes multi-turn conversations breaking on all providers that reject empty `tool_calls`.
+
+## [0.8.6] — 2026-07-18
+
+### Added
+
+- **`OpenAICompatible#resolve_credential_from_env_name` now tries both flat key and path segments** — The credential fallback resolves the `api_key_env` name (e.g., `OPENCODE_API_KEY`) both as a flat key (`:opencode_api_key`) and as a nested path (`[:opencode, :api_key]`). This works with the new `Ask::Auth.resolve` multi-name and path segment support from ask-auth 0.2.3.
+
+## [0.8.5] — 2026-07-18
+
+### Fixed
+
+- **`OpenAICompatible#normalize_compat_config` now resolves credentials from `api_key_env` via `Ask::Auth`** — Previously the method only checked explicit config keys and environment variables. Now it also calls `Ask::Auth.resolve` using the downcased `api_key_env` name (e.g., `OPENCODE_API_KEY` → `:opencode_api_key` → resolves through Rails credentials at `opencode.api_key`, env, file, database, or OAuth). This fixes credential resolution for all 26 OpenAI-compatible providers when the API key is stored in Rails credentials, the ask credentials file, or any provider in the auth chain — not just environment variables.
+
+## [0.8.4] — 2026-07-18
+
+### Fixed
+
+- **`normalize_config` (OpenAI) and `normalize_compat_config` (OpenAICompatible) — Config object handling** — `Chat#provider_config` creates an `Ask::LLM::Config` object, but both methods previously bailed out with `return config unless config.is_a?(Hash)`, allowing the Config object to pass through without API key resolution. Now they call `config.to_h` when the object responds to it before the Hash guard, ensuring env vars like `OPENCODE_API_KEY` are properly resolved for all OpenAI-compatible providers. Fixes auth for all 20+ OpenAI-compatible providers when config arrives as a Config object.
+
 ## [0.8.1] — 2026-07-17
 
 ### Added

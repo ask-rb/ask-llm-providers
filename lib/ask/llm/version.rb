@@ -2,6 +2,6 @@
 
 module Ask
   module LLM
-    VERSION = "0.8.3"
+    VERSION = "0.8.7"
   end
 end

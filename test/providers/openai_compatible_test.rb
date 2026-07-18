@@ -75,12 +75,55 @@ class OpenAICompatibleTest < Minitest::Test
     assert_equal "OPENCODE_API_KEY", cfg[:api_key_env]
   end
 
+  def test_opencode_go_api_key_from_env_with_config_object
+    with_env("OPENCODE_API_KEY", "env-key-from-config-object") do
+      klass = Ask::Provider.resolve(:opencode_go)
+      config = Ask::LLM::Config.new({})
+      provider = klass.new(config)
+      assert_equal "env-key-from-config-object", provider.config.api_key
+    end
+  end
+
+  def test_opencode_go_api_key_from_slug_env_with_config_object
+    with_env("OPENCODE_GO_API_KEY", "slug-env-key") do
+      klass = Ask::Provider.resolve(:opencode_go)
+      config = Ask::LLM::Config.new({})
+      provider = klass.new(config)
+      assert_equal "slug-env-key", provider.config.api_key
+    end
+  end
+
+  def test_opencode_go_api_key_from_config_object_explicit
+    config = Ask::LLM::Config.new({ api_key: "explicit-from-config" })
+    klass = Ask::Provider.resolve(:opencode_go)
+    provider = klass.new(config)
+    assert_equal "explicit-from-config", provider.config.api_key
+  end
+
   def test_opencode_go_api_key_from_env
     with_env("OPENCODE_API_KEY", "env-key") do
       klass = Ask::Provider.resolve(:opencode_go)
       provider = klass.new({})
       assert_equal "env-key", provider.config.api_key
     end
+  end
+
+  def test_opencode_go_api_key_from_auth_resolve_fallback
+    Ask::Auth.stubs(:resolve).returns("auth-resolved-key")
+    klass = Ask::Provider.resolve(:opencode_go)
+    provider = klass.new({})
+    assert_equal "auth-resolved-key", provider.config.api_key
+  ensure
+    Ask::Auth.unstub(:resolve)
+  end
+
+  def test_opencode_go_api_key_auth_resolve_does_not_override_explicit
+    Ask::Auth.stubs(:resolve).returns("should-not-be-used")
+    klass = Ask::Provider.resolve(:opencode_go)
+    provider = klass.new({ api_key: "explicit-key" })
+    assert_equal "explicit-key", provider.config.api_key
+  ensure
+    Ask::Auth.unstub(:resolve)
   end
 
   def test_deepseek_reasoning_content
