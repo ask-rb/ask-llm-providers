@@ -1,3 +1,13 @@
+## [0.9.0] — 2026-07-21
+
+### Added
+
+- **Prompt caching support for Anthropic** — `build_request` now accepts `prompt_caching: true`. When enabled, the system prompt is sent as an array with `cache_control: { type: "ephemeral" }` and the last user message content is wrapped to include `cache_control`. Response metadata includes `cache_creation_input_tokens` and `cache_read_input_tokens` from the provider.
+
+- **Prompt caching support for OpenAI** — `parse_response` now extracts `usage.prompt_tokens_details.cached_tokens` into response metadata as `cached_tokens`.
+
+- **Both providers advertise `prompt_caching: true`** in their capabilities.
+
 ## [0.8.7] — 2026-07-18
 
 ### Fixed

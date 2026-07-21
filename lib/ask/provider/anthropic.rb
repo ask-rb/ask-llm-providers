@@ -69,7 +69,7 @@ module Ask
 
       def build_request(messages, model:, tools: nil, temperature: nil, stream: nil, schema: nil, **params)
         system_msgs, chat_msgs = messages.partition { |m| (m[:role] || m["role"]).to_s == "system" }
-        system_content = format_system_content(system_msgs)
+        prompt_caching = params.delete(:prompt_caching) || false
 
         payload = {
           model:,
@@ -78,7 +78,21 @@ module Ask
           stream: stream || false
         }
 
-        payload[:system] = system_content if system_content
+        if prompt_caching
+          payload[:system] = format_system_with_caching(system_msgs, chat_msgs)
+          # Mark the last user message for caching (required by Anthropic for conversation caching)
+          if payload[:messages].any?
+            last_user_idx = payload[:messages].rindex { |m| m[:role] == "user" }
+            if last_user_idx
+              content = payload[:messages][last_user_idx][:content]
+              payload[:messages][last_user_idx][:content] = wrap_content_for_caching(content)
+            end
+          end
+        else
+          system_content = format_system_content(system_msgs)
+          payload[:system] = system_content if system_content
+        end
+
         tool_defs = format_tools(tools) if tools&.any?
         payload[:tools] = tool_defs if tool_defs
         payload[:temperature] = temperature if temperature
@@ -102,6 +116,8 @@ module Ask
           stop_sequence: body["stop_sequence"],
           input_tokens: usage["input_tokens"],
           output_tokens: usage["output_tokens"],
+          cache_creation_input_tokens: usage["cache_creation_input_tokens"],
+          cache_read_input_tokens: usage["cache_read_input_tokens"],
           thinking: thinking_blocks.map { |b| b["thinking"] || b["text"] }.compact.join("\n"),
           raw: body
         }.compact
@@ -201,6 +217,32 @@ module Ask
         return nil if texts.empty?
 
         texts.join("\n")
+      end
+
+      def format_system_with_caching(system_msgs, chat_msgs)
+        texts = system_msgs.map { |m| m[:content] || m["content"] }.compact
+        return nil if texts.empty?
+
+        combined = texts.join("\n")
+        [{ type: "text", text: combined, cache_control: { type: "ephemeral" } }]
+      end
+
+      # Wrap the last user message content for caching.
+      # Plain strings become [{ type: "text", text: content, cache_control: { type: "ephemeral" } }].
+      # Already-structured content blocks get cache_control appended.
+      def wrap_content_for_caching(content)
+        case content
+        when Array
+          content.map { |c|
+            if c.is_a?(Hash)
+              c.merge(cache_control: { type: "ephemeral" })
+            else
+              { type: "text", text: c.to_s, cache_control: { type: "ephemeral" } }
+            end
+          }
+        else
+          [{ type: "text", text: content.to_s, cache_control: { type: "ephemeral" } }]
+        end
       end
 
       def parse_json(str)

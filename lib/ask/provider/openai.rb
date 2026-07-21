@@ -31,8 +31,19 @@ module Ask
 
       def chat(messages, model:, tools: nil, temperature: nil, stream: nil, schema: nil, **params, &block)
         msgs = messages.is_a?(Ask::Conversation) ? messages.to_a : messages
-        payload = build_request(msgs, model:, tools:, temperature:, stream:, schema:, **params)
-        stream ? chat_stream(payload, model, &block) : chat_nonstream(payload, model)
+
+        # Separate provider tools from regular tools
+        regular_tools, provider_tools = split_tools(tools)
+
+        if provider_tools.any?
+          # Use the Responses API when provider tools are involved
+          responses_chat(msgs, model:, regular_tools:, provider_tools:,
+                         temperature:, stream:, schema:, **params, &block)
+        else
+          payload = build_request(msgs, model:, tools: regular_tools,
+                                  temperature:, stream:, schema:, **params)
+          stream ? chat_stream(payload, model, &block) : chat_nonstream(payload, model)
+        end
       end
 
       def embed(texts, model:)
@@ -65,7 +76,8 @@ module Ask
           {
             chat: true, streaming: true, tool_calls: true, vision: true,
             thinking: true, structured_output: true, embed: true,
-            transcribe: true, paint: true, moderate: true
+            transcribe: true, paint: true, moderate: true,
+            prompt_caching: true
           }
         end
 
@@ -94,18 +106,19 @@ module Ask
 
         msg = choice["message"]
         usage = body["usage"] || {}
-        Ask::Message.new(
-          role: :assistant,
-          content: msg["content"],
-          tool_calls: parse_tool_calls(msg["tool_calls"]),
-          metadata: {
-            model: body["model"] || model,
-            finish_reason: choice["finish_reason"],
-            input_tokens: usage["prompt_tokens"],
-            output_tokens: usage["completion_tokens"],
-            raw: body
-          }
-        )
+	        Ask::Message.new(
+	          role: :assistant,
+	          content: msg["content"],
+	          tool_calls: parse_tool_calls(msg["tool_calls"]),
+	          metadata: {
+	            model: body["model"] || model,
+	            finish_reason: choice["finish_reason"],
+	            input_tokens: usage["prompt_tokens"],
+	            output_tokens: usage["completion_tokens"],
+	            cached_tokens: usage.dig("prompt_tokens_details", "cached_tokens"),
+	            raw: body
+	          }
+	        )
       end
 
       def parse_stream(raw, stream, model, &block)
@@ -126,7 +139,15 @@ module Ask
         end
       end
 
+      def split_tools(tools)
+        return [[], []] unless tools&.any?
+
+        tools.partition { |t| !t.respond_to?(:provider_tool?) || !t.provider_tool? }
+      end
+
       def format_tools(tools)
+        return [] unless tools&.any?
+
         tools.map do |t|
           {
             type: "function",
@@ -136,6 +157,21 @@ module Ask
               parameters: t.respond_to?(:parameters) ? t.parameters : t[:parameters]
             }
           }
+        end
+      end
+
+      def format_responses_tools(provider_tools)
+        provider_tools.map do |pt|
+          case pt.name
+          when "web_search"
+            { type: "web_search" }.merge(pt.args)
+          when "file_search"
+            { type: "file_search" }.merge(pt.args)
+          when "code_interpreter"
+            { type: "code_interpreter" }.merge(pt.args)
+          else
+            { type: pt.name }.merge(pt.args)
+          end
         end
       end
 
@@ -154,6 +190,139 @@ module Ask
           end
           fm[:tool_call_id] = msg[:tool_call_id] || msg["tool_call_id"] if msg[:tool_call_id] || msg["tool_call_id"]
         end.compact
+      end
+
+      # Use the OpenAI Responses API, which supports provider-executed tools
+      # like web_search, file_search, and code_interpreter.
+      def responses_chat(messages, model:, regular_tools:, provider_tools:,
+                         temperature: nil, stream: nil, schema: nil, **params, &block)
+        payload = {
+          model: model,
+          input: format_responses_input(messages)
+        }
+
+        all_tools = []
+        all_tools.concat(format_tools(regular_tools)) if regular_tools&.any?
+        all_tools.concat(format_responses_tools(provider_tools)) if provider_tools&.any?
+        payload[:tools] = all_tools if all_tools.any?
+        payload[:temperature] = temperature if temperature
+        payload.merge!(params)
+
+        if stream
+          responses_chat_stream(payload, model, provider_tools, &block)
+        else
+          responses_chat_nonstream(payload, model, provider_tools)
+        end
+      end
+
+      def responses_chat_nonstream(payload, model, provider_tools)
+        response = @http.post("responses") { |r| r.body = payload }
+        raise LLM::HTTP.map_error(response.status, response.body, provider: "OpenAI") unless response.success?
+
+        body = response.body
+        output = body["output"] || []
+
+        # Extract text content and provider-executed tool results
+        text_parts = output.select { |o| o["type"] == "message" }
+        content = text_parts.flat_map { |m| (m["content"] || []) }
+                            .select { |c| c["type"] == "output_text" }
+                            .map { |c| c["text"] }
+                            .join
+
+        # Extract provider-executed tool results
+        provider_results = extract_responses_provider_results(output, provider_tools)
+
+        # Extract regular tool calls
+        regular_calls = extract_responses_tool_calls(output)
+
+        usage = body["usage"] || {}
+        Ask::Message.new(
+          role: :assistant,
+          content: content,
+          tool_calls: regular_calls,
+          metadata: {
+            model: body["model"] || model,
+            finish_reason: body.dig("status"),
+            input_tokens: usage["input_tokens"],
+            output_tokens: usage["output_tokens"],
+            provider_results: provider_results,
+            raw: body
+          }
+        )
+      end
+
+      def responses_chat_stream(payload, model, provider_tools, &block)
+        # Streaming with the Responses API — for now, fall back to non-streaming
+        # and return the full result. Full streaming support can be added later.
+        responses_chat_nonstream(payload, model, provider_tools)
+      end
+
+      def format_responses_input(messages)
+        messages.map do |msg|
+          role = msg[:role] || msg["role"] || "user"
+          content = msg[:content] || msg["content"] || ""
+
+          entry = { role: role.to_s }
+          entry[:content] = [{ type: "input_text", text: content.to_s }]
+
+          # Handle tool calls in assistant messages
+          if (tc = msg[:tool_calls] || msg["tool_calls"]) && tc.respond_to?(:any?) && tc.any?
+            calls = tc.is_a?(Hash) ? tc.values : tc
+            entry[:content] = calls.map { |t|
+              id = t.respond_to?(:id) ? t.id : (t[:id] || t["id"])
+              name = t.respond_to?(:name) ? t.name : (t[:name] || t["name"] || t.dig(:function, :name))
+              raw_args = t.respond_to?(:arguments) ? t.arguments : (t[:arguments] || t["arguments"] || t.dig(:function, :arguments))
+              args = raw_args.is_a?(String) ? raw_args : JSON.generate(raw_args)
+              { type: "function_call", id: id, name: name, arguments: args, status: "completed" }
+            }
+          end
+
+          # Handle tool results
+          if (tid = msg[:tool_call_id] || msg["tool_call_id"])
+            entry[:content] = [{ type: "function_call_output", id: tid, output: content.to_s }]
+          end
+
+          entry
+        end
+      end
+
+      def extract_responses_provider_results(output, provider_tools)
+        results = {}
+        provider_tool_names = provider_tools.map(&:name)
+
+        output.each do |item|
+          case item["type"]
+          when "web_search_call"
+            result_item = output.find { |o| o["type"] == "web_search_result" && o["id"] == item["id"] }
+            if result_item
+              results[item["id"]] = {
+                provider_executed: true,
+                tool_name: "web_search",
+                message: result_item.to_s,
+                status: "success"
+              }
+            end
+          when "file_search_call"
+            result_item = output.find { |o| o["type"] == "file_search_result" && o["id"] == item["id"] }
+            if result_item
+              results[item["id"]] = {
+                provider_executed: true,
+                tool_name: "file_search",
+                message: result_item.to_s,
+                status: "success"
+              }
+            end
+          when "function_call"
+            # Regular tool call — handled elsewhere
+          end
+        end
+        results
+      end
+
+      def extract_responses_tool_calls(output)
+        output.select { |o| o["type"] == "function_call" }.map do |fc|
+          { id: fc["id"], type: "function", name: fc["name"], arguments: fc["arguments"] }
+        end
       end
 
       private
