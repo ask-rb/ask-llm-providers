@@ -163,10 +163,11 @@ module Ask
 
       def format_message(msg)
         role = (msg[:role] || msg["role"]).to_s
-        content = msg[:content] || msg["content"]
+        raw_content = msg[:content] || msg["content"]
 
         if msg[:tool_calls] || msg["tool_calls"]
           tc = msg[:tool_calls] || msg["tool_calls"]
+          content = raw_content.is_a?(Array) ? raw_content.map { |b| format_anthropic_content_block(b) } : raw_content
           return {
             role:,
             content:,
@@ -182,17 +183,63 @@ module Ask
         end
 
         if msg[:tool_call_id] || msg["tool_call_id"]
+          content = if raw_content.is_a?(Array)
+            raw_content.map { |b| format_anthropic_content_block(b) }
+          else
+            raw_content || ""
+          end
           return {
             role: "user",
             content: [{
               type: "tool_result",
               tool_use_id: msg[:tool_call_id] || msg["tool_call_id"],
-              content: content || ""
+              content: content
             }]
           }
         end
 
-        { role:, content: }.compact
+        # Multi-modal content blocks
+        if raw_content.is_a?(Array)
+          content = raw_content.map { |b| format_anthropic_content_block(b) }
+          return { role:, content: }
+        end
+
+        { role:, content: raw_content }.compact
+      end
+
+      # Transform a generic content block hash into Anthropic's wire format.
+      # https://docs.anthropic.com/en/docs/build-with-claude/vision
+      def format_anthropic_content_block(block)
+        block = block.transform_keys(&:to_sym) if block.respond_to?(:transform_keys)
+        type = block[:type] || block["type"]
+
+        case type
+        when "text"
+          { type: "text", text: block[:text] || block["text"] }
+        when "image"
+          if block[:base64] || block["base64"]
+            mime = block[:mime_type] || block["mime_type"] || "image/png"
+            { type: "image", source: { type: "base64", media_type: mime, data: block[:base64] || block["base64"] } }
+          elsif block[:url] || block["url"]
+            mime = block[:mime_type] || block["mime_type"] || "image/jpeg"
+            { type: "image", source: { type: "url", url: block[:url] || block["url"] } }
+          elsif block[:file_id] || block["file_id"]
+            # Anthropic doesn't support file_id for images; pass as URL
+            { type: "image", source: { type: "url", url: block[:file_id] || block["file_id"] } }
+          else
+            block
+          end
+        when "audio", "video"
+          # Anthropic doesn't support audio/video content blocks in messages
+          # Fall back to text description
+          { type: "text", text: "[#{type} content not supported by Anthropic]" }
+        when "file"
+          data = block[:data] || block["data"] || ""
+          filename = block[:filename] ? "[#{block[:filename]}] " : ""
+          { type: "text", text: "#{filename}#{data}" }
+        else
+          block
+        end
       end
 
       private

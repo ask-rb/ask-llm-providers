@@ -177,7 +177,16 @@ module Ask
 
       def format_message(msg)
         role = msg[:role] || msg["role"] || :user
-        { role: role.to_s, content: msg[:content] || msg["content"] }.tap do |fm|
+        raw_content = msg[:content] || msg["content"]
+
+        # Multi-modal content blocks — transform to OpenAI's format
+        if raw_content.is_a?(Array)
+          content = raw_content.map { |block| format_openai_content_block(block) }
+        else
+          content = raw_content
+        end
+
+        { role: role.to_s, content: content }.tap do |fm|
           if (tc = msg[:tool_calls] || msg["tool_calls"]) && tc.respond_to?(:any?) && tc.any?
             calls = tc.is_a?(Hash) ? tc.values : tc
             fm[:tool_calls] = calls.map { |t|
@@ -360,6 +369,63 @@ module Ask
 
       def format_messages(messages)
         messages.map { |msg| format_message(msg) }
+      end
+
+      # Transform a generic content block hash into OpenAI's wire format.
+      # https://platform.openai.com/docs/guides/vision
+      def format_openai_content_block(block)
+        block = block.transform_keys(&:to_sym) if block.respond_to?(:transform_keys)
+        type = block[:type] || block["type"]
+
+        case type
+        when "text"
+          { type: "text", text: block[:text] || block["text"] }
+        when "image"
+          if block[:url] || block["url"]
+            { type: "image_url", image_url: { url: block[:url] || block["url"] } }
+          elsif block[:base64] || block["base64"]
+            mime = block[:mime_type] || block["mime_type"] || "image/png"
+            data = block[:base64] || block["base64"]
+            { type: "image_url", image_url: { url: "data:#{mime};base64,#{data}" } }
+          elsif block[:file_id] || block["file_id"]
+            { type: "image_url", image_url: { url: block[:file_id] || block["file_id"] } }
+          else
+            block
+          end
+        when "audio"
+          if block[:url] || block["url"]
+            { type: "input_audio", input_audio: { data: block[:url] || block["url"], format: detect_audio_format(block) } }
+          elsif block[:base64] || block["base64"]
+            mime = block[:mime_type] || block["mime_type"] || "audio/wav"
+            { type: "input_audio", input_audio: { data: block[:base64] || block["base64"], format: mime.split("/").last } }
+          else
+            block
+          end
+        when "file"
+          # OpenAI doesn't have a generic file content block; send as text
+          data = block[:data] || block["data"] || ""
+          filename = block[:filename] ? "[#{block[:filename]}] " : ""
+          { type: "text", text: "#{filename}#{data}" }
+        when "video"
+          # OpenAI supports video via URLs (same as images)
+          if block[:url] || block["url"]
+            { type: "image_url", image_url: { url: block[:url] || block["url"] } }
+          else
+            block
+          end
+        else
+          block
+        end
+      end
+
+      def detect_audio_format(block)
+        mime = block[:mime_type] || block["mime_type"] || ""
+        case mime
+        when /mpeg|mp3/ then "mp3"
+        when /wav/ then "wav"
+        when /opus/ then "opus"
+        else mime.split("/").last || "wav"
+        end
       end
 
       def chat_nonstream(payload, model)

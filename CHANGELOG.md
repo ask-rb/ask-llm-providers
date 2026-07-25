@@ -1,3 +1,22 @@
+## [0.10.0] — 2026-07-26
+
+### Added
+
+- **Multi-modal content block support** — OpenAI and Anthropic providers now detect content block arrays in messages and serialize them to their native wire formats.
+
+  **OpenAI**: `image` (URL/base64/file_id) → `image_url`, `audio` (URL/base64) → `input_audio`, `video` → `image_url`, `file` → text.
+
+  **Anthropic**: `image` (base64/URL) → native `source` blocks, `image` with `file_id` → URL, `audio`/`video` → text fallback, `file` → text.
+
+### Changed
+
+- `format_message` in both providers now handles Array `content` (from `Ask::Content` blocks in `Message#to_h`). Plain string content is unchanged — fully backward compatible.
+
+### Tested
+
+- 20 new tests for provider-specific content block formatting
+- 503 total tests, 0 failures
+
 ## [0.9.0] — 2026-07-21
 
 ### Added
