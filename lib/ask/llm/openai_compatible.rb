@@ -72,7 +72,7 @@ module Ask
       opencode:      { api_base: "https://opencode.ai/zen/v1",                    api_key_env: "OPENCODE_API_KEY",
                        capabilities: { chat: true, streaming: true, tool_calls: true } },
 
-      opencode_go:   { api_base: "https://opencode.ai/zen/go/v1",                 api_key_env: "OPENCODE_API_KEY",
+      opencode_go:   { api_base: "https://opencode.ai/zen/go/v1",                 api_key_env: "OPENCODE_GO_API_KEY",
                         capabilities: { chat: true, streaming: true, tool_calls: true } },
 
       openrouter:    { api_base: "https://openrouter.ai/api/v1",                  api_key_env: "OPENROUTER_API_KEY",

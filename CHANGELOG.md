@@ -1,3 +1,11 @@
+## [0.10.1] - 2026-07-31
+
+### Fixed
+
+- **opencode_go provider uses its own API key env var** — now reads
+  `OPENCODE_GO_API_KEY` instead of `OPENCODE_API_KEY` so the two providers
+  can be configured independently. Updated tests accordingly.
+
 ## [0.10.0] — 2026-07-26
 
 ### Added

@@ -72,11 +72,11 @@ class OpenAICompatibleTest < Minitest::Test
 
   def test_opencode_go_uses_opencode_api_key
     cfg = Ask::LLM::OPENAI_COMPATIBLE[:opencode_go]
-    assert_equal "OPENCODE_API_KEY", cfg[:api_key_env]
+    assert_equal "OPENCODE_GO_API_KEY", cfg[:api_key_env]
   end
 
   def test_opencode_go_api_key_from_env_with_config_object
-    with_env("OPENCODE_API_KEY", "env-key-from-config-object") do
+    with_env("OPENCODE_GO_API_KEY", "env-key-from-config-object") do
       klass = Ask::Provider.resolve(:opencode_go)
       config = Ask::LLM::Config.new({})
       provider = klass.new(config)
@@ -101,7 +101,7 @@ class OpenAICompatibleTest < Minitest::Test
   end
 
   def test_opencode_go_api_key_from_env
-    with_env("OPENCODE_API_KEY", "env-key") do
+    with_env("OPENCODE_GO_API_KEY", "env-key") do
       klass = Ask::Provider.resolve(:opencode_go)
       provider = klass.new({})
       assert_equal "env-key", provider.config.api_key
