@@ -138,6 +138,27 @@ class OpenAIProviderTest < Minitest::Test
     assert_equal "Hi", stream.chunks.first.content
   end
 
+  def test_parse_stream_keeps_final_usage_chunk
+    # OpenAI/deepseek streams end with choices:[] but usage populated; the
+    # usage must reach the stream for token accounting (it was dropped by
+    # `dig("choices", 0) or next`, so every streamed call counted ~1 token).
+    stream = Ask::Stream.new
+    data = "data: {\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Hello\"}}]}\n\n" \
+           "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":25,\"completion_tokens\":7}}\n\n"
+    @provider.parse_stream(data, stream, test_model)
+    assert_equal 2, stream.length
+    assert_equal "Hello", stream.chunks.first.content
+    usage = stream.chunks.last.usage
+    assert_equal 25, usage["prompt_tokens"]
+    assert_equal 7, usage["completion_tokens"]
+  end
+
+  def test_parse_stream_ignores_empty_final_chunk_without_usage
+    stream = Ask::Stream.new
+    @provider.parse_stream("data: {\"choices\":[]}\n\n", stream, test_model)
+    assert_equal 0, stream.length
+  end
+
   def test_parse_stream_invalid_json
     stream = Ask::Stream.new
     @provider.parse_stream("data: not json\n\n", stream, test_model)

@@ -124,7 +124,14 @@ module Ask
       def parse_stream(raw, stream, model, &block)
         each_sse_event(raw) do |data|
           parsed = JSON.parse(data) rescue next
-          choice = parsed.dig("choices", 0) or next
+          choice = parsed.dig("choices", 0)
+          if choice.nil?
+            # Final chunk of an OpenAI-style stream: choices is empty but
+            # usage is populated. Added to the stream (for token
+            # accounting) without yielding — it carries no content.
+            stream.add(Ask::Chunk.new(content: nil, usage: parsed["usage"])) if parsed["usage"]
+            next
+          end
           delta = choice["delta"] || {}
           thinking = extract_thinking(parsed, delta)
           chunk = Ask::Chunk.new(

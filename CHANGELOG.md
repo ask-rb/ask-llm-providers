@@ -1,3 +1,14 @@
+## [0.10.2] - 2026-08-06
+
+### Fixed
+
+- **Streamed token usage is now captured.** OpenAI-style streams end with a
+  chunk whose `choices` is empty but `usage` populated; `dig("choices", 0)
+  or next` silently dropped it, so every streamed call reported ~1 output
+  token (input 0) — token billing, cost accounting, and usage metrics
+  under-counted by orders of magnitude. The usage-only chunk is now added
+  to the stream (without yielding — it carries no content).
+
 ## [0.10.1] - 2026-07-31
 
 ### Fixed
