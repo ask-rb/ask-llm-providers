@@ -32,6 +32,7 @@ require_relative "ask/provider/bedrock"
 require_relative "ask/provider/ollama"
 require_relative "ask/provider/mistral"
 require_relative "ask/provider/cloudflare"
+require_relative "ask/provider/openai_codex"
 
 # Register canonical providers
 Ask::Provider.register(:openai, Ask::Providers::OpenAI)
@@ -41,6 +42,7 @@ Ask::Provider.register(:bedrock, Ask::Providers::Bedrock)
 Ask::Provider.register(:ollama, Ask::Providers::Ollama)
 Ask::Provider.register(:mistral, Ask::Providers::Mistral)
 Ask::Provider.register(:cloudflare, Ask::Providers::Cloudflare)
+Ask::Provider.register(:openai_codex, Ask::Providers::OpenaiCodex)
 
 # Register OpenAI-compatible providers from the registry (data → classes)
 Ask::LLM::OPENAI_COMPATIBLE.each do |name, cfg|

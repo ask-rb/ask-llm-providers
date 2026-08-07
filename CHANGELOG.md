@@ -1,3 +1,10 @@
+## [0.11.0] — 2026-08-07
+
+### Added
+
+- **OpenAI Codex provider — ChatGPT subscription access.** `Ask::Providers::OpenaiCodex` always speaks the Responses API at `chatgpt.com/backend-api/codex/responses` with a `ChatGPT-Account-Id` header; supports real **Responses SSE streaming** (`response.output_text.delta` text, `function_call` item/argument events, `response.completed` usage). Pair with ask-auth's `OpenaiCodex` OAuth provider (access token via `api_key:`, account id via `account_id:`). Registered as `:openai_codex`.
+- **Codex models in the catalog** (`openai_codex.json`): gpt-5.5, gpt-5.4, gpt-5.4-mini, gpt-5.3-codex-spark — flat-rate (pricing 0) since they ride the user's subscription.
+
 ## [0.10.2] - 2026-08-06
 
 ### Fixed
