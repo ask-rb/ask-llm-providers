@@ -1,3 +1,9 @@
+## [0.11.1] — 2026-08-07
+
+### Added
+
+- **GitHub Copilot provider entry + models.** `github_copilot` in the OpenAI-compatible registry (`api.githubcopilot.com` with the `X-GitHub-Api-Version` header) plus catalog models (gpt-5.4, gpt-5.4-nano, gpt-4.1, gpt-4o — flat-rate, riding the user's Copilot subscription via ask-auth's GithubCopilot device OAuth).
+
 ## [0.11.0] — 2026-08-07
 
 ### Added

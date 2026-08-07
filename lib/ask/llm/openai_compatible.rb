@@ -75,6 +75,10 @@ module Ask
       opencode_go:   { api_base: "https://opencode.ai/zen/go/v1",                 api_key_env: "OPENCODE_GO_API_KEY",
                         capabilities: { chat: true, streaming: true, tool_calls: true } },
 
+      github_copilot: { api_base: "https://api.githubcopilot.com",                  api_key_env: "GITHUB_COPILOT_TOKEN",
+                        extra_headers: { "X-GitHub-Api-Version" => "2026-06-01" },
+                        capabilities: { chat: true, streaming: true, tool_calls: true } },
+
       openrouter:    { api_base: "https://openrouter.ai/api/v1",                  api_key_env: "OPENROUTER_API_KEY",
                        extra_headers: { "HTTP-Referer" => "https://github.com/ask-rb",
                                         "X-Title" => "ask-rb" },
