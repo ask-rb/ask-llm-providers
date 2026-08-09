@@ -143,7 +143,13 @@ module Ask
         google_role = role == "assistant" ? "model" : role
 
         parts = []
-        parts << { text: content } if content
+        if content.is_a?(Array)
+          # Content blocks → Gemini parts (flat parts array). Previously
+          # arrays were passed through as a broken { text: [hash, …] } part.
+          content.each { |block| parts.concat(format_google_content_block(block)) }
+        elsif content
+          parts << { text: content }
+        end
 
         if msg[:tool_calls] || msg["tool_calls"]
           (msg[:tool_calls] || msg["tool_calls"]).each do |tc|
@@ -166,6 +172,57 @@ module Ask
         end
 
         { role: google_role, parts: }
+      end
+
+      # Gemini content block → flat parts array. Media/file blocks become
+      # inlineData (base64) or fileData (uri/file_id); text-like files are
+      # inlined as text with a filename marker; unsupported blocks are
+      # skipped rather than mangled.
+      def format_google_content_block(block)
+        block = block.transform_keys(&:to_sym) if block.respond_to?(:transform_keys)
+        type = block[:type] || block["type"]
+
+        case type
+        when "text"
+          [{ text: block[:text] || block["text"] }]
+        when "image", "audio", "video"
+          mime = block[:mime_type] || block["mime_type"]
+          file_id = block[:file_id] || block["file_id"]
+          url = block[:url] || block["url"]
+          base64 = block[:base64] || block["base64"]
+
+          if file_id
+            [{ fileData: { mimeType: mime, fileUri: file_id } }]
+          elsif url
+            [{ fileData: { mimeType: mime, fileUri: url } }]
+          elsif base64
+            [{ inlineData: { mimeType: (mime || "application/octet-stream"), data: base64 } }]
+          else
+            []
+          end
+        when "file"
+          mime = block[:mime_type] || block["mime_type"]
+          file_id = block[:file_id] || block["file_id"]
+          url = block[:url] || block["url"]
+          data = block[:data] || block["data"]
+
+          if file_id
+            [{ fileData: { mimeType: mime, fileUri: file_id } }]
+          elsif url
+            [{ fileData: { mimeType: mime, fileUri: url } }]
+          elsif data
+            if mime.to_s.start_with?("text/")
+              filename = block[:filename] ? "[#{block[:filename]}] " : ""
+              [{ text: "#{filename}#{data}" }]
+            else
+              [{ inlineData: { mimeType: (mime || "application/octet-stream"), data: Base64.strict_encode64(data) } }]
+            end
+          else
+            []
+          end
+        else
+          []
+        end
       end
 
       def format_tools(tools)

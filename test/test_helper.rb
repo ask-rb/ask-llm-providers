@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Prefer the sibling ask-core checkout when present (unreleased features
+# like Ask::DataURI / Ask::Attachment are exercised by the test suite).
+$LOAD_PATH.unshift File.expand_path("../../ask-core/lib", __dir__) if Dir.exist?(File.expand_path("../../ask-core/lib", __dir__))
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 
 begin

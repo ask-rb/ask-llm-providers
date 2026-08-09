@@ -279,7 +279,11 @@ module Ask
           content = msg[:content] || msg["content"] || ""
 
           entry = { role: role.to_s }
-          entry[:content] = [{ type: "input_text", text: content.to_s }]
+          entry[:content] = if content.is_a?(Array)
+            content.map { |block| format_responses_content_block(block) }
+          else
+            [{ type: "input_text", text: content.to_s }]
+          end
 
           # Handle tool calls in assistant messages
           if (tc = msg[:tool_calls] || msg["tool_calls"]) && tc.respond_to?(:any?) && tc.any?
@@ -299,6 +303,53 @@ module Ask
           end
 
           entry
+        end
+      end
+
+      # Responses API content block → input_* part. File blocks become
+      # input_file (inline data URI, URL, or provider file id); images
+      # become input_image. Audio/video have no Responses input carrier
+      # and degrade to a text note (matching chat completions behavior).
+      def format_responses_content_block(block)
+        block = block.transform_keys(&:to_sym) if block.respond_to?(:transform_keys)
+        type = block[:type] || block["type"]
+
+        case type
+        when "text"
+          { type: "input_text", text: block[:text] || block["text"] }
+        when "image"
+          file_id = block[:file_id] || block["file_id"]
+          url = block[:url] || block["url"]
+          base64 = block[:base64] || block["base64"]
+          if url || base64
+            mime = block[:mime_type] || block["mime_type"] || "image/png"
+            url ||= Ask::DataURI.from_base64(base64, mime_type: mime)
+            { type: "input_image", image_url: url, detail: "auto" }
+          else
+            { type: "input_image", image_url: file_id, detail: "auto" }
+          end
+        when "file"
+          file_id = block[:file_id] || block["file_id"]
+          url = block[:url] || block["url"]
+          data = block[:data] || block["data"]
+          if file_id
+            { type: "input_file", file_id: file_id }
+          elsif url
+            { type: "input_file", file_url: url }
+          elsif data
+            mime = block[:mime_type] || block["mime_type"] || "application/octet-stream"
+            {
+              type: "input_file",
+              filename: block[:filename] || "file",
+              file_data: Ask::DataURI.from_base64(Base64.strict_encode64(data), mime_type: mime)
+            }
+          else
+            block
+          end
+        when "audio", "video"
+          { type: "input_text", text: "[#{type} content not supported by the Responses API]" }
+        else
+          block
         end
       end
 
@@ -393,7 +444,7 @@ module Ask
           elsif block[:base64] || block["base64"]
             mime = block[:mime_type] || block["mime_type"] || "image/png"
             data = block[:base64] || block["base64"]
-            { type: "image_url", image_url: { url: "data:#{mime};base64,#{data}" } }
+            { type: "image_url", image_url: { url: Ask::DataURI.from_base64(data, mime_type: mime) } }
           elsif block[:file_id] || block["file_id"]
             { type: "image_url", image_url: { url: block[:file_id] || block["file_id"] } }
           else

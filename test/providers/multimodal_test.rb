@@ -111,11 +111,12 @@ module Ask
       end
 
       def test_anthropic_file_block
-        block = { type: "file", data: "content", filename: "data.csv" }
+        block = { type: "file", data: "content", filename: "data.csv", mime_type: "text/csv" }
         result = @anthropic.send(:format_anthropic_content_block, block)
-        assert_equal "text", result[:type]
-        assert_includes result[:text], "[data.csv]"
-        assert_includes result[:text], "content"
+        assert_equal "document", result[:type]
+        assert_equal "text", result.dig(:source, :type)
+        assert_equal "text/csv", result.dig(:source, :media_type)
+        assert_equal "content", result.dig(:source, :data)
       end
 
       # --- Full message formatting (OpenAI) ---
@@ -204,6 +205,124 @@ module Ask
         assert_equal "tool_result", result[:content][0][:type]
         assert_kind_of Array, result[:content][0][:content]
         assert_equal 2, result[:content][0][:content].length
+      end
+
+      # --- OpenAI Responses API blocks ---
+
+      def test_openai_responses_input_with_blocks
+        messages = [{
+          role: "user",
+          content: [
+            { type: "text", text: "Read this" },
+            { type: "file", data: "a,b\n1,2\n", filename: "rows.csv", mime_type: "text/csv" }
+          ]
+        }]
+
+        result = @openai.send(:format_responses_input, messages)
+        content = result.first[:content]
+        assert_equal "input_text", content[0][:type]
+        assert_equal "input_file", content[1][:type]
+        assert_equal "rows.csv", content[1][:filename]
+        assert_equal "data:text/csv;base64,YSxiCjEsMgo=", content[1][:file_data]
+      end
+
+      def test_openai_responses_file_with_url
+        block = { type: "file", url: "https://example.com/doc.pdf", filename: "doc.pdf", mime_type: "application/pdf" }
+        result = @openai.send(:format_responses_content_block, block)
+        assert_equal "input_file", result[:type]
+        assert_equal "https://example.com/doc.pdf", result[:file_url]
+      end
+
+      def test_openai_responses_file_with_file_id
+        block = { type: "file", file_id: "file-xyz", filename: "doc.pdf", mime_type: "application/pdf" }
+        result = @openai.send(:format_responses_content_block, block)
+        assert_equal "input_file", result[:type]
+        assert_equal "file-xyz", result[:file_id]
+      end
+
+      def test_openai_responses_image_base64
+        block = { type: "image", base64: "AAAA", mime_type: "image/png" }
+        result = @openai.send(:format_responses_content_block, block)
+        assert_equal "input_image", result[:type]
+        assert_equal "data:image/png;base64,AAAA", result[:image_url]
+      end
+
+      # --- Anthropic document blocks ---
+
+      def test_anthropic_file_pdf_becomes_base64_document
+        block = { type: "file", data: "%PDF-1.7 fake", filename: "doc.pdf", mime_type: "application/pdf" }
+        result = @anthropic.send(:format_anthropic_content_block, block)
+        assert_equal "document", result[:type]
+        assert_equal "base64", result.dig(:source, :type)
+        assert_equal "application/pdf", result.dig(:source, :media_type)
+        assert_equal Base64.strict_encode64("%PDF-1.7 fake"), result.dig(:source, :data)
+        assert_equal "doc.pdf", result[:title]
+      end
+
+      def test_anthropic_file_text_becomes_text_document
+        block = { type: "file", data: "hello", filename: "notes.txt", mime_type: "text/plain" }
+        result = @anthropic.send(:format_anthropic_content_block, block)
+        assert_equal "document", result[:type]
+        assert_equal "text", result.dig(:source, :type)
+        assert_equal "text/plain", result.dig(:source, :media_type)
+        assert_equal "hello", result.dig(:source, :data)
+      end
+
+      def test_anthropic_file_url_becomes_url_document
+        block = { type: "file", url: "https://example.com/doc.pdf", filename: "doc.pdf", mime_type: "application/pdf" }
+        result = @anthropic.send(:format_anthropic_content_block, block)
+        assert_equal "document", result[:type]
+        assert_equal "url", result.dig(:source, :type)
+      end
+
+      def test_anthropic_file_id_becomes_file_document
+        block = { type: "file", file_id: "file-xyz", filename: "doc.pdf", mime_type: "application/pdf" }
+        result = @anthropic.send(:format_anthropic_content_block, block)
+        assert_equal "document", result[:type]
+        assert_equal "file", result.dig(:source, :type)
+        assert_equal "file-xyz", result.dig(:source, :file_id)
+      end
+
+      # --- Gemini blocks ---
+
+      def test_google_format_message_with_blocks
+        @google = Google.new(build_config(api_key: "google-test"))
+        messages = [{
+          role: "user",
+          content: [
+            { type: "text", text: "What is this?" },
+            { type: "image", base64: "QUFB", mime_type: "image/png" }
+          ]
+        }]
+
+        result = @google.send(:format_message, messages.first)
+        parts = result[:parts]
+        assert_equal({ text: "What is this?" }, parts[0])
+        assert_equal({ inlineData: { mimeType: "image/png", data: "QUFB" } }, parts[1])
+      end
+
+      def test_google_file_text_inlines_as_text
+        @google = Google.new(build_config(api_key: "google-test"))
+        block = { type: "file", data: "hello world", filename: "notes.txt", mime_type: "text/plain" }
+        result = @google.send(:format_google_content_block, block)
+        assert_equal [{ text: "[notes.txt] hello world" }], result
+      end
+
+      def test_google_file_binary_becomes_inline_data
+        @google = Google.new(build_config(api_key: "google-test"))
+        block = { type: "file", data: "%PDF-1.7", filename: "doc.pdf", mime_type: "application/pdf" }
+        result = @google.send(:format_google_content_block, block)
+        assert_equal :inlineData, result.first.keys.first
+        assert_equal "application/pdf", result.first[:inlineData][:mimeType]
+        assert_equal Base64.strict_encode64("%PDF-1.7"), result.first[:inlineData][:data]
+      end
+
+      def test_google_file_url_becomes_file_data
+        @google = Google.new(build_config(api_key: "google-test"))
+        block = { type: "file", url: "gs://bucket/doc.pdf", filename: "doc.pdf", mime_type: "application/pdf" }
+        result = @google.send(:format_google_content_block, block)
+        assert_equal :fileData, result.first.keys.first
+        assert_equal "gs://bucket/doc.pdf", result.first[:fileData][:fileUri]
       end
 
       private

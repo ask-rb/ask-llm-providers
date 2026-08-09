@@ -234,9 +234,27 @@ module Ask
           # Fall back to text description
           { type: "text", text: "[#{type} content not supported by Anthropic]" }
         when "file"
-          data = block[:data] || block["data"] || ""
-          filename = block[:filename] ? "[#{block[:filename]}] " : ""
-          { type: "text", text: "#{filename}#{data}" }
+          # Files become Anthropic document blocks: inline data (base64 or
+          # text source), a URL, or a provider file reference.
+          file_id = block[:file_id] || block["file_id"]
+          url = block[:url] || block["url"]
+          data = block[:data] || block["data"]
+          mime = block[:mime_type] || block["mime_type"]
+          filename = block[:filename] || "file"
+
+          if file_id
+            { type: "document", source: { type: "file", file_id: file_id }, title: filename }
+          elsif url
+            { type: "document", source: { type: "url", url: url }, title: filename }
+          elsif data
+            if mime.to_s.start_with?("text/")
+              { type: "document", source: { type: "text", media_type: (mime || "text/plain"), data: data }, title: filename }
+            else
+              { type: "document", source: { type: "base64", media_type: (mime || "application/octet-stream"), data: Base64.strict_encode64(data) }, title: filename }
+            end
+          else
+            block
+          end
         else
           block
         end
