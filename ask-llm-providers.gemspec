@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir["lib/**/*", "lib/**/*.json", "LICENSE", "README.md", "CHANGELOG.md"]
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "ask-core", ">= 0.7.0"
+  spec.add_dependency "ask-core", ">= 0.11.3"
   spec.add_dependency "ask-auth", ">= 0.3.2"
 
   spec.add_dependency "faraday", ">= 2.0"
