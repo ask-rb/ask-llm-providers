@@ -422,7 +422,7 @@ module Ask
       end
 
       def build_http
-        LLM::HTTP.connection(api_base, headers:, request: { open_timeout: 30, timeout: 120 })
+        LLM::HTTP.connection(api_base, headers:, request: { open_timeout: 30, timeout: 600 })
       end
 
       def format_messages(messages)
