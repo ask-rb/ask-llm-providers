@@ -1,0 +1,46 @@
+[
+  {
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash",
+    "family": "deepseek_v4",
+    "provider": "opencode",
+    "context_window": 1000000,
+    "max_output_tokens": 384000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash",
+    "family": "deepseek_v4",
+    "provider": "opencode_go",
+    "context_window": 1000000,
+    "max_output_tokens": 384000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "mimo-v2.5",
+    "name": "Mimo V2.5",
+    "family": "mimo",
+    "provider": "opencode",
+    "context_window": 1000000,
+    "max_output_tokens": 384000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "mimo-v2.5",
+    "name": "Mimo V2.5",
+    "family": "mimo",
+    "provider": "opencode_go",
+    "context_window": 1000000,
+    "max_output_tokens": 384000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  }
+]
