@@ -1,3 +1,9 @@
+## [0.13.0] — 2026-09-05
+
+### Added
+
+- **Command Code provider entry + models.** `commandcode` in the OpenAI-compatible registry (`https://api.commandcode.ai/provider/v1`, env `COMMANDCODE_API_KEY`) plus catalog models: mimo-v2.5, mimo-v2.5-pro, deepseek/deepseek-v4-flash, deepseek/deepseek-v4-pro, qwen/qwen3.8-27b, claude-sonnet-4-6, and gpt-5.6-luna (flat-rate, riding the user's Command Code plan).
+
 ## [0.11.1] — 2026-08-07
 
 ### Added

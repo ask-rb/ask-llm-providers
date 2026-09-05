@@ -23,6 +23,9 @@ module Ask
       cerebras:      { api_base: "https://api.cerebras.ai/v1",                    api_key_env: "CEREBRAS_API_KEY",
                        capabilities: { chat: true, streaming: true, tool_calls: true } },
 
+      commandcode:   { api_base: "https://api.commandcode.ai/provider/v1",        api_key_env: "COMMANDCODE_API_KEY",
+                       capabilities: { chat: true, streaming: true, tool_calls: true } },
+
       deepinfra:     { api_base: "https://api.deepinfra.com/v1/openai",           api_key_env: "DEEPINFRA_API_KEY",
                        capabilities: { chat: true, streaming: true, tool_calls: true } },
 

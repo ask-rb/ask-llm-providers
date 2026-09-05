@@ -2,7 +2,7 @@
 
 All LLM providers for the ask-rb ecosystem in one gem. Implements the
 `Ask::Provider` interface from `ask-core` with a capabilities-based interface:
-7 canonical provider classes plus 26 OpenAI-compatible registry entries,
+7 canonical provider classes plus 27 OpenAI-compatible registry entries,
 a bundled model catalog, and cost calculation. Providers auto-register and
 the model catalog auto-loads when the gem is required.
 
@@ -39,25 +39,26 @@ model.capabilities # => ["chat", "streaming", "tool_calls", ...]
 | Ollama (local) | none needed |
 | Mistral AI | `Ask::Auth.resolve(:mistral_api_key)` (env `MISTRAL_API_KEY`) |
 | Cloudflare Workers AI | `Ask::Auth.resolve(:cloudflare_api_key)` (env `CLOUDFLARE_API_KEY`) |
-| 26 OpenAI-compatible | per-provider `*_API_KEY` env var (e.g. `DEEPSEEK_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`) |
+| 27 OpenAI-compatible | per-provider `*_API_KEY` env var (e.g. `DEEPSEEK_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY`) |
 
 Credentials resolve through `Ask::Auth` in order: environment variables,
 `~/.ask/credentials.yml`, Rails credentials, then database and OAuth
 providers. Keys are read via `Ask::Auth.resolve(:<name>_api_key)`.
 
-The 26 OpenAI-compatible entries are registered from
+The 27 OpenAI-compatible entries are registered from
 `Ask::LLM::OPENAI_COMPATIBLE`: DeepSeek, Groq, Together, Fireworks, Cerebras,
 xAI, Perplexity, DeepInfra, Anyscale, SambaNova, Nebius, Nvidia NIM, Friendli,
 Hyperbolic, Novita, Nscale, Featherless, AI/ML API, AI21, Meta, GitHub Models,
-OpenRouter, OpenCode, OpenCode Go, Mimo, and Moonshot. Each uses its own
+OpenRouter, OpenCode, OpenCode Go, Mimo, Moonshot, and Command Code. Each uses its own
 `*_API_KEY` env var; note that `opencode_go` uses `OPENCODE_GO_API_KEY` (its
 own key, not `OPENCODE_API_KEY`).
 
 ## Model Catalog
 
 The gem bundles model metadata (capabilities, pricing, context windows,
-modalities) as JSON for 12 providers: openai, anthropic, gemini, vertex_ai,
-bedrock, deepseek, mistral, perplexity, xai, meta, moonshot, and nvidia_nim,
+modalities) as JSON for 16 providers: openai, anthropic, gemini, vertex_ai,
+bedrock, deepseek, mistral, perplexity, xai, meta, moonshot, nvidia_nim,
+github_copilot, openai_codex, opencode, and commandcode,
 with 400+ models in total.
 
 ```ruby
@@ -72,7 +73,7 @@ Ask::ModelCatalog.refresh!                  # fetch latest from models.dev
 | API | Purpose |
 |---|---|
 | `Ask::Providers::OpenAI/Anthropic/Google/Bedrock/Ollama/Mistral/Cloudflare` | Canonical provider classes |
-| `Ask::LLM::OPENAI_COMPATIBLE` | Registry data for the 26 compatible providers |
+| `Ask::LLM::OPENAI_COMPATIBLE` | Registry data for the 27 compatible providers |
 | `Ask::LLM::Catalog.load!` / `refresh!` | Load bundled + user model data into `Ask::ModelCatalog` |
 | `Ask::LLM::Aliases.resolve("claude-sonnet-4")` | Short-name to canonical model ID resolution |
 | `Ask::LLM::CostCalculator.calculate(model, input_tokens:, output_tokens:)` | USD cost from model pricing |

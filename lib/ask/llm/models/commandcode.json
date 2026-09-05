@@ -1,0 +1,79 @@
+[
+  {
+    "id": "deepseek/deepseek-v4-flash",
+    "name": "DeepSeek V4 Flash",
+    "family": "deepseek_v4",
+    "provider": "commandcode",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "deepseek/deepseek-v4-pro",
+    "name": "DeepSeek V4 Pro",
+    "family": "deepseek_v4",
+    "provider": "commandcode",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "qwen/qwen3.8-27b",
+    "name": "Qwen3.8 27B",
+    "family": "qwen3",
+    "provider": "commandcode",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "mimo-v2.5",
+    "name": "Mimo V2.5",
+    "family": "mimo",
+    "provider": "commandcode",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text", "image", "audio", "video"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "mimo-v2.5-pro",
+    "name": "Mimo V2.5 Pro",
+    "family": "mimo",
+    "provider": "commandcode",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text", "image"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6",
+    "family": "claude_sonnet",
+    "provider": "commandcode",
+    "context_window": 200000,
+    "max_output_tokens": 64000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text", "image"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  },
+  {
+    "id": "gpt-5.6-luna",
+    "name": "GPT-5.6 Luna",
+    "family": "gpt",
+    "provider": "commandcode",
+    "context_window": 1000000,
+    "max_output_tokens": 128000,
+    "capabilities": ["function_calling", "streaming", "reasoning"],
+    "modalities": {"input": ["text", "image"], "output": ["text"]},
+    "pricing": {"input": 0, "output": 0}
+  }
+]
