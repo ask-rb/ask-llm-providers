@@ -3,54 +3,169 @@
 require "json"
 require "date"
 require "fileutils"
+require "rbconfig"
+require "set"
 
 module Ask
   module LLM
     # Orchestrates model catalog loading from multiple sources:
     #
-    #   1. Bundled JSON files in lib/ask/llm/models/*.json (shipped with the gem)
-    #   2. ~/.ask-llm-providers/models.json (user-defined overrides)
-    #   3. Provider API list_models() calls (on explicit refresh!)
+    #   1. Single bundled JSON file lib/ask/llm/models.json (shipped with the gem)
+    #      — legacy shard dir lib/ask/llm/models/*.json is still supported
+    #   2. OS-specific user cache (~/Library/Caches/ask-llm-providers/models.json
+    #      on macOS, $XDG_CACHE_HOME/ask-llm-providers/models.json on Linux)
+    #      populated by Catalog.refresh!
+    #   3. Explicit user overrides in ~/.ask-llm-providers/models.json
+    #   4. Provider API list_models() calls (on explicit refresh!)
     #
-    # Loaded models are registered into Ask::ModelCatalog for use
-    # by ask-agent, ask-mcp, and llm-proxy.
+    # Mirrors ruby_llm's store → file → bundle fallback and pi's
+    # manifest-validated data dir.
     #
-    #   Ask::LLM::Catalog.load!  # load bundled + user config
-    #   Ask::LLM::Catalog.refresh!  # also fetch from provider APIs
+    #   Ask::LLM::Catalog.load!          # bundled + cache + user config
+    #   Ask::LLM::Catalog.ensure_loaded! # no-op if already loaded (lazy)
+    #   Ask::LLM::Catalog.refresh!       # also fetch from provider APIs
     #
     class Catalog
       class Error < StandardError; end
       class LoadError < Error; end
 
       USER_CONFIG_PATH = File.expand_path("~/.ask-llm-providers/models.json").freeze
+      BUNDLED_FILE = File.expand_path("models.json", __dir__).freeze
+      LEGACY_SHARD_PATTERN = File.expand_path("models/*.json", __dir__).freeze
+      SCHEMA_VERSION = 1
 
       class << self
-        # Load bundled model definitions and user overrides into Ask::ModelCatalog.
+        # Load bundled + cached + user overrides into Ask::ModelCatalog.
         # Idempotent — subsequent calls clear and reload.
         def load!
           instance.clear
           instance.load_bundled
+          instance.load_cached
           instance.load_user_config
           instance.register_all
+          @loaded = true
           true
         end
 
+        # Ensure the catalog has been loaded at least once. Cheap no-op
+        # after the first load; lets callers be lazy like ruby_llm.
+        def ensure_loaded!
+          return true if @loaded
+          load!
+        end
 
+        def loaded?
+          !!@loaded
+        end
 
         # Like load! but also fetches model lists from configured providers'
         # list_models() APIs. Unknown models are added with minimal metadata.
+        # Persists the merged result to the OS cache.
         def refresh!
           load!
           instance.fetch_from_providers
           instance.register_all
+          instance.persist_cached
           true
         end
 
-      private
+        # OS-aware cache path, like ruby_llm's ModelRegistry.cache_path.
+        def cache_path
+          return @cache_path if defined?(@cache_path) && @cache_path
 
-      def symbolize_keys(hash)
-        hash.transform_keys { |k| k.respond_to?(:to_sym) ? k.to_sym : k }
-      end
+          env_path = ENV["ASK_LLM_PROVIDERS_CACHE"]
+          if env_path && !env_path.strip.empty?
+            return @cache_path = env_path
+          end
+
+          home = Dir.home
+          host_os = RbConfig::CONFIG["host_os"]
+
+          dir = if host_os.match?(/darwin/i)
+                  File.join(home, "Library", "Caches", "ask-llm-providers")
+                elsif host_os.match?(/mswin|mingw|cygwin/i)
+                  local = ENV.fetch("LOCALAPPDATA", nil)
+                  local = File.join(home, "AppData", "Local") if local.to_s.empty?
+                  File.join(local, "ask-llm-providers", "Cache")
+                else
+                  xdg = ENV.fetch("XDG_CACHE_HOME", nil)
+                  xdg = File.join(home, ".cache") if xdg.to_s.empty?
+                  File.join(xdg, "ask-llm-providers")
+                end
+
+          @cache_path = File.join(dir, "models.json")
+        rescue ArgumentError
+          @cache_path = nil
+        end
+
+        def cache_etag_path
+          cp = cache_path
+          cp ? "#{cp}.etag" : nil
+        end
+
+        def manifest_path
+          cp = cache_path
+          cp ? File.join(File.dirname(cp), ".manifest.json") : nil
+        end
+
+        def read_cached_etag
+          path = cache_etag_path
+          return nil unless path && File.file?(path)
+          v = File.read(path).strip
+          v.empty? ? nil : v
+        rescue SystemCallError
+          nil
+        end
+
+        private
+
+        def write_cached_etag(etag)
+          path = cache_etag_path
+          return unless path
+          if etag && !etag.to_s.strip.empty?
+            FileUtils.mkdir_p(File.dirname(path))
+            atomic_write(path, "#{etag.strip}\n")
+          else
+            FileUtils.rm_f(path)
+          end
+        end
+
+        def write_manifest(data)
+          path = manifest_path
+          return unless path
+          require "digest"
+          sorted = data.sort_by { |e| [e["provider"].to_s, e["id"].to_s] }
+          hash = Digest::SHA256.hexdigest(JSON.generate(sorted))
+          manifest = {
+            "schemaVersion" => SCHEMA_VERSION,
+            "generatedAt" => Time.now.utc.iso8601,
+            "count" => data.size,
+            "sha256" => hash
+          }
+          FileUtils.mkdir_p(File.dirname(path))
+          atomic_write(path, JSON.pretty_generate(manifest) + "\n")
+        end
+
+        def atomic_write(destination, contents)
+          dir = File.dirname(destination)
+          FileUtils.mkdir_p(dir)
+          basename = File.basename(destination)
+          require "tempfile"
+          Tempfile.create([basename, ".tmp"], dir) do |tmp|
+            tmp.binmode
+            tmp.write(contents)
+            tmp.flush
+            tmp.fsync
+            mode = File.exist?(destination) ? (File.stat(destination).mode & 0o7777) : (0o666 & ~File.umask)
+            tmp.chmod(mode)
+            begin
+              File.rename(tmp.path, destination)
+            rescue Errno::EACCES, Errno::EEXIST
+              FileUtils.rm_f(destination)
+              File.rename(tmp.path, destination)
+            end
+          end
+        end
 
         def instance
           @instance ||= new
@@ -67,13 +182,49 @@ module Ask
         @model_keys.clear
       end
 
-      # Load bundled model JSONs from the gem's lib/ask/llm/models/ directory.
+      # Load bundled model data. Prefers the single file; falls back to
+      # the legacy per-provider shard dir for local dev and for
+      # backwards-compatibility if the bundle is absent.
       def load_bundled
-        pattern = File.expand_path("models/*.json", __dir__)
-        Dir[pattern].sort.each do |path|
-          raw = JSON.parse(File.read(path))
+        if File.exist?(self.class::BUNDLED_FILE)
+          raw = JSON.parse(File.read(self.class::BUNDLED_FILE))
           raw.each { |entry| add_entry(entry) }
+        else
+          Dir[LEGACY_SHARD_PATTERN].sort.each do |path|
+            raw = JSON.parse(File.read(path))
+            raw.each { |entry| add_entry(entry) }
+          end
         end
+      end
+
+      # Load the writable OS cache (populated by refresh!). Valid array
+      # entries are merged over the bundle; invalid cache is ignored like
+      # ruby_llm's models_from_file.
+      def load_cached
+        path = self.class.cache_path
+        return unless path && File.file?(path)
+        raw = JSON.parse(File.read(path))
+        return unless raw.is_a?(Array)
+        raw.each { |entry| merge_or_add(entry) }
+      rescue JSON::ParserError => e
+        warn "Warning: Failed to parse cache #{path}: #{e.message}"
+      rescue SystemCallError => e
+        warn "Warning: Failed to read cache #{path}: #{e.message}"
+      end
+
+      # Persist the current entries to the OS cache (used after refresh!).
+      def persist_cached
+        path = self.class.cache_path
+        return unless path
+        return if @entries.empty?
+        FileUtils.mkdir_p(File.dirname(path))
+        data = @entries.sort_by { |e| [(e["provider"] || e[:provider]).to_s, (e["id"] || e[:id]).to_s] }
+        # Normalize to string-keyed hashes for stable JSON
+        normalized = data.map { |e| e.transform_keys(&:to_s) }
+        self.class.send(:atomic_write, path, JSON.pretty_generate(normalized) + "\n")
+        self.class.send(:write_manifest, normalized)
+      rescue SystemCallError => e
+        warn "Warning: Failed to persist cache #{path}: #{e.message}"
       end
 
       # Load user-defined model overrides from ~/.ask-llm-providers/models.json.

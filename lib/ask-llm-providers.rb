@@ -51,5 +51,58 @@ Ask::LLM::OPENAI_COMPATIBLE.each do |name, cfg|
   Ask::Provider.register(name, klass)
 end
 
-# Load bundled model catalog into Ask::ModelCatalog
-Ask::LLM::Catalog.load!
+# Lazily load the bundled model catalog into Ask::ModelCatalog on first use.
+# Like ruby_llm, the catalog is still synchronously available after require,
+# but callers that never touch models pay no I/O until first access.
+# Set ASK_LLM_LAZY_CATALOG=1 to opt into fully lazy loading (test helper uses this).
+module Ask
+  class ModelCatalog
+    class << self
+      alias_method :original_find_without_catalog, :find if method_defined?(:find)
+      alias_method :original_all_without_catalog, :all if method_defined?(:all)
+      alias_method :original_where_without_catalog, :where if method_defined?(:where)
+
+      def find(*args, **kwargs, &block)
+        Ask::LLM::Catalog.ensure_loaded!
+        original_find_without_catalog(*args, **kwargs, &block)
+      end
+
+      def all(*args, **kwargs, &block)
+        Ask::LLM::Catalog.ensure_loaded!
+        original_all_without_catalog(*args, **kwargs, &block)
+      end
+
+      def where(*args, **kwargs, &block)
+        Ask::LLM::Catalog.ensure_loaded!
+        original_where_without_catalog(*args, **kwargs, &block)
+      end
+    end
+
+    alias_method :original_instance_all, :all if method_defined?(:all)
+    alias_method :original_instance_length, :length if method_defined?(:length)
+    alias_method :original_instance_each, :each if method_defined?(:each)
+
+    def all(*args, **kwargs, &block)
+      Ask::LLM::Catalog.ensure_loaded!
+      original_instance_all(*args, **kwargs, &block)
+    end
+
+    def length(*args, **kwargs, &block)
+      Ask::LLM::Catalog.ensure_loaded!
+      original_instance_length(*args, **kwargs, &block)
+    end
+    alias size length
+
+    def each(*args, **kwargs, &block)
+      Ask::LLM::Catalog.ensure_loaded!
+      original_instance_each(*args, **kwargs, &block)
+    end
+  end
+end
+
+# Eager-load once to preserve existing behaviour for apps that expect the
+# catalog immediately after require (avoids a de-facto breaking change).
+# Set ASK_LLM_LAZY_CATALOG=1 to opt into fully lazy loading.
+unless ENV["ASK_LLM_LAZY_CATALOG"] == "1"
+  Ask::LLM::Catalog.load!
+end
