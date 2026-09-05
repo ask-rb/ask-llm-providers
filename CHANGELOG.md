@@ -1,3 +1,9 @@
+## [0.13.1] — 2026-09-05
+
+### Fixed
+
+- **Command Code catalog now matches the live API.** The `/models` listing serves namespaced IDs (`xiaomi/mimo-v2.5`, `Qwen/Qwen3.8-27B`, `deepseek/deepseek-v4-flash`, …) rather than the short names from the plan's config snapshot; the earlier entry's IDs were rejected with "Model not supported on this endpoint". Catalog regenerated from the provider's `/models` response (67 models, capabilities kept conservative).
+
 ## [0.13.0] — 2026-09-05
 
 ### Added
